@@ -1,0 +1,183 @@
+## Chart Identification
+chart_title: "PINN-MTICG沪深300指数增强表现（近一年）"
+figure_number: "图30"
+figure_reference_in_text: "图30"
+chart_type: time_series
+
+## Visual Summary
+content_summary: "This chart compares the performance of the PINN-MTICG enhanced CSI 300 Index over the past year, showing three series: enhanced (近一年，有), index enhanced (近一年), and index return (近一年)."
+key_insight: "The enhanced strategy outperformed both the index enhanced and index return series, with a notable spike in early 2024 and a generally upward trend."
+
+## Data Extraction
+axes:
+  x_axis:
+    label: None (dates shown as tick marks)
+    unit: None
+    range: ["2024/3/31", "2025/3/31"]
+    scale: linear
+  y_axis:
+    label: None (values shown as tick marks)
+    unit: None
+    range: [0.8, 1.25]
+    scale: linear
+
+## For time series specifically:
+time_series_data:
+  - series_name: "超额(近一年，有)"
+    color: grey (area fill)
+    data_points:
+      # Approximate data points extracted from visible chart
+      - year: "2024/3/31"
+        value: ~1.0
+      - year: "2024/7/1"
+        value: ~1.0
+      - year: "2024/10/1"
+        value: ~0.98
+      - year: "2025/1/1"
+        value: ~1.25 (peak)
+      - year: "2025/3/31"
+        value: ~1.15
+    start_year: "2024/3/31"
+    end_year: "2025/3/31"
+    trend_description: "Stable until late 2024, sharp increase at start of 2025, then moderate upward trend."
+  - series_name: "指数增强(近一年)"
+    color: dark red
+    data_points:
+      - year: "2024/3/31"
+        value: ~1.0
+      - year: "2024/7/1"
+        value: ~1.0
+      - year: "2024/10/1"
+        value: ~0.97
+      - year: "2025/1/1"
+        value: ~1.22 (peak)
+      - year: "2025/3/31"
+        value: ~1.12
+    start_year: "2024/3/31"
+    end_year: "2025/3/31"
+    trend_description: "Similar to enhanced, but slightly lower overall values; sharp spike in early 2025."
+  - series_name: "指数收益(近一年)"
+    color: orange
+    data_points:
+      - year: "2024/3/31"
+        value: ~1.0
+      - year: "2024/7/1"
+        value: ~0.99
+      - year: "2024/10/1"
+        value: ~0.96
+      - year: "2025/1/1"
+        value: ~1.12
+      - year: "2025/3/31"
+        value: ~1.05
+    start_year: "2024/3/31"
+    end_year: "2025/3/31"
+    trend_description: "Lowest among the three series; less pronounced spike, steady upward movement after early 2025."
+
+data_series:
+  - series_name: "超额(近一年，有)"
+    color: grey
+    marker_type: area
+    trend: increasing with a sharp spike
+  - series_name: "指数增强(近一年)"
+    color: dark red
+    marker_type: line
+    trend: increasing with a sharp spike
+  - series_name: "指数收益(近一年)"
+    color: orange
+    marker_type: line
+    trend: increasing, less pronounced
+
+## Statistical Information
+statistical_summary:
+  sample_size: Not specified
+  sample_description: Not specified
+  world_gdp_coverage: Not applicable
+  filtering_criteria: Not specified
+
+## Key Data Points (for highlighting specific values)
+notable_points:
+  highest_values:
+    - entity: "超额(近一年，有)"
+      value: ~1.25
+      coordinates: ["2025/1/1", ~1.25]
+    - entity: "指数增强(近一年)"
+      value: ~1.22
+      coordinates: ["2025/1/1", ~1.22]
+    - entity: "指数收益(近一年)"
+      value: ~1.12
+      coordinates: ["2025/1/1", ~1.12]
+  lowest_values:
+    - entity: "指数收益(近一年)"
+      value: ~0.96
+      coordinates: ["2024/10/1", ~0.96]
+  outliers:
+    - entity: "超额(近一年，有)"
+      value: ~1.25
+      deviation: "Sharp spike compared to other series at start of 2025"
+
+## Annotations and Labels
+text_annotations:
+  - text: "超额(近一年，有)"
+    location: "bottom left, legend"
+    refers_to: "grey area series"
+  - text: "指数增强(近一年)"
+    location: "bottom center, legend"
+    refers_to: "dark red line"
+  - text: "指数收益(近一年)"
+    location: "bottom right, legend"
+    refers_to: "orange line"
+
+legend:
+  - item: "超额(近一年，有)"
+    symbol: "grey area"
+    meaning: "Excess return over the past year"
+  - item: "指数增强(近一年)"
+    symbol: "dark red line"
+    meaning: "Enhanced index performance over the past year"
+  - item: "指数收益(近一年)"
+    symbol: "orange line"
+    meaning: "Index return over the past year"
+
+## Metadata
+source_attribution: "数据来源：wind、ifind、西南证券整理，截至2025年3月31日"
+methodology_note: Not specified
+time_period: "近一年 (2024/3/31 - 2025/3/31)"
+data_description: "Performance comparison over the past year"
+sample_info: Not specified
+
+## Visual Design
+color_scheme: "Grey area for excess return, dark red line for enhanced index, orange line for index return; white background; grid lines."
+special_markings:
+  - type: "area fill"
+    description: "Represents excess return series"
+  - type: "line"
+    description: "Represents index enhanced and index return series"
+
+## For multi-country/entity comparisons:
+entity_groupings: []
+
+## Context Integration
+contextual_relevance: |
+  This chart provides a visual comparison of the PINN-MTICG CSI 300 Index enhanced strategy against the standard index performance over the most recent year, supporting the surrounding discussion of index enhancement strategies.
+
+source_context:
+  context_before: |
+    数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    **图30:PINN-MTICG沪深300指数增强表现（近一年）**
+  context_after: |
+    数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    **图31:PINN-MTICG沪深300指数增强表现（近三年）**
+    ![](https://web-api.textin.com/ocr_image/external/ca0305d8e1bfbb70.jpg)
+
+## Quality and Completeness Check
+data_completeness:
+  all_labels_readable: yes
+  all_values_extracted: partial (exact values estimated from chart lines; no table present)
+  uncertainties: ["Exact numerical values are estimated visually from chart lines"]
+  total_data_points_visible: approximately 5 major tick marks per series
+
+filename_processed: "96ce7432ec4a1387.jpg"
+figure_number_extracted: "图30"
+json_match_found: no (context matched via surrounding text, not JSON file)
+language: "Chinese"
+document_title: Not specified

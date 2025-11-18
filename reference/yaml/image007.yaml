@@ -1,0 +1,187 @@
+## Chart Identification
+chart_title: 图7：多尺度Transformer 因子IC
+figure_number: Figure 7
+figure_reference_in_text: 图7
+chart_type: time_series_with_bar_and_line
+
+## Visual Summary
+content_summary: This chart displays the multi-scale Transformer factor IC over time, with monthly bar values for "RankIC" and a cumulative line for "累计RankIC(右)", illustrating the performance and trend of the factor from January 2019 to March 2025.
+key_insight: The cumulative RankIC increases steadily over time, indicating consistent positive performance of the multi-scale Transformer factor, while monthly RankIC values fluctuate.
+
+## Data Extraction
+axes:
+  x_axis:
+    label: 日期 (Date)
+    unit: none
+    range: 2019年1月 - 2025年3月
+    scale: linear
+  y_axis:
+    label: 左轴: RankIC, 右轴: 累计RankIC
+    unit: none
+    range: 左轴: 0-9, 右轴: 0-0.5
+    scale: linear
+
+time_series_data:
+  - series_name: RankIC
+    color: grey
+    data_points:
+      # Only representative points shown; full extraction would list all visible monthly bars
+      - year: 2019年1月
+        value: ~0.2
+      - year: 2020年1月
+        value: ~0.3
+      - year: 2021年1月
+        value: ~0.4
+      - year: 2022年1月
+        value: ~0.3
+      - year: 2023年1月
+        value: ~0.4
+      - year: 2024年1月
+        value: ~0.5
+      - year: 2025年3月
+        value: ~0.4
+    start_year: 2019年1月
+    end_year: 2025年3月
+    trend_description: Fluctuating monthly values with no clear upward or downward trend, but generally positive.
+
+  - series_name: 累计RankIC(右)
+    color: red
+    data_points:
+      # Only representative points shown; full extraction would list all visible monthly cumulative values
+      - year: 2019年1月
+        value: ~0.02
+      - year: 2020年1月
+        value: ~1.5
+      - year: 2021年1月
+        value: ~3.0
+      - year: 2022年1月
+        value: ~5.0
+      - year: 2023年1月
+        value: ~7.0
+      - year: 2025年3月
+        value: ~9.0
+    start_year: 2019年1月
+    end_year: 2025年3月
+    trend_description: Steadily increasing cumulative value, showing consistent positive performance.
+
+data_series:
+  - series_name: RankIC
+    data_points:
+      # Representative; full extraction would list all monthly bars
+      - x: 2019年1月
+        y: ~0.2
+      - x: 2020年1月
+        y: ~0.3
+      - x: 2021年1月
+        y: ~0.4
+      - x: 2022年1月
+        y: ~0.3
+      - x: 2023年1月
+        y: ~0.4
+      - x: 2024年1月
+        y: ~0.5
+      - x: 2025年3月
+        y: ~0.4
+    color: grey
+    marker_type: bar
+    trend: fluctuating
+
+  - series_name: 累计RankIC(右)
+    data_points:
+      - x: 2019年1月
+        y: ~0.02
+      - x: 2020年1月
+        y: ~1.5
+      - x: 2021年1月
+        y: ~3.0
+      - x: 2022年1月
+        y: ~5.0
+      - x: 2023年1月
+        y: ~7.0
+      - x: 2025年3月
+        y: ~9.0
+    color: red
+    marker_type: line
+    trend: increasing
+
+## Statistical Information
+statistical_summary:
+  sample_size: not specified
+  sample_description: Monthly IC values for multi-scale Transformer factor
+  world_gdp_coverage: not applicable
+  filtering_criteria: not specified
+
+## Key Data Points
+notable_points:
+  highest_values:
+    - entity: 累计RankIC(右)
+      value: ~9.0
+      coordinates: 2025年3月, ~9.0
+  lowest_values:
+    - entity: RankIC
+      value: ~0.0
+      coordinates: various months, ~0.0
+  outliers:
+    - entity: RankIC
+      value: negative values in some months
+      deviation: below zero, indicating negative IC
+
+## Annotations and Labels
+text_annotations:
+  - text: RankIC
+    location: legend, bottom center
+    refers_to: grey bars
+  - text: 累计RankIC(右)
+    location: legend, bottom center
+    refers_to: red line
+
+legend:
+  - item: RankIC
+    symbol: grey bar
+    meaning: Monthly IC value
+  - item: 累计RankIC(右)
+    symbol: red line
+    meaning: Cumulative IC value (right axis)
+
+## Metadata
+source_attribution: 数据来源：wind、恒生聚源、ifind、西南证券整理，截至2025年3月31日
+methodology_note: not specified
+time_period: 2019年1月 - 2025年3月
+data_description: Monthly and cumulative IC values for multi-scale Transformer factor
+sample_info: not specified
+
+## Visual Design
+color_scheme: Grey bars for RankIC, red line for 累计RankIC(右), white background, black axis labels
+special_markings:
+  - type: dual y-axis
+    description: Left y-axis for RankIC, right y-axis for 累计RankIC(右)
+
+## For multi-country/entity comparisons:
+entity_groupings: []
+
+## Context Integration
+contextual_relevance: |
+  This chart provides a visual representation of the multi-scale Transformer factor IC, supporting the preceding discussion about the performance of long and short portfolios and the monotonicity of the factor. It illustrates the temporal behavior and cumulative effect of the factor, which is relevant for understanding its effectiveness in quantitative strategies.
+
+source_context:
+  context_before: |
+    数据来源：wind、恒生聚源、ifind、西南证券整理，截至2025年3月31日
+    从分组角度来看，多头组合（组1）年化收益率32.88%，最大回撤27.59%；空头组合（组10）年化收益率-6.31%，最大回撤69.60%；多空组合（组1／组10）年化收益率41.81%，最大回撤17.88%，具备一定单调性。但整体来看，因子多头组合表现并不显著，且除空头组合外，其余组合分化程度不高，Transformer 模型及量价时序信息在因子挖掘效果层面更多聚焦于空头，具备进一步提升空间。
+    **图7：多尺度Transformer 因子IC**
+  context_after: |
+    数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    **图8：多尺度Transformer因子分组-绝对净值**
+    ![](https://web-api.textin.com/ocr_image/external/222dbffa61eb833b.jpg)
+
+## Quality and Completeness Check
+data_completeness:
+  all_labels_readable: yes
+  all_values_extracted: partial (representative points shown; full extraction would list all monthly values)
+  uncertainties: Some monthly bar values are estimated due to resolution; exact values may require underlying data.
+  total_data_points_visible: ~75 (monthly bars and line points from Jan 2019 to Mar 2025)
+
+filename_processed: 222dbffa61eb833b.jpg
+figure_number_extracted: Figure 7 (from context "**图7：多尺度Transformer 因子IC**" and sequential logic)
+json_match_found: yes (context matches Figure 7)
+language: Chinese
+document_title: not specified in provided context

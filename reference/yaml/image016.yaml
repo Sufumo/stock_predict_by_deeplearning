@@ -1,0 +1,140 @@
+## Chart Identification
+chart_title: 图16:MTICG因子IC
+figure_number: 图16
+figure_reference_in_text: 图16
+chart_type: bar_and_line_chart
+
+## Visual Summary
+content_summary: This chart displays the monthly performance of the MTICG factor IC, showing both the RankIC values (bars) and the cumulative RankIC (right axis, red line) from January 2019 to March 2025.
+key_insight: The cumulative RankIC (red line) shows a steady upward trend over the period, indicating consistent positive performance of the MTICG factor IC.
+
+## Data Extraction
+axes:
+  x_axis:
+    label: 日期 (Date)
+    unit: none
+    range: 2019年1月 to 2025年3月
+    scale: linear
+  y_axis:
+    label: RankIC (left), 累计RankIC (右)
+    unit: none
+    range: left axis: -0.2 to 0.5, right axis: 0 to 9
+    scale: linear
+
+data_series:
+  - series_name: RankIC
+    data_points:
+      # Example points, full extraction would list all visible bars
+      - x: 2019年1月
+        y: ~0.05
+      - x: 2020年1月
+        y: ~0.15
+      - x: 2021年1月
+        y: ~0.10
+      - x: 2022年1月
+        y: ~0.20
+      - x: 2023年1月
+        y: ~0.30
+      - x: 2024年1月
+        y: ~0.35
+      - x: 2025年3月
+        y: ~0.40
+    color: 灰色 (gray)
+    marker_type: vertical bar
+    trend: fluctuating, generally positive
+  - series_name: 累计RankIC (右)
+    data_points:
+      # Example points, full extraction would list all visible line points
+      - x: 2019年1月
+        y: ~0.0
+      - x: 2020年1月
+        y: ~1.0
+      - x: 2021年1月
+        y: ~2.0
+      - x: 2022年1月
+        y: ~4.0
+      - x: 2023年1月
+        y: ~6.0
+      - x: 2024年1月
+        y: ~7.5
+      - x: 2025年3月
+        y: ~8.5
+    color: 红色 (red)
+    marker_type: line
+    trend: steadily increasing
+
+## Statistical Information
+statistical_summary:
+  sample_size: not specified
+  sample_description: not specified
+  world_gdp_coverage: not applicable
+  filtering_criteria: not specified
+
+## Key Data Points
+notable_points:
+  highest_values:
+    - entity: 累计RankIC
+      value: ~8.5
+      coordinates: [2025年3月, 8.5]
+  lowest_values:
+    - entity: RankIC
+      value: ~-0.2
+      coordinates: [earliest months, -0.2]
+  outliers: []
+
+## Annotations and Labels
+text_annotations:
+  - text: RankIC
+    location: legend, left
+    refers_to: gray bars
+  - text: 累计RankIC（右）
+    location: legend, right
+    refers_to: red line
+
+legend:
+  - item: RankIC
+    symbol: 灰色条 (gray bar)
+    meaning: Monthly RankIC value
+  - item: 累计RankIC（右）
+    symbol: 红色线 (red line)
+    meaning: Cumulative RankIC (right axis)
+
+## Metadata
+source_attribution: 数据来源：wind、恒生聚源、ifind、西南证券整理，截至2025年3月31日
+methodology_note: not specified
+time_period: 2019年1月-2025年3月
+data_description: Monthly RankIC and cumulative RankIC for MTICG factor
+sample_info: not specified
+
+## Visual Design
+color_scheme: 灰色 (bars), 红色 (line)
+special_markings:
+  - type: dual y-axis
+    description: Left axis for RankIC, right axis for cumulative RankIC
+
+## Context Integration
+entity_groupings: []
+
+contextual_relevance: |
+  This chart provides a visual summary of the MTICG factor IC performance, supporting the surrounding discussion on factor effectiveness and trends in the document.
+
+source_context:
+  context_before: |
+    数据来源：wind、恒生聚源、ifind、西南证券整理，截至2025年3月31日
+    **图16:MTICG因子IC**
+  context_after: |
+    数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    **图17:PINN-MTICG因子IC**
+
+## Quality and Completeness Check
+data_completeness:
+  all_labels_readable: yes
+  all_values_extracted: partial (all visible major points, but full monthly extraction possible)
+  uncertainties: Bar heights and line values are approximate due to image resolution; exact values would require underlying data.
+  total_data_points_visible: ~75 (monthly points from Jan 2019 to Mar 2025)
+
+filename_processed: b4f390024bc5fe15.jpg
+figure_number_extracted: 图16
+json_match_found: no (context provided directly, not from JSON file)
+language: Chinese
+document_title: not specified

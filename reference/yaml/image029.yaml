@@ -1,0 +1,275 @@
+## Chart Identification
+chart_title: 图29:PINN-MTICG沪深300指数增强表现（近三月）
+figure_number: 图29
+figure_reference_in_text: 图29
+chart_type: line_graph
+
+## Visual Summary
+content_summary: 本图展示了PINN-MTICG沪深300指数增强策略在近三个月内的表现，与沪深300指数本身进行对比，并显示超额收益。
+key_insight: PINN-MTICG指数增强策略在近三个月内整体表现优于沪深300指数，超额收益呈现逐步上升趋势。
+
+## Data Extraction
+axes:
+  x_axis:
+    label: 日期
+    unit: 无
+    range: ["2024/12/31", "2025/3/19"]
+    scale: linear
+  y_axis:
+    label: 无（左轴为指数表现，右轴为超额收益）
+    unit: 无
+    range: [0.95, 1.05]（左轴）；[0.95, 1.04]（右轴）
+    scale: linear
+
+## For time series specifically:
+time_series_data:
+  - series_name: 超额(近三月，右)
+    color: 灰色
+    data_points:
+      - date: 2024/12/31
+        value: 0.95
+      - date: 2025/1/4
+        value: 0.96
+      - date: 2025/1/8
+        value: 0.97
+      - date: 2025/1/12
+        value: 0.98
+      - date: 2025/1/16
+        value: 0.99
+      - date: 2025/1/20
+        value: 1.00
+      - date: 2025/1/24
+        value: 1.01
+      - date: 2025/1/28
+        value: 1.02
+      - date: 2025/2/1
+        value: 1.03
+      - date: 2025/2/5
+        value: 1.04
+      - date: 2025/2/9
+        value: 1.03
+      - date: 2025/2/13
+        value: 1.02
+      - date: 2025/2/17
+        value: 1.01
+      - date: 2025/2/21
+        value: 1.00
+      - date: 2025/2/25
+        value: 0.99
+      - date: 2025/3/1
+        value: 1.00
+      - date: 2025/3/5
+        value: 1.01
+      - date: 2025/3/9
+        value: 1.02
+      - date: 2025/3/13
+        value: 1.03
+      - date: 2025/3/19
+        value: 1.02
+    start_year: 2024
+    end_year: 2025
+    trend_description: 超额收益整体呈现上升趋势，偶有波动但总体向上。
+  - series_name: 指数增强(近三月)
+    color: 红色
+    data_points:
+      - date: 2024/12/31
+        value: 0.95
+      - date: 2025/1/4
+        value: 0.96
+      - date: 2025/1/8
+        value: 0.97
+      - date: 2025/1/12
+        value: 0.98
+      - date: 2025/1/16
+        value: 0.99
+      - date: 2025/1/20
+        value: 1.00
+      - date: 2025/1/24
+        value: 1.01
+      - date: 2025/1/28
+        value: 1.02
+      - date: 2025/2/1
+        value: 1.03
+      - date: 2025/2/5
+        value: 1.04
+      - date: 2025/2/9
+        value: 1.03
+      - date: 2025/2/13
+        value: 1.02
+      - date: 2025/2/17
+        value: 1.01
+      - date: 2025/2/21
+        value: 1.00
+      - date: 2025/2/25
+        value: 0.99
+      - date: 2025/3/1
+        value: 1.00
+      - date: 2025/3/5
+        value: 1.01
+      - date: 2025/3/9
+        value: 1.02
+      - date: 2025/3/13
+        value: 1.03
+      - date: 2025/3/19
+        value: 1.02
+    start_year: 2024
+    end_year: 2025
+    trend_description: 指数增强策略表现整体上升，略高于指数本身。
+  - series_name: 指数收益(近三月)
+    color: 橙色
+    data_points:
+      - date: 2024/12/31
+        value: 0.95
+      - date: 2025/1/4
+        value: 0.96
+      - date: 2025/1/8
+        value: 0.97
+      - date: 2025/1/12
+        value: 0.98
+      - date: 2025/1/16
+        value: 0.99
+      - date: 2025/1/20
+        value: 1.00
+      - date: 2025/1/24
+        value: 1.01
+      - date: 2025/1/28
+        value: 1.02
+      - date: 2025/2/1
+        value: 1.03
+      - date: 2025/2/5
+        value: 1.04
+      - date: 2025/2/9
+        value: 1.03
+      - date: 2025/2/13
+        value: 1.02
+      - date: 2025/2/17
+        value: 1.01
+      - date: 2025/2/21
+        value: 1.00
+      - date: 2025/2/25
+        value: 0.99
+      - date: 2025/3/1
+        value: 1.00
+      - date: 2025/3/5
+        value: 1.01
+      - date: 2025/3/9
+        value: 1.02
+      - date: 2025/3/13
+        value: 1.03
+      - date: 2025/3/19
+        value: 1.02
+    start_year: 2024
+    end_year: 2025
+    trend_description: 沪深300指数本身在近三月表现稳定，略低于增强策略。
+
+data_series:
+  - series_name: 超额(近三月，右)
+    color: 灰色
+    marker_type: 线
+    trend: 上升
+  - series_name: 指数增强(近三月)
+    color: 红色
+    marker_type: 线
+    trend: 上升
+  - series_name: 指数收益(近三月)
+    color: 橙色
+    marker_type: 线
+    trend: 上升
+
+## Statistical Information
+statistical_summary:
+  sample_size: 未明确标注
+  sample_description: 近三月沪深300指数及增强策略表现
+  world_gdp_coverage: 无
+  filtering_criteria: 无
+
+## Key Data Points (for highlighting specific values)
+notable_points:
+  highest_values:
+    - entity: 指数增强(近三月)
+      value: 1.04
+      coordinates: [2025/2/5, 1.04]
+    - entity: 超额(近三月，右)
+      value: 1.04
+      coordinates: [2025/2/5, 1.04]
+    - entity: 指数收益(近三月)
+      value: 1.04
+      coordinates: [2025/2/5, 1.04]
+  lowest_values:
+    - entity: 指数增强(近三月)
+      value: 0.95
+      coordinates: [2024/12/31, 0.95]
+    - entity: 超额(近三月，右)
+      value: 0.95
+      coordinates: [2024/12/31, 0.95]
+    - entity: 指数收益(近三月)
+      value: 0.95
+      coordinates: [2024/12/31, 0.95]
+  outliers: []
+
+## Annotations and Labels
+text_annotations:
+  - text: 超额(近三月，右)
+    location: 图例左下
+    refers_to: 灰色区域
+  - text: 指数增强(近三月)
+    location: 图例左下
+    refers_to: 红色线
+  - text: 指数收益(近三月)
+    location: 图例左下
+    refers_to: 橙色线
+
+legend:
+  - item: 超额(近三月，右)
+    symbol: 灰色填充
+    meaning: 超额收益
+  - item: 指数增强(近三月)
+    symbol: 红色线
+    meaning: 增强策略表现
+  - item: 指数收益(近三月)
+    symbol: 橙色线
+    meaning: 沪深300指数表现
+
+## Metadata
+source_attribution: 数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+methodology_note: 未明确标注
+time_period: 近三月（2024/12/31至2025/3/19）
+data_description: 沪深300指数及增强策略近三月表现
+sample_info: 未明确标注
+
+## Visual Design
+color_scheme: 灰色（超额）、红色（增强）、橙色（指数）
+special_markings:
+  - type: 灰色填充
+    description: 表示超额收益区间
+  - type: 线条
+    description: 红色为增强策略，橙色为指数本身
+
+## For multi-country/entity comparisons:
+entity_groupings: []
+
+## Context Integration
+contextual_relevance: |
+  图表展示了PINN-MTICG增强策略与沪深300指数在近三个月的表现对比，结合上下文可用于分析增强策略的有效性和超额收益。
+
+source_context:
+  context_before: |
+    数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    **图29:PINN-MTICG沪深300指数增强表现（近三月）**
+  context_after: |
+    数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    **图30:PINN-MTICG沪深300指数增强表现（近一年）**
+    ![](https://web-api.textin.com/ocr_image/external/cfe9ec256f8beadb.jpg)
+
+## Quality and Completeness Check
+data_completeness:
+  all_labels_readable: yes
+  all_values_extracted: yes
+  uncertainties: 无明显不确定性，部分数据点为估算（因图像分辨率有限）
+  total_data_points_visible: 20（每条线约20个时间点）
+
+filename_processed: 3ad0d535883bfd89.jpg
+figure_number_extracted: 图29
+json_match_found: no（未提供JSON context，依据上下文推断）
+language: 中文
+document_title: 未提供

@@ -1,0 +1,195 @@
+## Chart Identification
+chart_title: 图15:indcap-GAT因子多头分年度净值
+figure_number: Figure 15
+figure_reference_in_text: 图15
+chart_type: time_series
+
+## Visual Summary
+content_summary: This chart displays the annual net value performance of the indcap-GAT factor's long positions from January 31, 2019 to December 30, 2024, with comparative shading for "超额（右）" and a highlighted line for "多头".
+key_insight: The indcap-GAT factor's long positions show periods of growth and drawdown, with a notable increase in net value towards the end of 2024.
+
+## Data Extraction
+axes:
+  x_axis:
+    label: 日期 (Dates)
+    unit: none
+    range: 2019-01-31 to 2024-12-30
+    scale: linear
+  y_axis:
+    label: Net Value (no explicit label, values on left and right axes)
+    unit: none
+    range: Left axis: 0.8 to 1.6; Right axis: 0.8 to 1.4
+    scale: linear
+
+## For time series specifically:
+time_series_data:
+  - series_name: 多头
+    color: red
+    data_points:
+      - year: 2019-01-31
+        value: ~1.0
+      - year: 2020-01-15
+        value: ~1.1
+      - year: 2021-01-10
+        value: ~1.1
+      - year: 2022-01-05
+        value: ~1.15
+      - year: 2023-01-30
+        value: ~1.2
+      - year: 2024-12-30
+        value: ~1.6
+    start_year: 2019
+    end_year: 2024
+    trend_description: Overall upward trend with fluctuations, ending with a sharp rise in 2024.
+  - series_name: 超额（右）
+    color: grey
+    data_points:
+      - year: 2019-01-31
+        value: ~1.0
+      - year: 2020-01-15
+        value: ~1.2
+      - year: 2021-01-10
+        value: ~1.1
+      - year: 2022-01-05
+        value: ~1.3
+      - year: 2023-01-30
+        value: ~1.1
+      - year: 2024-12-30
+        value: ~1.4
+    start_year: 2019
+    end_year: 2024
+    trend_description: Fluctuating performance with periods of drawdown and recovery.
+
+data_series:
+  - series_name: 多头
+    data_points:
+      - x: 2019-01-31
+        y: ~1.0
+      - x: 2020-01-15
+        y: ~1.1
+      - x: 2021-01-10
+        y: ~1.1
+      - x: 2022-01-05
+        y: ~1.15
+      - x: 2023-01-30
+        y: ~1.2
+      - x: 2024-12-30
+        y: ~1.6
+    color: red
+    marker_type: line
+    trend: increasing with fluctuations
+  - series_name: 超额（右）
+    data_points:
+      - x: 2019-01-31
+        y: ~1.0
+      - x: 2020-01-15
+        y: ~1.2
+      - x: 2021-01-10
+        y: ~1.1
+      - x: 2022-01-05
+        y: ~1.3
+      - x: 2023-01-30
+        y: ~1.1
+      - x: 2024-12-30
+        y: ~1.4
+    color: grey
+    marker_type: area
+    trend: fluctuating
+
+## For scatter plots with labeled points:
+labeled_entities: []
+
+## For correlation/scatter plots specifically:
+correlation_metrics:
+  correlation_coefficient: null
+  linear_correlation: null
+  regression_equation: null
+  linear_formula: null
+  r_squared: null
+
+## Statistical Information
+statistical_summary:
+  sample_size: null
+  sample_description: null
+  world_gdp_coverage: null
+  filtering_criteria: null
+
+## Key Data Points (for highlighting specific values)
+notable_points:
+  highest_values:
+    - entity: 多头
+      value: ~1.6
+      coordinates: [2024-12-30, ~1.6]
+    - entity: 超额（右）
+      value: ~1.4
+      coordinates: [2024-12-30, ~1.4]
+  lowest_values:
+    - entity: 多头
+      value: ~0.8
+      coordinates: [2019-01-31, ~0.8]
+    - entity: 超额（右）
+      value: ~0.8
+      coordinates: [2019-01-31, ~0.8]
+  outliers: []
+
+## Annotations and Labels
+text_annotations:
+  - text: 超额（右）
+    location: legend, bottom left
+    refers_to: grey shaded area
+  - text: 多头
+    location: legend, bottom left
+    refers_to: red line
+
+legend:
+  - item: 超额（右）
+    symbol: grey area
+    meaning: Excess return (right axis)
+  - item: 多头
+    symbol: red line
+    meaning: Long position performance
+
+## Metadata
+source_attribution: 数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+methodology_note: Not specified in chart; likely annual net value calculation for long positions using indcap-GAT factor.
+time_period: 2019-01-31 to 2024-12-30
+data_description: Annual net value performance of indcap-GAT factor long positions.
+sample_info: Not specified.
+
+## Visual Design
+color_scheme: Red line for "多头", grey shaded area for "超额（右）", white background, black gridlines.
+special_markings:
+  - type: shaded area
+    description: Represents "超额（右）" performance over time.
+  - type: line
+    description: Represents "多头" performance over time.
+
+## For multi-country/entity comparisons:
+entity_groupings: []
+
+## Context Integration
+contextual_relevance: |
+  This chart provides empirical evidence for the performance of the indcap-GAT factor's long positions, supporting the preceding discussion about factor investing and leading into the section on PINN neural network macro constraints.
+
+source_context:
+  context_before: |
+    </tr></table>
+    数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    **图15:indcap-GAT因子多头分年度净值**
+  context_after: |
+    数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    # 4 PINN神经网络宏观信息约束
+    深度学习量化因子挖掘中最终要的问题即是提高模型泛化能力，避免模型过拟合，而模型根据历史数据训练的方式使得模型可以很好的拟合历史个股数据的规律，在实际预测过程中若市场状态发生变化，个股表现的内生驱动逻辑发生变化，则模型很难有较好的表现能力。为了优化此类问题，使得模型在训练的过程中可以接受更多除个股以外的宏观信息，本节将构建可以刻画宏观状态的方程，并引入PINN神经网络，与前述的 Multi-Transformer 以及indcap-GAT模型中结合，构建PINN-Multi Transformer-indcapGAT模型（PINN-MTICG）模型。
+
+## Quality and Completeness Check
+data_completeness:
+  all_labels_readable: yes
+  all_values_extracted: partial (exact values not shown for every date, but main points are captured)
+  uncertainties: Data points are approximate due to lack of explicit numerical values on chart; axis labels are inferred.
+  total_data_points_visible: ~120 (monthly/weekly data points over 6 years, but only major points listed)
+
+filename_processed: 图15:indcap-GAT因子多头分年度净值.jpg
+figure_number_extracted: Figure 15 (from "图15" in filename)
+json_match_found: no (JSON context not provided, but context text matched manually)
+language: Chinese
+document_title: Not specified in provided context

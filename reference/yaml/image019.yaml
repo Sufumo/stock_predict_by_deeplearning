@@ -1,0 +1,241 @@
+## Chart Identification
+chart_title: 图19:PINN-MTICG因子分组测试-绝对净值
+figure_number: 图19
+figure_reference_in_text: 图19
+chart_type: line_graph
+
+## Visual Summary
+content_summary: 本图展示了PINN-MTICG因子分组在不同分组下的绝对净值随时间的变化趋势，各分组净值均呈现总体增长态势，且分组间存在明显分层。
+key_insight: PINN-MTICG因子分组在2019年至2025年期间绝对净值均有显著提升，且Group1表现最优，分组间净值差异明显。
+
+## Data Extraction
+axes:
+  x_axis:
+    label: 日期
+    unit: 无
+    range: [2019/1/1, 2025/3/31]
+    scale: linear
+  y_axis:
+    label: 绝对净值
+    unit: 无
+    range: [0, 12]
+    scale: linear
+
+time_series_data:
+  - series_name: Group1
+    color: 深红色
+    data_points:
+      - year: 2019/1/1
+        value: ~1
+      - year: 2025/3/31
+        value: ~11.5
+    start_year: 2019/1/1
+    end_year: 2025/3/31
+    trend_description: 持续上升，2024年后加速上涨
+  - series_name: Group2
+    color: 红色
+    data_points:
+      - year: 2019/1/1
+        value: ~1
+      - year: 2025/3/31
+        value: ~9.5
+    start_year: 2019/1/1
+    end_year: 2025/3/31
+    trend_description: 持续上升，略低于Group1
+  - series_name: Group3
+    color: 橙红色
+    data_points:
+      - year: 2019/1/1
+        value: ~1
+      - year: 2025/3/31
+        value: ~8.5
+    start_year: 2019/1/1
+    end_year: 2025/3/31
+    trend_description: 持续上升，位于Group2下方
+  - series_name: Group4
+    color: 橙色
+    data_points:
+      - year: 2019/1/1
+        value: ~1
+      - year: 2025/3/31
+        value: ~7.5
+    start_year: 2019/1/1
+    end_year: 2025/3/31
+    trend_description: 持续上升
+  - series_name: Group5
+    color: 深黄色
+    data_points:
+      - year: 2019/1/1
+        value: ~1
+      - year: 2025/3/31
+        value: ~6.5
+    start_year: 2019/1/1
+    end_year: 2025/3/31
+    trend_description: 持续上升
+  - series_name: Group6
+    color: 黄色
+    data_points:
+      - year: 2019/1/1
+        value: ~1
+      - year: 2025/3/31
+        value: ~5.5
+    start_year: 2019/1/1
+    end_year: 2025/3/31
+    trend_description: 持续上升
+  - series_name: Group7
+    color: 浅黄色
+    data_points:
+      - year: 2019/1/1
+        value: ~1
+      - year: 2025/3/31
+        value: ~4.5
+    start_year: 2019/1/1
+    end_year: 2025/3/31
+    trend_description: 持续上升
+  - series_name: Group8
+    color: 浅橙色
+    data_points:
+      - year: 2019/1/1
+        value: ~1
+      - year: 2025/3/31
+        value: ~3.5
+    start_year: 2019/1/1
+    end_year: 2025/3/31
+    trend_description: 持续上升
+  - series_name: Group9
+    color: 灰黄色
+    data_points:
+      - year: 2019/1/1
+        value: ~1
+      - year: 2025/3/31
+        value: ~2.5
+    start_year: 2019/1/1
+    end_year: 2025/3/31
+    trend_description: 持续上升
+  - series_name: Group10
+    color: 灰色
+    data_points:
+      - year: 2019/1/1
+        value: ~1
+      - year: 2025/3/31
+        value: ~1.5
+    start_year: 2019/1/1
+    end_year: 2025/3/31
+    trend_description: 基本稳定，略有上升
+
+data_series:
+  - series_name: S&P指数（灰色）
+    data_points:
+      - x: 2019/1/1
+        y: ~1
+      - x: 2025/3/31
+        y: ~2.5
+    color: 灰色
+    marker_type: 线条
+    trend: 缓慢上升
+
+## Statistical Information
+statistical_summary:
+  sample_size: 10组
+  sample_description: 10个因子分组（Group1-Group10）及S&P指数
+  world_gdp_coverage: 未提及
+  filtering_criteria: 未提及
+
+## Key Data Points
+notable_points:
+  highest_values:
+    - entity: Group1
+      value: ~11.5
+      coordinates: [2025/3/31, ~11.5]
+  lowest_values:
+    - entity: Group10
+      value: ~1.5
+      coordinates: [2025/3/31, ~1.5]
+  outliers: []
+
+## Annotations and Labels
+text_annotations:
+  - text: S&P指数（灰色）
+    location: 图例左下角
+    refers_to: 灰色曲线
+legend:
+  - item: S&P指数（灰色）
+    symbol: 灰色线条
+    meaning: 标准普尔指数走势
+  - item: Group1
+    symbol: 深红色线条
+    meaning: PINN-MTICG因子分组1
+  - item: Group2
+    symbol: 红色线条
+    meaning: PINN-MTICG因子分组2
+  - item: Group3
+    symbol: 橙红色线条
+    meaning: PINN-MTICG因子分组3
+  - item: Group4
+    symbol: 橙色线条
+    meaning: PINN-MTICG因子分组4
+  - item: Group5
+    symbol: 深黄色线条
+    meaning: PINN-MTICG因子分组5
+  - item: Group6
+    symbol: 黄色线条
+    meaning: PINN-MTICG因子分组6
+  - item: Group7
+    symbol: 浅黄色线条
+    meaning: PINN-MTICG因子分组7
+  - item: Group8
+    symbol: 浅橙色线条
+    meaning: PINN-MTICG因子分组8
+  - item: Group9
+    symbol: 灰黄色线条
+    meaning: PINN-MTICG因子分组9
+  - item: Group10
+    symbol: 灰色线条
+    meaning: PINN-MTICG因子分组10
+
+## Metadata
+source_attribution: 数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+methodology_note: 因子分组测试，绝对净值随时间变化，分组依据未在图中说明
+time_period: 2019/1/1-2025/3/31
+data_description: 各分组绝对净值随时间变化
+sample_info: 10个因子分组及S&P指数
+
+## Visual Design
+color_scheme: 深红、红、橙红、橙、深黄、黄、浅黄、浅橙、灰黄、灰色线条分层，S&P为灰色
+special_markings:
+  - type: 多条折线
+    description: 各分组净值走势
+  - type: 灰色背景线
+    description: S&P指数走势
+
+## For multi-country/entity comparisons
+entity_groupings:
+  - group_name: PINN-MTICG因子分组
+    count: 10
+    entities: [Group1, Group2, Group3, Group4, Group5, Group6, Group7, Group8, Group9, Group10]
+
+## Context Integration
+contextual_relevance: |
+  图表用于展示PINN-MTICG因子分组在2019-2025年期间的绝对净值表现，为后文分年度超额表现分析提供数据基础，说明各分组间业绩分层及模型优劣。
+
+source_context:
+  context_before: |
+    数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    **图19:PINN-MTICG因子分组测试-绝对净值**
+  context_after: |
+    数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    从多头组合超额表现来看，PINN-MTICG与-MTICG在2024年1月均出现程度较小的超额回撤，但并未在2024年9月24日后的“0924”行情中出现超额回撤。分年度来看自2019年至2025年3月的7年内，除2020年与2021年以外，PINN-MTICG模型有5年时间超额表现优于MTICG模型。
+    **表10:PINN-MTICG与MTICG模型分年度超额表现**
+
+## Quality and Completeness Check
+data_completeness:
+  all_labels_readable: yes
+  all_values_extracted: partial（因图中未显示具体每个时间点数值，仅能估算起止点与趋势）
+  uncertainties: 部分数值为估算，具体净值需原始数据表支持
+  total_data_points_visible: 约70个时间点*11条线（约770）
+
+filename_processed: 4791f0b089caa73b.jpg
+figure_number_extracted: 图19
+json_match_found: no（未提供JSON文件，仅依据上下文提取）
+language: 中文
+document_title: 未提供

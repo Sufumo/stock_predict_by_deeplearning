@@ -1,0 +1,330 @@
+## Chart Identification
+chart_title: 图13:Indcap-GAT因子分组-绝对净值
+figure_number: 图13
+figure_reference_in_text: 图13
+chart_type: line_graph
+
+## Visual Summary
+content_summary: This chart displays the absolute net value performance over time for ten different Indcap-GAT factor groups, showing the cumulative returns for each group from 2017 to 2025.
+key_insight: Group 1 (多头组合) demonstrates the highest cumulative return, while Group 10 (空头组合) shows the lowest, with a clear monotonic trend among the groups.
+
+## Data Extraction
+axes:
+  x_axis:
+    label: 日期 (Date)
+    unit: None
+    range: [2017/01/03, 2025/03/31]
+    scale: linear
+  y_axis:
+    label: 绝对净值 (Absolute Net Value)
+    unit: None
+    range: [0, 7]
+    scale: linear
+
+## For time series specifically:
+time_series_data:
+  - series_name: Group1
+    color: dark red
+    data_points:
+      - year: 2017/01/03
+        value: ~1
+      - year: 2025/03/31
+        value: ~6.5
+    start_year: 2017/01/03
+    end_year: 2025/03/31
+    trend_description: Steadily increasing with some volatility, highest overall growth.
+  - series_name: Group2
+    color: reddish brown
+    data_points:
+      - year: 2017/01/03
+        value: ~1
+      - year: 2025/03/31
+        value: ~5.5
+    start_year: 2017/01/03
+    end_year: 2025/03/31
+    trend_description: Increasing, second highest cumulative return.
+  - series_name: Group3
+    color: orange-brown
+    data_points:
+      - year: 2017/01/03
+        value: ~1
+      - year: 2025/03/31
+        value: ~5
+    start_year: 2017/01/03
+    end_year: 2025/03/31
+    trend_description: Increasing, slightly lower than Group2.
+  - series_name: Group4
+    color: orange
+    data_points:
+      - year: 2017/01/03
+        value: ~1
+      - year: 2025/03/31
+        value: ~4.5
+    start_year: 2017/01/03
+    end_year: 2025/03/31
+    trend_description: Increasing, mid-level performance.
+  - series_name: Group5
+    color: yellow-orange
+    data_points:
+      - year: 2017/01/03
+        value: ~1
+      - year: 2025/03/31
+        value: ~4
+    start_year: 2017/01/03
+    end_year: 2025/03/31
+    trend_description: Increasing, lower mid-level.
+  - series_name: Group6
+    color: yellow
+    data_points:
+      - year: 2017/01/03
+        value: ~1
+      - year: 2025/03/31
+        value: ~3.5
+    start_year: 2017/01/03
+    end_year: 2025/03/31
+    trend_description: Increasing, lowest among the top half.
+  - series_name: Group7
+    color: light yellow
+    data_points:
+      - year: 2017/01/03
+        value: ~1
+      - year: 2025/03/31
+        value: ~3
+    start_year: 2017/01/03
+    end_year: 2025/03/31
+    trend_description: Increasing, lower performance.
+  - series_name: Group8
+    color: pale yellow
+    data_points:
+      - year: 2017/01/03
+        value: ~1
+      - year: 2025/03/31
+        value: ~2.5
+    start_year: 2017/01/03
+    end_year: 2025/03/31
+    trend_description: Increasing, among the lowest.
+  - series_name: Group9
+    color: very pale yellow
+    data_points:
+      - year: 2017/01/03
+        value: ~1
+      - year: 2025/03/31
+        value: ~2
+    start_year: 2017/01/03
+    end_year: 2025/03/31
+    trend_description: Increasing, lowest among all groups except Group10.
+  - series_name: Group10
+    color: grey
+    data_points:
+      - year: 2017/01/03
+        value: ~1
+      - year: 2025/03/31
+        value: ~1.5
+    start_year: 2017/01/03
+    end_year: 2025/03/31
+    trend_description: Minimal increase, lowest cumulative return.
+
+data_series:
+  - series_name: Group1
+    data_points:
+      - x: 2017/01/03
+        y: ~1
+      - x: 2025/03/31
+        y: ~6.5
+    color: dark red
+    marker_type: line
+    trend: increasing
+  - series_name: Group2
+    data_points:
+      - x: 2017/01/03
+        y: ~1
+      - x: 2025/03/31
+        y: ~5.5
+    color: reddish brown
+    marker_type: line
+    trend: increasing
+  - series_name: Group3
+    data_points:
+      - x: 2017/01/03
+        y: ~1
+      - x: 2025/03/31
+        y: ~5
+    color: orange-brown
+    marker_type: line
+    trend: increasing
+  - series_name: Group4
+    data_points:
+      - x: 2017/01/03
+        y: ~1
+      - x: 2025/03/31
+        y: ~4.5
+    color: orange
+    marker_type: line
+    trend: increasing
+  - series_name: Group5
+    data_points:
+      - x: 2017/01/03
+        y: ~1
+      - x: 2025/03/31
+        y: ~4
+    color: yellow-orange
+    marker_type: line
+    trend: increasing
+  - series_name: Group6
+    data_points:
+      - x: 2017/01/03
+        y: ~1
+      - x: 2025/03/31
+        y: ~3.5
+    color: yellow
+    marker_type: line
+    trend: increasing
+  - series_name: Group7
+    data_points:
+      - x: 2017/01/03
+        y: ~1
+      - x: 2025/03/31
+        y: ~3
+    color: light yellow
+    marker_type: line
+    trend: increasing
+  - series_name: Group8
+    data_points:
+      - x: 2017/01/03
+        y: ~1
+      - x: 2025/03/31
+        y: ~2.5
+    color: pale yellow
+    marker_type: line
+    trend: increasing
+  - series_name: Group9
+    data_points:
+      - x: 2017/01/03
+        y: ~1
+      - x: 2025/03/31
+        y: ~2
+    color: very pale yellow
+    marker_type: line
+    trend: increasing
+  - series_name: Group10
+    data_points:
+      - x: 2017/01/03
+        y: ~1
+      - x: 2025/03/31
+        y: ~1.5
+    color: grey
+    marker_type: line
+    trend: increasing
+
+## For scatter plots with labeled points:
+labeled_entities: []
+
+## For correlation/scatter plots specifically:
+correlation_metrics:
+  correlation_coefficient: None
+  linear_correlation: None
+  regression_equation: None
+  linear_formula: None
+  r_squared: None
+
+## Statistical Information
+statistical_summary:
+  sample_size: 10
+  sample_description: 10 Indcap-GAT factor groups (Group1 to Group10)
+  world_gdp_coverage: None
+  filtering_criteria: None
+
+## Key Data Points (for highlighting specific values)
+notable_points:
+  highest_values:
+    - entity: Group1
+      value: ~6.5
+      coordinates: [2025/03/31, ~6.5]
+  lowest_values:
+    - entity: Group10
+      value: ~1.5
+      coordinates: [2025/03/31, ~1.5]
+  outliers: []
+
+## Annotations and Labels
+text_annotations:
+  - text: 数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    location: bottom left
+    refers_to: data source and time period
+
+legend:
+  - item: Group1
+    symbol: dark red line
+    meaning: Top performing factor group
+  - item: Group2
+    symbol: reddish brown line
+    meaning: Second highest performing group
+  - item: Group3
+    symbol: orange-brown line
+    meaning: Third highest performing group
+  - item: Group4
+    symbol: orange line
+    meaning: Fourth highest performing group
+  - item: Group5
+    symbol: yellow-orange line
+    meaning: Fifth highest performing group
+  - item: Group6
+    symbol: yellow line
+    meaning: Sixth highest performing group
+  - item: Group7
+    symbol: light yellow line
+    meaning: Seventh highest performing group
+  - item: Group8
+    symbol: pale yellow line
+    meaning: Eighth highest performing group
+  - item: Group9
+    symbol: very pale yellow line
+    meaning: Ninth highest performing group
+  - item: Group10
+    symbol: grey line
+    meaning: Lowest performing group
+
+## Metadata
+source_attribution: 数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+methodology_note: Factor groups are constructed based on Indcap-GAT model; performance is measured by absolute net value over time.
+time_period: 2017/01/03 - 2025/03/31
+data_description: Cumulative absolute net value for each factor group over the specified period.
+sample_info: 10 factor groups, each representing a portfolio.
+
+## Visual Design
+color_scheme: Gradient from dark red (Group1) to grey (Group10), with intermediate shades for Groups 2-9.
+special_markings:
+  - type: shaded area
+    description: Background shading highlights the cumulative effect and separation between groups.
+
+## For multi-country/entity comparisons:
+entity_groupings:
+  - group_name: factor groups
+    count: 10
+    entities: [Group1, Group2, Group3, Group4, Group5, Group6, Group7, Group8, Group9, Group10]
+
+## Context Integration
+contextual_relevance: |
+  This chart visualizes the performance of Indcap-GAT factor groups, supporting the surrounding text's analysis of annualized returns, maximum drawdowns, and monotonicity. It provides visual evidence for the claim that Group1 (long portfolio) has the highest annualized return and lowest drawdown among the groups, while Group10 (short portfolio) has the lowest return and highest drawdown.
+
+source_context:
+  context_before: |
+    数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    **图13:Indcap-GAT因子分组-绝对净值**
+  context_after: |
+    数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    从分组角度来看，多头组合（组1）年化收益率32.77%，最大回撤33.12%；空头组合（组10）年化收益率0.02%，最大回撤58.39%；多空组合（组1／组10）年化收益率32.75%，最大回撤14.83%，具备一定单调性。但整体来看，因子多头组合表现并不显著，且组2表现长期来看优于组1，空头组合表现相较Transformer模型并不突出。综合来看，indcapGAT 模型相较于Transformer模型具备更低的换手。
+    **表7:indcap-GAT因子分组表现**
+
+## Quality and Completeness Check
+data_completeness:
+  all_labels_readable: yes
+  all_values_extracted: partial (exact values at all time points not readable, endpoints and trends summarized)
+  uncertainties: Some intermediate values estimated due to resolution; endpoints and trends clear.
+  total_data_points_visible: ~80-100 (10 groups, ~8-10 major time points visible per group)
+
+filename_processed: 3fad79183b2d0c8e.jpg
+figure_number_extracted: 图13 (from "图13" in chart title and context)
+json_match_found: yes (context matched from provided text)
+language: Chinese
+document_title: None (not specified in provided context)

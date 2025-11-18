@@ -1,0 +1,174 @@
+## Chart Identification
+chart_title: "PINN-MTICG中证1000指数增强表现（近一月）"
+figure_number: "图36"
+figure_reference_in_text: "图36"
+chart_type: line_graph
+
+## Visual Summary
+content_summary: "This chart displays the performance of the PINN-MTICG CSI 1000 Index Enhanced over the past month, comparing three metrics: 超额(近一月，右), 指数增强(近一月), and 指数收益(近一月) from March 3, 2025 to March 24, 2025."
+key_insight: "指数增强(近一月) outperformed 指数收益(近一月) for most of the period, with 超额(近一月，右) indicating positive excess returns."
+
+## Data Extraction
+axes:
+  x_axis:
+    label: "日期"
+    unit: ""
+    range: ["2025/3/3", "2025/3/24"]
+    scale: linear
+  y_axis:
+    label: "数值"
+    unit: ""
+    range: [0.95, 1.08]
+    scale: linear
+
+data_series:
+  - series_name: "超额(近一月，右)"
+    data_points:
+      - x: "2025/3/3"
+        y: ~1.00
+      - x: "2025/3/6"
+        y: ~1.01
+      - x: "2025/3/9"
+        y: ~1.02
+      - x: "2025/3/12"
+        y: ~1.03
+      - x: "2025/3/15"
+        y: ~1.04
+      - x: "2025/3/18"
+        y: ~1.06
+      - x: "2025/3/21"
+        y: ~1.05
+      - x: "2025/3/24"
+        y: ~1.03
+    color: "grey"
+    marker_type: "none"
+    trend: "increasing then slightly decreasing"
+  - series_name: "指数增强(近一月)"
+    data_points:
+      - x: "2025/3/3"
+        y: ~1.00
+      - x: "2025/3/6"
+        y: ~1.02
+      - x: "2025/3/9"
+        y: ~1.03
+      - x: "2025/3/12"
+        y: ~1.04
+      - x: "2025/3/15"
+        y: ~1.06
+      - x: "2025/3/18"
+        y: ~1.07
+      - x: "2025/3/21"
+        y: ~1.06
+      - x: "2025/3/24"
+        y: ~1.04
+    color: "red"
+    marker_type: "none"
+    trend: "increasing then slightly decreasing"
+  - series_name: "指数收益(近一月)"
+    data_points:
+      - x: "2025/3/3"
+        y: ~0.99
+      - x: "2025/3/6"
+        y: ~1.00
+      - x: "2025/3/9"
+        y: ~1.01
+      - x: "2025/3/12"
+        y: ~1.02
+      - x: "2025/3/15"
+        y: ~1.03
+      - x: "2025/3/18"
+        y: ~1.04
+      - x: "2025/3/21"
+        y: ~1.03
+      - x: "2025/3/24"
+        y: ~1.01
+    color: "orange"
+    marker_type: "none"
+    trend: "increasing then slightly decreasing"
+
+## Statistical Information
+statistical_summary:
+  sample_size: null
+  sample_description: null
+  world_gdp_coverage: null
+  filtering_criteria: null
+
+## Key Data Points
+notable_points:
+  highest_values:
+    - entity: "指数增强(近一月)"
+      value: ~1.07
+      coordinates: ["2025/3/18", ~1.07]
+  lowest_values:
+    - entity: "指数收益(近一月)"
+      value: ~0.99
+      coordinates: ["2025/3/3", ~0.99]
+  outliers: []
+
+## Annotations and Labels
+text_annotations:
+  - text: "超额(近一月，右)"
+    location: "legend, left"
+    refers_to: "grey area"
+  - text: "指数增强(近一月)"
+    location: "legend, left"
+    refers_to: "red line"
+  - text: "指数收益(近一月)"
+    location: "legend, left"
+    refers_to: "orange line"
+
+legend:
+  - item: "超额(近一月，右)"
+    symbol: "grey area"
+    meaning: "Excess return over the past month (right axis)"
+  - item: "指数增强(近一月)"
+    symbol: "red line"
+    meaning: "Index enhanced performance over the past month"
+  - item: "指数收益(近一月)"
+    symbol: "orange line"
+    meaning: "Index return over the past month"
+
+## Metadata
+source_attribution: "数据来源：wind、恒生聚源、ifind、西南证券整理，截至2025年3月31日"
+methodology_note: null
+time_period: "2025/3/3 - 2025/3/24"
+data_description: "近一月表现"
+sample_info: null
+
+## Visual Design
+color_scheme: "Grey area for excess return, red line for enhanced index, orange line for index return."
+special_markings:
+  - type: "area fill"
+    description: "Grey area represents excess return"
+  - type: "multiple line"
+    description: "Red and orange lines for index enhanced and index return"
+
+## For multi-country/entity comparisons:
+entity_groupings: []
+
+## Context Integration
+contextual_relevance: |
+  This chart provides a visual representation of the monthly performance of the PINN-MTICG CSI 1000 Index Enhanced, supporting the preceding discussion about recent index returns and excess performance.
+
+source_context:
+  context_before: |
+    </tr></table>
+    数据来源：wind、恒生聚源、ifind、西南证券整理，截至2025年3月31日
+    **图36:PINN-MTICG中证1000指数增强表现（近一月）**
+  context_after: |
+    数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    **图37:PINN-MTICG中证1000指数增强表现（近三月）**
+    ![](https://web-api.textin.com/ocr_image/external/9551104e297644d4.jpg)
+
+## Quality and Completeness Check
+data_completeness:
+  all_labels_readable: yes
+  all_values_extracted: partial (exact values are estimated from the chart, as axis values are not labeled for every point)
+  uncertainties: ["Exact y-axis values are estimated visually from the chart lines."]
+  total_data_points_visible: approximately 8 per series
+
+filename_processed: "图36_PINN-MTICG中证1000指数增强表现（近一月）.jpg"
+figure_number_extracted: "图36"
+json_match_found: no (context provided directly, not from a JSON file)
+language: "Chinese"
+document_title: null

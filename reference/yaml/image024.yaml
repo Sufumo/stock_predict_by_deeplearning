@@ -1,0 +1,157 @@
+## Chart Identification
+chart_title: "MTICG沪深300指数增强表现"
+figure_number: "图24"
+figure_reference_in_text: "图24"
+chart_type: time_series
+
+## Visual Summary
+content_summary: "This chart presents the performance of MTICG-enhanced strategies for the CSI 300 Index over time, comparing the MTICG model, the PINN-MTICG model, and the CSI 300 Index itself from January 2019 to March 2025."
+key_insight: "The PINN-MTICG model outperformed both the MTICG model and the CSI 300 Index, achieving the highest cumulative value and annualized excess return rate."
+
+## Data Extraction
+axes:
+  x_axis:
+    label: "日期"
+    unit: none
+    range: ["2019/1/1", "2025/3/31"]
+    scale: linear
+  y_axis:
+    label: none
+    unit: none
+    range: [0.5, 2.5]  # Left axis for cumulative value
+    scale: linear
+
+## For time series specifically:
+time_series_data:
+  - series_name: "沪深300"
+    color: "gray"
+    data_points:
+      - year: "2019/1/1"
+        value: ~1.0
+      - year: "2025/3/31"
+        value: ~1.6
+    start_year: "2019"
+    end_year: "2025"
+    trend_description: "Steady increase with moderate volatility."
+  - series_name: "PINN-MTICG"
+    color: "red"
+    data_points:
+      - year: "2019/1/1"
+        value: ~1.0
+      - year: "2025/3/31"
+        value: ~2.5
+    start_year: "2019"
+    end_year: "2025"
+    trend_description: "Strong upward trend with significant outperformance, especially after 2022."
+  - series_name: "MTICG"
+    color: "orange"
+    data_points:
+      - year: "2019/1/1"
+        value: ~1.0
+      - year: "2025/3/31"
+        value: ~1.5
+    start_year: "2019"
+    end_year: "2025"
+    trend_description: "Moderate increase, outperforming the index but lagging behind PINN-MTICG."
+
+data_series:
+  - series_name: "沪深300"
+    color: "gray"
+    data_points: []
+    marker_type: "line"
+    trend: "increasing"
+  - series_name: "PINN-MTICG"
+    color: "red"
+    data_points: []
+    marker_type: "line"
+    trend: "strongly increasing"
+  - series_name: "MTICG"
+    color: "orange"
+    data_points: []
+    marker_type: "line"
+    trend: "moderately increasing"
+
+## Statistical Information
+statistical_summary:
+  sample_size: not specified
+  sample_description: not specified
+  world_gdp_coverage: not applicable
+  filtering_criteria: not specified
+
+## Key Data Points (for highlighting specific values)
+notable_points:
+  highest_values:
+    - entity: "PINN-MTICG"
+      value: "2.5"
+      coordinates: ["2025/3/31", "2.5"]
+  lowest_values:
+    - entity: "沪深300"
+      value: "~1.0"
+      coordinates: ["2019/1/1", "~1.0"]
+  outliers: []
+
+## Annotations and Labels
+text_annotations:
+  - text: "PINN-MTICG"
+    location: "top right, red line"
+    refers_to: "PINN-MTICG strategy"
+  - text: "MTICG"
+    location: "middle right, orange line"
+    refers_to: "MTICG strategy"
+  - text: "沪深300"
+    location: "bottom right, gray area"
+    refers_to: "CSI 300 Index"
+
+legend:
+  - item: "PINN-MTICG"
+    symbol: "red line"
+    meaning: "PINN-MTICG enhanced strategy"
+  - item: "MTICG"
+    symbol: "orange line"
+    meaning: "MTICG enhanced strategy"
+  - item: "沪深300"
+    symbol: "gray area"
+    meaning: "CSI 300 Index"
+
+## Metadata
+source_attribution: "数据来源：wind、恒生聚源、ifind、西南证券整理，截至2025年3月31日"
+methodology_note: not specified
+time_period: "2019/1/1 - 2025/3/31"
+data_description: "Cumulative value over time for three strategies"
+sample_info: not specified
+
+## Visual Design
+color_scheme: "Red line for PINN-MTICG, orange line for MTICG, gray area for CSI 300 Index"
+special_markings:
+  - type: "line"
+    description: "Represents each strategy's cumulative value over time"
+
+## For multi-country/entity comparisons:
+entity_groupings: []
+
+## Context Integration
+contextual_relevance: |
+  This chart illustrates the comparative performance of the MTICG and PINN-MTICG models against the CSI 300 Index, supporting the preceding text's claim of annualized excess returns of 13.12% for PINN-MTICG and 11.85% for MTICG, as referenced in the context before the figure.
+
+source_context:
+  context_before: |
+    数据来源：wind、恒生聚源、ifind、西南证券整理，截至2025年3月31日
+    整体来看，PINN-MTICG模型沪深300指数增强策略年化超额收益率13.12%,MTICG 模型沪深300指数增强策略年化超额收益率11.85％。
+    **图24:MTICG沪深300指数增强表现**
+  context_after: |
+    数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    **图25:MTICG沪深300指数增强相对净值**
+    ![](https://web-api.textin.com/ocr_image/external/3fdeefd8ca395d21.jpg)
+
+## Quality and Completeness Check
+data_completeness:
+  all_labels_readable: yes
+  all_values_extracted: partial (exact values at each date not shown, but endpoints and trends are clear)
+  uncertainties: ["Intermediate data points estimated visually; exact values not labeled for all dates"]
+  total_data_points_visible: "Approx. 75 per series (monthly from 2019/1/1 to 2025/3/31)"
+
+filename_processed: "3fdeefd8ca395d21.jpg"
+figure_number_extracted: "图24"
+json_match_found: no (context provided directly, but not from a JSON file)
+language: "Chinese"
+document_title: not specified

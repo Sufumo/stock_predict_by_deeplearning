@@ -1,0 +1,176 @@
+## Chart Identification
+chart_title: PINN-MTICG中证1000指数增强表现（近一年）
+figure_number: 图38
+figure_reference_in_text: 图38
+chart_type: time_series
+
+## Visual Summary
+content_summary: 本图展示了PINN-MTICG中证1000指数增强在近一年内的超额、指数增强和指数收益的表现趋势。
+key_insight: 近一年内，指数增强和超额收益整体呈现上升趋势，尤其在2024年10月至2025年初有明显波动和增长。
+
+## Data Extraction
+axes:
+  x_axis:
+    label: 日期（2024/4/1至2025/3/31）
+    unit: 无
+    range: 2024/4/1 - 2025/3/31
+    scale: linear
+  y_axis:
+    label: 收益率
+    unit: 无
+    range: 0.85 - 1.25
+    scale: linear
+
+## For time series specifically:
+time_series_data:
+  - series_name: 超额(近一年，右)
+    color: 灰色
+    data_points:
+      - year: 2024/4/1
+        value: ~1.05
+      - year: 2024/10/1
+        value: ~1.15
+      - year: 2025/3/31
+        value: ~1.22
+    start_year: 2024/4/1
+    end_year: 2025/3/31
+    trend_description: 整体呈上升趋势，期间有波动，2024年10月后快速上升。
+  - series_name: 指数增强(近一年)
+    color: 红色
+    data_points:
+      - year: 2024/4/1
+        value: ~1.02
+      - year: 2024/10/1
+        value: ~1.10
+      - year: 2025/3/31
+        value: ~1.15
+    start_year: 2024/4/1
+    end_year: 2025/3/31
+    trend_description: 逐步上升，2024年10月后增速加快。
+  - series_name: 指数收益(近一年)
+    color: 橙色
+    data_points:
+      - year: 2024/4/1
+        value: ~0.98
+      - year: 2024/10/1
+        value: ~1.05
+      - year: 2025/3/31
+        value: ~1.08
+    start_year: 2024/4/1
+    end_year: 2025/3/31
+    trend_description: 整体缓慢上升，波动较小。
+
+data_series:
+  - series_name: 超额(近一年，右)
+    color: 灰色
+    marker_type: 线条
+    trend: 上升
+  - series_name: 指数增强(近一年)
+    color: 红色
+    marker_type: 线条
+    trend: 上升
+  - series_name: 指数收益(近一年)
+    color: 橙色
+    marker_type: 线条
+    trend: 上升
+
+## For scatter plots with labeled points:
+labeled_entities: []
+
+## For correlation/scatter plots specifically:
+correlation_metrics:
+  correlation_coefficient: 
+  linear_correlation: 
+  regression_equation: 
+  linear_formula: 
+  r_squared: 
+
+## Statistical Information
+statistical_summary:
+  sample_size: 未显示
+  sample_description: 未显示
+  world_gdp_coverage: 
+  filtering_criteria: 
+
+## Key Data Points (for highlighting specific values)
+notable_points:
+  highest_values:
+    - entity: 超额(近一年，右)
+      value: ~1.22
+      coordinates: [2025/3/31, ~1.22]
+    - entity: 指数增强(近一年)
+      value: ~1.15
+      coordinates: [2025/3/31, ~1.15]
+    - entity: 指数收益(近一年)
+      value: ~1.08
+      coordinates: [2025/3/31, ~1.08]
+  lowest_values:
+    - entity: 指数收益(近一年)
+      value: ~0.98
+      coordinates: [2024/4/1, ~0.98]
+  outliers: []
+
+## Annotations and Labels
+text_annotations:
+  - text: 超额(近一年，右)
+    location: 图例左下角
+    refers_to: 灰色线
+  - text: 指数增强(近一年)
+    location: 图例左下角
+    refers_to: 红色线
+  - text: 指数收益(近一年)
+    location: 图例左下角
+    refers_to: 橙色线
+
+legend:
+  - item: 超额(近一年，右)
+    symbol: 灰色线
+    meaning: 超额收益表现
+  - item: 指数增强(近一年)
+    symbol: 红色线
+    meaning: 指数增强策略表现
+  - item: 指数收益(近一年)
+    symbol: 橙色线
+    meaning: 指数本身收益表现
+
+## Metadata
+source_attribution: 数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+methodology_note: 未显示
+time_period: 近一年（2024/4/1至2025/3/31）
+data_description: 近一年PINN-MTICG中证1000指数增强收益表现
+sample_info: 未显示
+
+## Visual Design
+color_scheme: 灰色（超额），红色（指数增强），橙色（指数收益），背景为白色
+special_markings:
+  - type: 线条
+    description: 三条不同颜色的收益趋势线
+
+## For multi-country/entity comparisons:
+entity_groupings: []
+
+## Context Integration
+contextual_relevance: |
+  图38展示了PINN-MTICG中证1000指数增强在近一年内的表现，结合前后文，说明了该策略在过去一年内的收益趋势，为后续三年表现做对比基础。
+
+source_context:
+  context_before: |
+    数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    **图38:PINN-MTICG中证1000指数增强表现（近一年）**
+  context_after: |
+    数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    **图39:PINN-MTICG中证1000指数增强表现（近三年）**
+    ![](https://web-api.textin.com/ocr_image/external/5e14a9570782c207.jpg)
+
+## Quality and Completeness Check
+data_completeness:
+  all_labels_readable: yes
+  all_values_extracted: partial（因图中为连续曲线，仅提取关键点，完整数据需原始数据表）
+  uncertainties: 部分数值为估算，因未显示具体数据点
+  total_data_points_visible: 约100+（按每日或每周数据点估算）
+
+filename_processed: 9551104e297644d4.jpg
+figure_number_extracted: 图38
+json_match_found: no（未提供JSON文件，仅通过上下文文本匹配）
+language: 中文
+document_title: 未显示

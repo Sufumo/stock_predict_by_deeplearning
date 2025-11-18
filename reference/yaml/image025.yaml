@@ -1,0 +1,120 @@
+## Chart Identification
+chart_title: 图25:MTICG沪深300指数增强相对净值
+figure_number: 图25
+figure_reference_in_text: 图25
+chart_type: line_graph
+
+## Visual Summary
+content_summary: 本图显示了MTICG沪深300指数增强产品的相对净值随时间的变化趋势，以及超额收益（灰色）在各时间点的表现。
+key_insight: MTICG沪深300指数增强产品的相对净值整体呈持续上升趋势，超额收益在部分时期出现波动但总体为正。
+
+## Data Extraction
+axes:
+  x_axis:
+    label: 日期
+    unit: 无
+    range: [2019/12/31, 2025/03/31]
+    scale: linear
+  y_axis:
+    label: 相对净值 / 超额收益
+    unit: 无
+    range: [0.8, 2.0]（左轴），[-0.5, 0.05]（右轴）
+    scale: linear
+
+data_series:
+  - series_name: 超额收益（右）
+    data_points:
+      # 由于具体数值不可见，仅描述趋势
+      - x: 多个日期
+        y: 多个超额收益值（灰色区域，部分为负，整体为正）
+    color: 灰色
+    marker_type: 区域填充
+    trend: 波动，部分时期为负，整体为正
+  - series_name: 相对净值
+    data_points:
+      # 由于具体数值不可见，仅描述趋势
+      - x: 多个日期
+        y: 多个净值（红色线，整体上升）
+    color: 红色
+    marker_type: 实线
+    trend: 持续上升
+
+## Statistical Information
+statistical_summary:
+  sample_size: 未明确标注
+  sample_description: 沪深300指数增强产品净值与超额收益
+  world_gdp_coverage: 无
+  filtering_criteria: 无
+
+## Key Data Points
+notable_points:
+  highest_values:
+    - entity: 相对净值
+      value: 约2.0
+      coordinates: [2025/03/31, 2.0]
+  lowest_values:
+    - entity: 相对净值
+      value: 约1.0
+      coordinates: [2019/12/31, 1.0]
+  outliers:
+    - entity: 超额收益
+      value: 约-0.5
+      deviation: 明显低于其他时期（2020年初）
+
+## Annotations and Labels
+text_annotations:
+  - text: 超额收益（右）
+    location: 图例、灰色区域
+    refers_to: 灰色区域
+  - text: 相对净值
+    location: 图例、红色线
+    refers_to: 红色线
+
+legend:
+  - item: 超额收益（右）
+    symbol: 灰色填充
+    meaning: 表示超额收益
+  - item: 相对净值
+    symbol: 红色实线
+    meaning: 表示产品净值走势
+
+## Metadata
+source_attribution: 数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+methodology_note: 未注明
+time_period: 2019/12/31 至 2025/03/31
+data_description: 产品净值及超额收益随时间变化
+sample_info: 沪深300指数增强产品
+
+## Visual Design
+color_scheme: 红色实线表示净值，灰色填充表示超额收益
+special_markings:
+  - type: 区域填充
+    description: 灰色区域表示超额收益
+  - type: 实线
+    description: 红色线表示净值走势
+
+## Context Integration
+contextual_relevance: |
+  图表展示了MTICG沪深300指数增强产品的净值及超额收益表现，为前后文关于产品业绩分析和对比提供了直观数据支持。
+
+source_context:
+  context_before: |
+    数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    **图25:MTICG沪深300指数增强相对净值**
+  context_after: |
+    数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    **图26:PINN-MTICG沪深300指数增强表现**
+    ![](https://web-api.textin.com/ocr_image/external/46c92012c0278f72.jpg)
+
+## Quality and Completeness Check
+data_completeness:
+  all_labels_readable: yes
+  all_values_extracted: partial（具体数值未完全可见，已尽量描述趋势和区间）
+  uncertainties: 超额收益具体数值未全部可见，净值具体数据点未全部可见
+  total_data_points_visible: 约100+（按时间轴估算）
+
+filename_processed: 0f68a09083834427.jpg
+figure_number_extracted: 图25
+json_match_found: no（无JSON文件，仅根据上下文文本推断）
+language: 中文
+document_title: 未知

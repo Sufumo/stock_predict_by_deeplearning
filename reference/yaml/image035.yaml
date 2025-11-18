@@ -1,0 +1,163 @@
+## Chart Identification
+chart_title: "图35:PINN-MTICG中证1000指数增强相对净值"
+figure_number: "图35"
+figure_reference_in_text: "图35"
+chart_type: time_series
+
+## Visual Summary
+content_summary: "该图展示了PINN-MTICG模型下中证1000指数增强策略的相对净值随时间的变化趋势，以及超额收益的波动情况。"
+key_insight: "PINN-MTICG中证1000指数增强策略的相对净值整体呈稳定增长，超额收益波动幅度有限，表现出较强的持续性和稳健性。"
+
+## Data Extraction
+axes:
+  x_axis:
+    label: "日期"
+    unit: None
+    range: ["2020/7/1", "2025/3/31"]
+    scale: linear
+  y_axis:
+    label: ["相对净值", "超额收益（右）"]
+    unit: None
+    range: ["0.5", "2.5"]  # 左轴相对净值约0.5-2.5，右轴超额收益约-0.4到0.2
+    scale: linear
+
+## For time series specifically:
+time_series_data:
+  - series_name: "相对净值"
+    color: "红色"
+    data_points:
+      - year: "2020/7/1"
+        value: ~1.0
+      - year: "2021/1/1"
+        value: ~1.2
+      - year: "2022/1/1"
+        value: ~1.5
+      - year: "2023/1/1"
+        value: ~1.7
+      - year: "2024/1/1"
+        value: ~2.0
+      - year: "2025/3/31"
+        value: ~2.2
+    start_year: "2020/7/1"
+    end_year: "2025/3/31"
+    trend_description: "整体持续上升，期间无明显回撤。"
+  - series_name: "超额收益（右）"
+    color: "灰色"
+    data_points:
+      # 仅能估算区间波动，具体数值不可辨
+      - year: "2020/7/1"
+        value: ~0.0
+      - year: "2021/1/1"
+        value: ~-0.05
+      - year: "2022/1/1"
+        value: ~0.1
+      - year: "2023/1/1"
+        value: ~-0.1
+      - year: "2024/1/1"
+        value: ~0.15
+      - year: "2025/3/31"
+        value: ~0.2
+    start_year: "2020/7/1"
+    end_year: "2025/3/31"
+    trend_description: "超额收益波动于-0.4至0.2之间，整体无明显趋势。"
+
+data_series:
+  - series_name: "相对净值"
+    data_points:
+      # 主要为红色线条，点位如上
+    color: "红色"
+    marker_type: "线条"
+    trend: "持续上升"
+  - series_name: "超额收益（右）"
+    data_points:
+      # 灰色柱状/面积
+    color: "灰色"
+    marker_type: "面积图"
+    trend: "波动"
+
+## For scatter plots with labeled points:
+labeled_entities: []
+
+## For correlation/scatter plots specifically:
+correlation_metrics:
+  correlation_coefficient: None
+  linear_correlation: None
+  regression_equation: None
+  linear_formula: None
+  r_squared: None
+
+## Statistical Information
+statistical_summary:
+  sample_size: None
+  sample_description: None
+  world_gdp_coverage: None
+  filtering_criteria: None
+
+## Key Data Points (for highlighting specific values)
+notable_points:
+  highest_values:
+    - entity: "相对净值"
+      value: "~2.2"
+      coordinates: ["2025/3/31", "~2.2"]
+  lowest_values:
+    - entity: "相对净值"
+      value: "~1.0"
+      coordinates: ["2020/7/1", "~1.0"]
+  outliers: []
+
+## Annotations and Labels
+text_annotations:
+  - text: "超额收益（右）"
+    location: "图例下方"
+    refers_to: "灰色面积"
+  - text: "相对净值"
+    location: "图例下方"
+    refers_to: "红色线条"
+
+legend:
+  - item: "超额收益（右）"
+    symbol: "灰色面积"
+    meaning: "右轴超额收益"
+  - item: "相对净值"
+    symbol: "红色线条"
+    meaning: "左轴相对净值"
+
+## Metadata
+source_attribution: "数据来源：wind、ifind、西南证券整理，截至2025年3月31日"
+methodology_note: None
+time_period: "2020/7/1 - 2025/3/31"
+data_description: "PINN-MTICG中证1000指数增强策略相对净值及超额收益"
+sample_info: None
+
+## Visual Design
+color_scheme: "红色线条表示相对净值，灰色面积表示超额收益"
+special_markings:
+  - type: "双轴"
+    description: "左轴为相对净值，右轴为超额收益"
+entity_groupings: []
+
+## Context Integration
+contextual_relevance: |
+  图表用于展示PINN-MTICG模型下中证1000指数增强策略在近五年内的表现，结合上下文，突出模型在不同区间的超额收益率和稳健性。
+
+source_context:
+  context_before: |
+    数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    **图35:PINN-MTICG中证1000指数增强相对净值**
+  context_after: |
+    数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    分区间来看，截至2025年3月31日，PINN-MTICG模型中证1000指数增强近一个月、三个月、一年、三年超额收益率分别为1.71％、3.02％、23.81％以及18.68%（超过一年计算年化收益率，不足一年计算累计收益率）。
+    **表16:PINN-MTICG中证1000指数增强策略分区间回测结果**
+
+## Quality and Completeness Check
+data_completeness:
+  all_labels_readable: "yes"
+  all_values_extracted: "partial"  # 由于具体数值未全部可见，仅能估算主要点位
+  uncertainties: ["部分数据点为估算，具体数值未完全可辨"]
+  total_data_points_visible: "约60-70个时间点"
+
+filename_processed: "6534c83e340072a6.jpg"
+figure_number_extracted: "图35"
+json_match_found: "no"  # 无JSON文件，依据上下文提取
+language: "中文"
+document_title: None

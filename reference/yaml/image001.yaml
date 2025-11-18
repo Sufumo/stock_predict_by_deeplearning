@@ -1,0 +1,143 @@
+## Chart Identification
+chart_title: "PINN信息约束与时序截面双流网络结构图"
+figure_number: "Figure 1"
+figure_reference_in_text: "图1"
+chart_type: flowchart
+
+## Visual Summary
+content_summary: 本图展示了基于PINN信息约束的时序与截面双流网络结构，描述了特征提取、模型编码到个股收益预测的完整流程。
+key_insight: 该结构将时序、截面和宏观特征通过多尺度Transformer、GAT编码和PINNs求解器进行融合，实现了多源信息的集成以提升个股收益预测的准确性。
+
+## Data Extraction
+axes:
+  x_axis:
+    label: null
+    unit: null
+    range: null
+    scale: null
+  y_axis:
+    label: null
+    unit: null
+    range: null
+    scale: null
+
+## For time series specifically:
+time_series_data: []
+
+data_series: []
+
+## For scatter plots with labeled points:
+labeled_entities: []
+
+## For correlation/scatter plots specifically:
+correlation_metrics:
+  correlation_coefficient: null
+  linear_correlation: null
+  regression_equation: null
+  linear_formula: null
+  r_squared: null
+
+## Statistical Information
+statistical_summary:
+  sample_size: null
+  sample_description: null
+  world_gdp_coverage: null
+  filtering_criteria: null
+
+## Key Data Points (for highlighting specific values)
+notable_points:
+  highest_values: []
+  lowest_values: []
+  outliers: []
+
+## Annotations and Labels
+text_annotations:
+  - text: "特征提取"
+    location: "左侧大框顶部"
+    refers_to: "整个特征提取模块"
+  - text: "时序特征提取"
+    location: "左侧，特征提取模块内第一行"
+    refers_to: "多尺度Transformer编码"
+  - text: "截面特征提取"
+    location: "左侧，特征提取模块内第二行"
+    refers_to: "行业关联图、资金流向图"
+  - text: "宏观特征提取"
+    location: "左侧，特征提取模块内第三行"
+    refers_to: "宏观状态方程"
+  - text: "多尺度Transformer编码"
+    location: "特征提取与模型编码交界处，棕色矩形"
+    refers_to: "时序特征"
+  - text: "行业关联图"
+    location: "模型编码模块，左上棕色矩形"
+    refers_to: "GAT编码"
+  - text: "资金流向图"
+    location: "模型编码模块，左下棕色矩形"
+    refers_to: "GAT编码"
+  - text: "GAT编码"
+    location: "模型编码模块中部棕色矩形"
+    refers_to: "行业关联图、资金流向图"
+  - text: "宏观状态方程"
+    location: "模型编码模块下方棕色矩形"
+    refers_to: "PINNs求解器"
+  - text: "PINNs求解器"
+    location: "模型编码模块下方棕色矩形"
+    refers_to: "宏观状态方程"
+  - text: "编码特征融合"
+    location: "模型编码模块右侧棕色矩形"
+    refers_to: "GAT编码与PINNs求解器输出"
+  - text: "宏观损失约束"
+    location: "编码特征融合与个股收益预测之间"
+    refers_to: "PINNs求解器输出"
+  - text: "个股收益预测"
+    location: "最右侧红色竖条"
+    refers_to: "最终输出"
+
+legend: []
+
+## Metadata
+source_attribution: "数据来源：西南证券整理"
+methodology_note: "通过多尺度Transformer、GAT编码和PINNs求解器融合时序、截面与宏观特征，并引入宏观损失约束提升预测准确性。"
+time_period: null
+data_description: null
+sample_info: null
+
+## Visual Design
+color_scheme: 
+  - 灰色（特征提取模块及其子模块）
+  - 棕色（模型编码模块及其子模块）
+  - 红色（最终输出“个股收益预测”）
+special_markings:
+  - type: "虚线边框"
+    description: "区分特征提取与模型编码两个主要模块"
+  - type: "箭头"
+    description: "表示数据流向与模块间依赖关系"
+
+## For multi-country/entity comparisons:
+entity_groupings: []
+
+## Context Integration
+contextual_relevance: |
+  本图作为PINN信息约束与时序截面双流网络结构的示意，紧密衔接前文对行业属性、财务指标、资金流特征与宏观变量建模方法的介绍，具体展现了如何将传统投资组合理论中的“分散化”原则和宏观经济约束嵌入深度学习模型，实现自上而下与自下而上的结合，为后续个股收益预测提供理论与结构基础。
+
+source_context:
+  context_before: |
+    其次，利用截面维度下的行业属性、财务指标及市资金流特征构建行业关联图及资金流向图，并引入图注意力网络（GAT）建模股票间的非线性关联与风险传导路径，从而将传统投资组合理论中的“分散化”原则转化为可量化的图结构学习问题；
+    最后，针对宏观因素（如利率、社融等）与传统深度学习模型融合困难的问题，引入物理信息神经网络（PINN)，通过构建带有经济约束的偏微分方程框架，将宏观变量的连续演化规律嵌入个股因子挖掘模型，实现“自上而下”与“自下而上”的结合。
+    **图1:PINN信息约束与时序截面双流网络结构图**
+  context_after: |
+    数据来源：西南证券整理
+    ## 1.1 TransFormer 模型
+    Transformer 是一种基于自注意力机制（Self-Attention）的深度学习模型，最初被提出用于自然语言处理领域，但其在时序数据处理中同样展现出强大的能力。相较于LSTM(Long Short-Term Memory),GRU(Gated Recurrent Unit）等循环神经网络，Transformer摒弃了递归结构，转而通过自注意力机制实现了全序列并行计算，这显著提升了训练速度。
+
+## Quality and Completeness Check
+data_completeness:
+  all_labels_readable: yes
+  all_values_extracted: yes
+  uncertainties: []
+  total_data_points_visible: 13  # 主要为模块与流程节点数
+
+filename_processed: "图1.png"
+figure_number_extracted: "Figure 1"
+json_match_found: yes
+language: "Chinese"
+document_title: null

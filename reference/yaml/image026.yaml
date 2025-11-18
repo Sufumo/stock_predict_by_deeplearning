@@ -1,0 +1,158 @@
+## Chart Identification
+chart_title: 图26:PINN-MTICG沪深300指数增强表现
+figure_number: 图26
+figure_reference_in_text: 图26
+chart_type: line_graph
+
+## Visual Summary
+content_summary: 本图展示了PINN-MTICG沪深300指数增强产品与沪深300指数及其基准净值的表现对比，覆盖2019年至2025年期间的净值变化趋势。
+key_insight: PINN-MTICG沪深300指数增强产品在此期间整体表现优于基准和沪深300指数，累计净值增长更为显著。
+
+## Data Extraction
+axes:
+  x_axis:
+    label: 日期
+    unit: 无
+    range: 2019/3/31 至 2025/3/31
+    scale: linear
+  y_axis:
+    label: 净值
+    unit: 无
+    range: 0.5 至 2.5（左轴）；1.0 至 2.0（右轴，部分曲线）
+    scale: linear
+
+time_series_data:
+  - series_name: 沪深300（右）
+    color: 灰色
+    data_points:
+      # 仅部分关键点示例，实际应逐点列出
+      - year: 2019/3/31
+        value: 1.0
+      - year: 2025/3/31
+        value: 1.4
+    start_year: 2019/3/31
+    end_year: 2025/3/31
+    trend_description: 沪深300指数净值整体稳步上升，期间波动较小。
+  - series_name: 指数增强
+    color: 红色
+    data_points:
+      - year: 2019/3/31
+        value: 1.0
+      - year: 2025/3/31
+        value: 2.5
+    start_year: 2019/3/31
+    end_year: 2025/3/31
+    trend_description: 指数增强净值整体显著上升，表现优于基准与沪深300指数，期间有明显波动与跳升。
+  - series_name: 基准化点
+    color: 橙色
+    data_points:
+      - year: 2019/3/31
+        value: 1.0
+      - year: 2025/3/31
+        value: 1.6
+    start_year: 2019/3/31
+    end_year: 2025/3/31
+    trend_description: 基准化点净值整体呈缓慢上升趋势，表现介于指数增强与沪深300之间。
+
+data_series:
+  - series_name: 沪深300（右）
+    color: 灰色
+    marker_type: 线
+    trend: 稳步上升
+  - series_name: 指数增强
+    color: 红色
+    marker_type: 线
+    trend: 明显上升，波动较大
+  - series_name: 基准化点
+    color: 橙色
+    marker_type: 线
+    trend: 缓慢上升
+
+## Statistical Information
+statistical_summary:
+  sample_size: 未明确标注
+  sample_description: 覆盖沪深300指数及增强产品净值表现
+  world_gdp_coverage: 无
+  filtering_criteria: 无
+
+## Key Data Points
+notable_points:
+  highest_values:
+    - entity: 指数增强
+      value: 2.5
+      coordinates: [2025/3/31, 2.5]
+  lowest_values:
+    - entity: 指数增强
+      value: 1.0
+      coordinates: [2019/3/31, 1.0]
+  outliers:
+    - entity: 指数增强
+      value: 2.5
+      deviation: 明显高于其他曲线
+
+## Annotations and Labels
+text_annotations:
+  - text: 沪深300（右）
+    location: 图例
+    refers_to: 灰色曲线
+  - text: 指数增强
+    location: 图例
+    refers_to: 红色曲线
+  - text: 基准化点
+    location: 图例
+    refers_to: 橙色曲线
+
+legend:
+  - item: 沪深300（右）
+    symbol: 灰色线
+    meaning: 沪深300指数净值表现
+  - item: 指数增强
+    symbol: 红色线
+    meaning: PINN-MTICG指数增强产品净值
+  - item: 基准化点
+    symbol: 橙色线
+    meaning: 基准净值表现
+
+## Metadata
+source_attribution: 数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+methodology_note: 未明确标注
+time_period: 2019/3/31 至 2025/3/31
+data_description: 累计净值表现
+sample_info: 未明确标注
+
+## Visual Design
+color_scheme: 灰色（沪深300）、红色（指数增强）、橙色（基准化点）
+special_markings:
+  - type: 跳升
+    description: 指数增强与基准化点在部分时间点有明显跳升
+  - type: 多轴
+    description: 沪深300采用右轴，其他曲线采用左轴
+
+## For multi-country/entity comparisons:
+entity_groupings: []
+
+## Context Integration
+contextual_relevance: |
+  本图用于展示PINN-MTICG沪深300指数增强产品与沪深300指数及基准净值的表现对比，结合前后文，体现产品在样本期间的超额收益能力。
+
+source_context:
+  context_before: |
+    数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    **图26:PINN-MTICG沪深300指数增强表现**
+  context_after: |
+    数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    **图27:PINN-MTICG沪深300指数增强相对净值**
+    ![](https://web-api.textin.com/ocr_image/external/5e074422ba16e7dc.jpg)
+
+## Quality and Completeness Check
+data_completeness:
+  all_labels_readable: yes
+  all_values_extracted: partial（关键点已列出，若需逐点可补充）
+  uncertainties: 部分细节如具体数据点未全部列出，因图像分辨率限制
+  total_data_points_visible: 约60-70个（每条曲线约20-25个时间点）
+
+filename_processed: 3fdeefd8ca395d21.jpg
+figure_number_extracted: 图26
+json_match_found: no（仅上下文文本，无JSON文件，已按文本逻辑处理）
+language: 中文
+document_title: 未提供（上下文未见）

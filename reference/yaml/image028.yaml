@@ -1,0 +1,251 @@
+## Chart Identification
+chart_title: "PINN-MTICG沪深300指数增强表现（近一月）"
+figure_number: "图28"
+figure_reference_in_text: "图28"
+chart_type: line_graph
+
+## Visual Summary
+content_summary: "This chart compares the performance of the PINN-MTICG enhanced CSI 300 Index over the past month, showing three different series with similar upward trends and slight variations."
+key_insight: "All three series show an overall increase over the month, peaking around mid-period, with the enhanced index outperforming the benchmarks slightly."
+
+## Data Extraction
+axes:
+  x_axis:
+    label: none (dates shown as tick labels)
+    unit: none
+    range: ["2024/3/1", "2024/3/29"]
+    scale: linear
+  y_axis:
+    label: none (values shown as tick labels)
+    unit: none
+    range: [0.95, 1.06]
+    scale: linear
+
+## For time series specifically:
+time_series_data:
+  - series_name: "指数增强（近一月）"
+    color: "#E2231A" (red)
+    data_points:
+      - year: "2024/3/1"
+        value: 1.00
+      - year: "2024/3/4"
+        value: ~1.01
+      - year: "2024/3/5"
+        value: ~1.01
+      - year: "2024/3/6"
+        value: ~1.01
+      - year: "2024/3/7"
+        value: ~1.01
+      - year: "2024/3/8"
+        value: ~1.02
+      - year: "2024/3/11"
+        value: ~1.02
+      - year: "2024/3/12"
+        value: ~1.02
+      - year: "2024/3/13"
+        value: ~1.02
+      - year: "2024/3/14"
+        value: ~1.02
+      - year: "2024/3/15"
+        value: ~1.02
+      - year: "2024/3/18"
+        value: ~1.03
+      - year: "2024/3/19"
+        value: ~1.03
+      - year: "2024/3/20"
+        value: ~1.03
+      - year: "2024/3/21"
+        value: ~1.03
+      - year: "2024/3/22"
+        value: ~1.03
+      - year: "2024/3/25"
+        value: ~1.02
+      - year: "2024/3/26"
+        value: ~1.02
+      - year: "2024/3/27"
+        value: ~1.02
+      - year: "2024/3/28"
+        value: ~1.01
+      - year: "2024/3/29"
+        value: ~1.01
+    start_year: "2024/3/1"
+    end_year: "2024/3/29"
+    trend_description: "Steady increase, peaking mid-month, slight decline at end."
+
+  - series_name: "沪深300（近一月）"
+    color: "#F5A623" (orange)
+    data_points:
+      - year: "2024/3/1"
+        value: 1.00
+      - year: "2024/3/4"
+        value: ~1.00
+      - year: "2024/3/5"
+        value: ~1.00
+      - year: "2024/3/6"
+        value: ~1.00
+      - year: "2024/3/7"
+        value: ~1.00
+      - year: "2024/3/8"
+        value: ~1.01
+      - year: "2024/3/11"
+        value: ~1.01
+      - year: "2024/3/12"
+        value: ~1.01
+      - year: "2024/3/13"
+        value: ~1.01
+      - year: "2024/3/14"
+        value: ~1.01
+      - year: "2024/3/15"
+        value: ~1.01
+      - year: "2024/3/18"
+        value: ~1.01
+      - year: "2024/3/19"
+        value: ~1.01
+      - year: "2024/3/20"
+        value: ~1.01
+      - year: "2024/3/21"
+        value: ~1.01
+      - year: "2024/3/22"
+        value: ~1.01
+      - year: "2024/3/25"
+        value: ~1.01
+      - year: "2024/3/26"
+        value: ~1.01
+      - year: "2024/3/27"
+        value: ~1.01
+      - year: "2024/3/28"
+        value: ~1.00
+      - year: "2024/3/29"
+        value: ~1.00
+    start_year: "2024/3/1"
+    end_year: "2024/3/29"
+    trend_description: "Slight increase, relatively stable throughout the month."
+
+  - series_name: "指数区间（近一月）"
+    color: "#D8A15C" (light orange/grey area)
+    data_points:
+      - year: "2024/3/1"
+        value: 1.00
+      - year: "2024/3/4"
+        value: ~1.01
+      - year: "2024/3/8"
+        value: ~1.02
+      - year: "2024/3/15"
+        value: ~1.03
+      - year: "2024/3/22"
+        value: ~1.03
+      - year: "2024/3/29"
+        value: ~1.01
+    start_year: "2024/3/1"
+    end_year: "2024/3/29"
+    trend_description: "Area shows the range of index values, peaking mid-month."
+
+data_series:
+  - series_name: "指数增强（近一月）"
+    color: "#E2231A" (red)
+    marker_type: line
+    trend: increasing then slightly decreasing at end
+  - series_name: "沪深300（近一月）"
+    color: "#F5A623" (orange)
+    marker_type: line
+    trend: stable to slightly increasing
+  - series_name: "指数区间（近一月）"
+    color: "#D8A15C" (light orange/grey area)
+    marker_type: area
+    trend: increasing then decreasing
+
+## For scatter plots with labeled points:
+labeled_entities: []
+
+## For correlation/scatter plots specifically:
+correlation_metrics:
+  correlation_coefficient: null
+  linear_correlation: null
+  regression_equation: null
+  linear_formula: null
+  r_squared: null
+
+## Statistical Information
+statistical_summary:
+  sample_size: null
+  sample_description: null
+  world_gdp_coverage: null
+  filtering_criteria: null
+
+## Key Data Points (for highlighting specific values)
+notable_points:
+  highest_values:
+    - entity: "指数增强（近一月）"
+      value: ~1.03
+      coordinates: ["2024/3/18", ~1.03]
+  lowest_values:
+    - entity: "沪深300（近一月）"
+      value: 1.00
+      coordinates: ["2024/3/1", 1.00]
+  outliers: []
+
+## Annotations and Labels
+text_annotations:
+  - text: "指数增强（近一月）"
+    location: "bottom center, legend"
+    refers_to: "red line"
+  - text: "沪深300（近一月）"
+    location: "bottom center, legend"
+    refers_to: "orange line"
+  - text: "指数区间（近一月）"
+    location: "bottom center, legend"
+    refers_to: "grey area"
+
+legend:
+  - item: "指数增强（近一月）"
+    symbol: "red line"
+    meaning: "PINN-MTICG enhanced CSI 300 index performance (last month)"
+  - item: "沪深300（近一月）"
+    symbol: "orange line"
+    meaning: "CSI 300 index performance (last month)"
+  - item: "指数区间（近一月）"
+    symbol: "grey area"
+    meaning: "Index range (last month)"
+
+## Metadata
+source_attribution: "数据来源：wind、恒生聚源、ifind、西南证券整理，截至2025年3月31日"
+methodology_note: null
+time_period: "近一月 (2024/3/1 - 2024/3/29)"
+data_description: "指数表现对比，近一月"
+sample_info: null
+
+## Visual Design
+color_scheme: "Red line for enhanced index, orange line for CSI 300, grey shaded area for index range."
+special_markings:
+  - type: "area fill"
+    description: "Represents the range of index values over the period."
+
+## For multi-country/entity comparisons:
+entity_groupings: []
+
+## Context Integration
+contextual_relevance: |
+  This chart provides a visual comparison of the PINN-MTICG enhanced CSI 300 index performance relative to the CSI 300 index and the index range over the past month, supporting the surrounding discussion of recent index trends.
+
+source_context:
+  context_before: |
+    </tr></table>
+    数据来源：wind、恒生聚源、ifind、西南证券整理，截至2025年3月31日
+    **图28:PINN-MTICG沪深300指数增强表现（近一月）**
+  context_after: |
+    数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    **图29:PINN-MTICG沪深300指数增强表现（近三月）**
+    ![](https://web-api.textin.com/ocr_image/external/96ce7432ec4a1387.jpg)
+
+## Quality and Completeness Check
+data_completeness:
+  all_labels_readable: yes
+  all_values_extracted: partial (exact values estimated from chart lines)
+  uncertainties: ["Exact y-axis values for each date are estimated visually."]
+  total_data_points_visible: ~21 per series
+
+filename_processed: "图28_PINN-MTICG沪深300指数增强表现（近一月）.jpg"
+figure_number_extracted: "图28"
+json_match_found: no (context provided directly, not from JSON file)
+language: "Chinese"
+document_title: null

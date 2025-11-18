@@ -1,0 +1,146 @@
+# MMF-GAT模型配置文件
+
+# 数据配置
+data:
+  data_dir: "./data"
+  kline_file: "industry_kline_data.json"
+  relation_file: "industry_relation.csv"
+  industry_list_file: "industry_list.json"
+
+  # 时间窗口
+  window_20: 20
+  window_40: 40
+  window_80: 80
+
+  # 预测窗口
+  future_days: 30
+
+  # 分位数标签
+  num_classes: 5  # 5分位数分类
+
+  # 数据分割
+  train_ratio: 0.8
+  val_ratio: 0.2
+
+  # K折验证
+  use_kfold: true
+  n_splits: 3
+  min_train_size: 0.4
+
+# 模型配置
+model:
+  # 输入特征
+  input_features: 7  # open, close, high, low, volume, amount, pct_change
+
+  # DWT增强
+  use_dwt: true
+  wavelet: "db4"
+
+  # 时间编码器
+  time_encoder:
+    d_model: 128
+    nhead: 8
+    num_layers: 2
+    dim_feedforward: 512
+    dropout: 0.1
+
+  # 动态门控
+  dynamic_gate:
+    hidden_dim: 64  # time_encoder_dim // 2
+
+  # 学习压缩层(LCL)
+  compression:
+    in_features: 128  # same as time_encoder.d_model
+    out_features: 64
+
+  # GAT
+  gat:
+    hidden_features: 128
+    out_features: 64
+    num_heads: 8
+    num_layers: 2
+    dropout: 0.1
+
+    # 子图采样模式
+    use_subgraph_sampling: true
+    k_hop_neighbors: 1
+
+# 训练配置
+training:
+  # 基础参数
+  batch_size: 32
+  num_epochs: 50
+  learning_rate: 0.0001
+  weight_decay: 0.0001
+
+  # 学习率调度
+  use_scheduler: true
+  scheduler_type: "ReduceLROnPlateau"  # 或 "StepLR", "CosineAnnealingLR"
+  scheduler_params:
+    mode: "min"
+    factor: 0.5
+    patience: 5
+    min_lr: 0.00001
+
+  # 早停
+  use_early_stopping: true
+  early_stopping_patience: 10
+
+  # 梯度裁剪
+  use_grad_clip: true
+  max_grad_norm: 1.0
+
+  # checkpoint
+  save_dir: "./checkpoints"
+  save_best_only: true
+
+  # 设备
+  device: "auto"  # "auto", "cuda", "cpu", "mps"
+  num_workers: 4
+
+  # 损失函数
+  loss_function: "CrossEntropyLoss"  # 5分位数分类
+
+# 验证配置
+validation:
+  # 验证频率
+  val_every_n_epochs: 1
+
+  # 金融指标
+  compute_financial_metrics: true
+  n_quantiles: 5
+  risk_free_rate: 0.03
+
+  # Top-K评估
+  eval_top_k: [10, 20, 30]
+
+# 推理配置
+inference:
+  checkpoint_path: "./checkpoints/best_model.pth"
+  output_dir: "./predictions"
+  batch_size: 64
+
+# 可视化配置
+visualization:
+  save_dir: "./visualizations"
+  plot_training_curves: true
+  plot_attention_weights: true
+  plot_confusion_matrix: true
+  plot_quantile_returns: true
+
+  # 图片格式
+  image_format: "png"
+  dpi: 300
+
+# 日志配置
+logging:
+  log_dir: "./logs"
+  log_level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  log_to_file: true
+  log_to_console: true
+
+# 实验配置
+experiment:
+  name: "mmf_gat_industry_prediction"
+  seed: 42
+  deterministic: true

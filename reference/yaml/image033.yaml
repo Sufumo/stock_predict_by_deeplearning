@@ -1,0 +1,157 @@
+## Chart Identification
+chart_title: "MTICG中证1000指数增强相对净值"
+figure_number: "图33"
+figure_reference_in_text: "图33"
+chart_type: time_series
+
+## Visual Summary
+content_summary: "This chart displays the relative net value performance of the MTICG CSI 1000 Index Enhanced product over time, with a secondary indicator of excess returns shown above the main time series."
+key_insight: "The MTICG CSI 1000 Index Enhanced product shows a steady and consistent upward trend in relative net value from 2019 to 2025, indicating strong performance; excess returns fluctuate but remain mostly positive."
+
+## Data Extraction
+axes:
+  x_axis:
+    label: none (dates shown as tick labels)
+    unit: none
+    range: "2019/7/31" to "2025/3/31"
+    scale: linear
+  y_axis:
+    label: none (left axis for relative net value, right axis for excess returns)
+    unit: none
+    range: 
+      left: approx 1.0 to 2.2
+      right: approx -0.45 to 0.05
+    scale: linear
+
+## For time series specifically:
+time_series_data:
+  - series_name: "净值"
+    color: red
+    data_points:
+      - year: "2019/7/31"
+        value: approx 1.0
+      - year: "2020/1/31"
+        value: approx 1.1
+      - year: "2021/1/31"
+        value: approx 1.4
+      - year: "2022/1/31"
+        value: approx 1.6
+      - year: "2023/1/31"
+        value: approx 1.8
+      - year: "2024/1/31"
+        value: approx 2.0
+      - year: "2025/3/31"
+        value: approx 2.2
+    start_year: "2019/7/31"
+    end_year: "2025/3/31"
+    trend_description: "Consistent upward trend in net value throughout the period."
+  - series_name: "超额收益（左）"
+    color: gray
+    data_points:
+      - year: various dates
+        value: fluctuates between approx -0.45 and 0.05
+    start_year: "2019/7/31"
+    end_year: "2025/3/31"
+    trend_description: "Excess returns fluctuate, with periods of both positive and negative values, but generally remain above zero."
+
+data_series:
+  - series_name: "净值"
+    color: red
+    trend: increasing
+  - series_name: "超额收益（左）"
+    color: gray
+    trend: fluctuating
+
+## For scatter plots with labeled points:
+labeled_entities: []
+
+## For correlation/scatter plots specifically:
+correlation_metrics:
+  correlation_coefficient: none shown
+  linear_correlation: none shown
+  regression_equation: none shown
+  linear_formula: none shown
+  r_squared: none shown
+
+## Statistical Information
+statistical_summary:
+  sample_size: not specified
+  sample_description: not specified
+  world_gdp_coverage: not applicable
+  filtering_criteria: not specified
+
+## Key Data Points (for highlighting specific values)
+notable_points:
+  highest_values:
+    - entity: "净值"
+      value: approx 2.2
+      coordinates: ["2025/3/31", 2.2]
+  lowest_values:
+    - entity: "净值"
+      value: approx 1.0
+      coordinates: ["2019/7/31", 1.0]
+  outliers:
+    - entity: "超额收益（左）"
+      value: approx -0.45
+      deviation: "Lowest excess return observed during the period"
+
+## Annotations and Labels
+text_annotations:
+  - text: "超额收益（左）"
+    location: "legend, top left"
+    refers_to: "gray area above chart"
+  - text: "净值"
+    location: "legend, top left"
+    refers_to: "red line in chart"
+
+legend:
+  - item: "超额收益（左）"
+    symbol: gray area
+    meaning: "Excess return (left axis)"
+  - item: "净值"
+    symbol: red line
+    meaning: "Relative net value"
+
+## Metadata
+source_attribution: "数据来源：wind、ifind、西南证券整理，截至2025年3月31日"
+methodology_note: not specified
+time_period: "2019/7/31 to 2025/3/31"
+data_description: "Relative net value and excess return over time"
+sample_info: not specified
+
+## Visual Design
+color_scheme: "Red line for net value, gray area for excess return"
+special_markings:
+  - type: "area chart"
+    description: "Gray area above main chart represents excess return"
+  - type: "line chart"
+    description: "Red line represents net value performance"
+
+## For multi-country/entity comparisons:
+entity_groupings: []
+
+## Context Integration
+contextual_relevance: |
+  This chart is referenced as 图33 in the surrounding text, presenting the performance of the MTICG CSI 1000 Index Enhanced product. The context before the image introduces the data source and the chart title, while the context after transitions to the next figure, 图34, and its performance.
+
+source_context:
+  context_before: |
+    数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    **图33:MTICG中证1000指数增强相对净值**
+  context_after: |
+    数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    **图34:PINN-MTICG中证1000指数增强表现**
+    ![](https://web-api.textin.com/ocr_image/external/6534c83e340072a6.jpg)
+
+## Quality and Completeness Check
+data_completeness:
+  all_labels_readable: yes
+  all_values_extracted: partial (exact values for every date not readable, but trend and endpoints are clear)
+  uncertainties: ["Exact intermediate data points are estimated from chart, not numerically labeled"]
+  total_data_points_visible: approx 60-70 (monthly data points from 2019/7 to 2025/3)
+
+filename_processed: "edb1cacc73702b30.jpg"
+figure_number_extracted: "图33"
+json_match_found: no (figure context provided only in text, not from JSON file)
+language: "Chinese"
+document_title: not specified

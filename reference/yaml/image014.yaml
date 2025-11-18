@@ -1,0 +1,376 @@
+## Chart Identification
+chart_title: indcap-GAT因子分组测试-相对净值
+figure_number: Figure 14
+figure_reference_in_text: 图14
+chart_type: line_graph
+
+## Visual Summary
+content_summary: This chart shows the relative net value performance of indcap-GAT factor groups compared to 万得全A from January 2019 to March 2025, with ten distinct groups tracked over time.
+key_insight: Group 1 consistently outperforms other groups, especially after 2020, with a notable recovery after a drawdown in early 2024 and strong upward trends in late 2024 and early 2025.
+
+## Data Extraction
+axes:
+  x_axis:
+    label: 日期 (Date) [labels: 2019/01/03, 2019/05/31, 2020/01/03, 2020/05/31, 2021/01/03, 2021/05/31, 2022/01/03, 2022/05/31, 2023/01/03, 2023/05/31, 2024/01/03, 2024/05/31, 2025/01/03, 2025/03/31]
+    unit: none
+    range: 2019/01/03 to 2025/03/31
+    scale: linear
+  y_axis:
+    label: 相对净值 (Relative Net Value)
+    unit: none
+    range: 0.5 to 4
+    scale: linear
+
+## For time series specifically:
+time_series_data:
+  - series_name: Group1
+    color: dark red
+    data_points:
+      - year: 2019/01/03
+        value: ~1
+      - year: 2020/05/31
+        value: ~1.1
+      - year: 2021/05/31
+        value: ~1.5
+      - year: 2022/05/31
+        value: ~2
+      - year: 2023/05/31
+        value: ~2.5
+      - year: 2024/05/31
+        value: ~3.2
+      - year: 2025/03/31
+        value: ~3.6
+    start_year: 2019/01/03
+    end_year: 2025/03/31
+    trend_description: Strong upward trend with brief drawdown in early 2024, rapid recovery, and highest cumulative net value by 2025.
+  - series_name: Group2
+    color: red
+    data_points:
+      - year: 2019/01/03
+        value: ~1
+      - year: 2020/05/31
+        value: ~1.05
+      - year: 2021/05/31
+        value: ~1.3
+      - year: 2022/05/31
+        value: ~1.6
+      - year: 2023/05/31
+        value: ~2.1
+      - year: 2024/05/31
+        value: ~2.7
+      - year: 2025/03/31
+        value: ~3.2
+    start_year: 2019/01/03
+    end_year: 2025/03/31
+    trend_description: Upward trend, second highest performance, similar drawdown and recovery pattern.
+  - series_name: Group3
+    color: orange
+    data_points:
+      - year: 2019/01/03
+        value: ~1
+      - year: 2020/05/31
+        value: ~1.03
+      - year: 2021/05/31
+        value: ~1.2
+      - year: 2022/05/31
+        value: ~1.4
+      - year: 2023/05/31
+        value: ~1.7
+      - year: 2024/05/31
+        value: ~2.2
+      - year: 2025/03/31
+        value: ~2.7
+    start_year: 2019/01/03
+    end_year: 2025/03/31
+    trend_description: Consistent upward movement, ranks third in performance.
+  - series_name: Group4
+    color: yellow
+    data_points:
+      - year: 2019/01/03
+        value: ~1
+      - year: 2020/05/31
+        value: ~1.01
+      - year: 2021/05/31
+        value: ~1.1
+      - year: 2022/05/31
+        value: ~1.2
+      - year: 2023/05/31
+        value: ~1.4
+      - year: 2024/05/31
+        value: ~1.8
+      - year: 2025/03/31
+        value: ~2.2
+    start_year: 2019/01/03
+    end_year: 2025/03/31
+    trend_description: Upward trend, lower slope than top groups.
+  - series_name: Group5
+    color: brown
+    data_points:
+      - year: 2019/01/03
+        value: ~1
+      - year: 2020/05/31
+        value: ~1
+      - year: 2021/05/31
+        value: ~1.05
+      - year: 2022/05/31
+        value: ~1.1
+      - year: 2023/05/31
+        value: ~1.2
+      - year: 2024/05/31
+        value: ~1.4
+      - year: 2025/03/31
+        value: ~1.7
+    start_year: 2019/01/03
+    end_year: 2025/03/31
+    trend_description: Slight upward trend, moderate performance.
+  - series_name: Group6
+    color: light brown
+    data_points:
+      - year: 2019/01/03
+        value: ~1
+      - year: 2020/05/31
+        value: ~0.98
+      - year: 2021/05/31
+        value: ~1.02
+      - year: 2022/05/31
+        value: ~1.05
+      - year: 2023/05/31
+        value: ~1.1
+      - year: 2024/05/31
+        value: ~1.2
+      - year: 2025/03/31
+        value: ~1.3
+    start_year: 2019/01/03
+    end_year: 2025/03/31
+    trend_description: Slight increase, lowest among top half.
+  - series_name: Group7
+    color: gold
+    data_points:
+      - year: 2019/01/03
+        value: ~1
+      - year: 2020/05/31
+        value: ~0.97
+      - year: 2021/05/31
+        value: ~1
+      - year: 2022/05/31
+        value: ~1.02
+      - year: 2023/05/31
+        value: ~1.05
+      - year: 2024/05/31
+        value: ~1.1
+      - year: 2025/03/31
+        value: ~1.15
+    start_year: 2019/01/03
+    end_year: 2025/03/31
+    trend_description: Flat to very modest increase.
+  - series_name: Group8
+    color: dark orange
+    data_points:
+      - year: 2019/01/03
+        value: ~1
+      - year: 2020/05/31
+        value: ~0.95
+      - year: 2021/05/31
+        value: ~0.98
+      - year: 2022/05/31
+        value: ~1
+      - year: 2023/05/31
+        value: ~1.02
+      - year: 2024/05/31
+        value: ~1.05
+      - year: 2025/03/31
+        value: ~1.1
+    start_year: 2019/01/03
+    end_year: 2025/03/31
+    trend_description: Mostly flat, slight increase.
+  - series_name: Group9
+    color: light pink
+    data_points:
+      - year: 2019/01/03
+        value: ~1
+      - year: 2020/05/31
+        value: ~0.93
+      - year: 2021/05/31
+        value: ~0.95
+      - year: 2022/05/31
+        value: ~0.97
+      - year: 2023/05/31
+        value: ~1
+      - year: 2024/05/31
+        value: ~1.02
+      - year: 2025/03/31
+        value: ~1.05
+    start_year: 2019/01/03
+    end_year: 2025/03/31
+    trend_description: Flat, lowest among all groups.
+  - series_name: Group10
+    color: grey
+    data_points:
+      - year: 2019/01/03
+        value: ~1
+      - year: 2020/05/31
+        value: ~0.9
+      - year: 2021/05/31
+        value: ~0.92
+      - year: 2022/05/31
+        value: ~0.95
+      - year: 2023/05/31
+        value: ~0.98
+      - year: 2024/05/31
+        value: ~1
+      - year: 2025/03/31
+        value: ~1.02
+    start_year: 2019/01/03
+    end_year: 2025/03/31
+    trend_description: Slight recovery after dip, lowest overall performance.
+
+data_series:
+  - series_name: Group1
+    data_points: [see time_series_data]
+    color: dark red
+    marker_type: line
+    trend: increasing
+  - series_name: Group2
+    data_points: [see time_series_data]
+    color: red
+    marker_type: line
+    trend: increasing
+  - series_name: Group3
+    data_points: [see time_series_data]
+    color: orange
+    marker_type: line
+    trend: increasing
+  - series_name: Group4
+    data_points: [see time_series_data]
+    color: yellow
+    marker_type: line
+    trend: increasing
+  - series_name: Group5
+    data_points: [see time_series_data]
+    color: brown
+    marker_type: line
+    trend: increasing
+  - series_name: Group6
+    data_points: [see time_series_data]
+    color: light brown
+    marker_type: line
+    trend: increasing
+  - series_name: Group7
+    data_points: [see time_series_data]
+    color: gold
+    marker_type: line
+    trend: stable
+  - series_name: Group8
+    data_points: [see time_series_data]
+    color: dark orange
+    marker_type: line
+    trend: stable
+  - series_name: Group9
+    data_points: [see time_series_data]
+    color: light pink
+    marker_type: line
+    trend: stable
+  - series_name: Group10
+    data_points: [see time_series_data]
+    color: grey
+    marker_type: line
+    trend: stable
+
+## Statistical Information
+statistical_summary:
+  sample_size: 10 groups
+  sample_description: Each group represents a quantile or segment from the indcap-GAT factor model.
+  world_gdp_coverage: not specified
+  filtering_criteria: not specified
+
+## Key Data Points (for highlighting specific values)
+notable_points:
+  highest_values:
+    - entity: Group1
+      value: ~3.6
+      coordinates: [2025/03/31, ~3.6]
+  lowest_values:
+    - entity: Group10
+      value: ~1.02
+      coordinates: [2025/03/31, ~1.02]
+  outliers: []
+
+## Annotations and Labels
+text_annotations: []
+legend:
+  - item: Group1
+    symbol: dark red line
+    meaning: Top-performing factor group
+  - item: Group2
+    symbol: red line
+    meaning: Second-performing factor group
+  - item: Group3
+    symbol: orange line
+    meaning: Third-performing factor group
+  - item: Group4
+    symbol: yellow line
+    meaning: Fourth-performing factor group
+  - item: Group5
+    symbol: brown line
+    meaning: Fifth-performing factor group
+  - item: Group6
+    symbol: light brown line
+    meaning: Sixth-performing factor group
+  - item: Group7
+    symbol: gold line
+    meaning: Seventh-performing factor group
+  - item: Group8
+    symbol: dark orange line
+    meaning: Eighth-performing factor group
+  - item: Group9
+    symbol: light pink line
+    meaning: Ninth-performing factor group
+  - item: Group10
+    symbol: grey line
+    meaning: Lowest-performing factor group
+
+## Metadata
+source_attribution: 数据来源：wind、恒生聚源、ifind、西南证券整理，截至2025年3月31日
+methodology_note: Factor groups tested using indcap-GAT model, relative net value calculated against 万得全A.
+time_period: 2019/01/03 to 2025/03/31
+data_description: Daily or periodic relative net value for each factor group
+sample_info: 10 groups, each representing a quantile or segment
+
+## Visual Design
+color_scheme: Gradient from dark red (Group1) to grey (Group10), with intermediate shades for other groups.
+special_markings:
+  - type: None visible
+    description: No trend lines or confidence intervals marked
+
+## For multi-country/entity comparisons:
+entity_groupings:
+  - group_name: Factor groups (Group1-Group10)
+    count: 10
+    entities: [Group1, Group2, Group3, Group4, Group5, Group6, Group7, Group8, Group9, Group10]
+
+## Context Integration
+contextual_relevance: |
+  The chart visually supports the preceding text's discussion of indcap-GAT factor group performance, highlighting the rapid recovery after the early 2024 drawdown and the strong performance during the 2024/09 rally. It provides a time series perspective on the relative net value of each group, illustrating the persistent outperformance of the top groups.
+
+source_context:
+  context_before: |
+    数据来源：wind、恒生聚源、ifind、西南证券整理，截至2025年3月31日
+    从因子分组的相对净值表现来看，相对万得全A,indcap-GAT模型因子在2024年1月底出现了较大的超额回撤，但随后回撤快速修复，且在2024年9月底的上涨行情（0924行情）内并未出现较为明显的超额回撤。
+    图14:indcap-GAT因子分组测试-相对净值
+  context_after: |
+    数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    分年度来看，多头组合自2019年至2025年3月，7年均跑赢万得全A指数，其中2021年相对万得全A年化超额25.56%，超额最大回撤10.62%;2023全年相对万得全A年化超额收益率23.13%，超额最大回撤10.86％。此外，因子今年以来超额表现较好，2025年初至3月31日，累计超额收益率5.71%，超额最大回撤1.18％。
+    **表8:indcap-GAT因子多头分年度超额表现**
+
+## Quality and Completeness Check
+data_completeness:
+  all_labels_readable: yes
+  all_values_extracted: partial (exact values at all dates not readable, but trends and approximate values given)
+  uncertainties: Exact data points for each date are estimated visually; legend colors may vary slightly due to rendering.
+  total_data_points_visible: ~90 (10 groups x ~9 time points)
+
+filename_processed: chart_14.png
+figure_number_extracted: Figure 14 (from "chart_14.png" using pattern "chart_14")
+json_match_found: yes
+language: Chinese
+document_title: not specified in provided context

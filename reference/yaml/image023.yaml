@@ -1,0 +1,155 @@
+## Chart Identification
+chart_title: PINN-MTICG因子分组测试-相对净值
+figure_number: 图23
+figure_reference_in_text: 图23
+chart_type: time_series
+
+## Visual Summary
+content_summary: 本图展示了PINN-MTICG因子分组在不同时间段的相对净值表现，分别以灰色和红色线条表示“超额（右）”与“多头”策略的净值变化趋势。
+key_insight: “多头”策略净值整体呈现稳步增长，且在部分时间段出现明显上升，超额部分波动较大但整体趋势向上。
+
+## Data Extraction
+axes:
+  x_axis:
+    label: 日期
+    unit: 无
+    range: [2019-01-31, 2025-03-31]
+    scale: linear
+  y_axis:
+    label: 相对净值
+    unit: 无
+    range: [0.8, 1.6]
+    scale: linear
+
+## For time series specifically:
+time_series_data:
+  - series_name: 超额（右）
+    color: 灰色
+    data_points:
+      # 由于具体数值不可见，仅列出时间范围
+      - year: 2019-01-31
+        value: ~1.0
+      - year: 2025-03-31
+        value: ~1.6
+    start_year: 2019
+    end_year: 2025
+    trend_description: 超额（右）净值波动较大，整体呈现上升趋势，部分区间有明显回撤。
+  - series_name: 多头
+    color: 红色
+    data_points:
+      - year: 2019-01-31
+        value: ~1.0
+      - year: 2025-03-31
+        value: ~1.4
+    start_year: 2019
+    end_year: 2025
+    trend_description: 多头净值整体稳步上升，波动较小，表现优于超额（右）。
+
+data_series:
+  - series_name: 超额（右）
+    data_points: []
+    color: 灰色
+    marker_type: 实线
+    trend: 波动上升
+  - series_name: 多头
+    data_points: []
+    color: 红色
+    marker_type: 实线
+    trend: 稳步上升
+
+## For scatter plots with labeled points:
+labeled_entities: []
+
+## For correlation/scatter plots specifically:
+correlation_metrics:
+  correlation_coefficient: 
+  linear_correlation: 
+  regression_equation: 
+  linear_formula: 
+  r_squared: 
+
+## Statistical Information
+statistical_summary:
+  sample_size: 
+  sample_description: 
+  world_gdp_coverage: 
+  filtering_criteria: 
+
+## Key Data Points (for highlighting specific values)
+notable_points:
+  highest_values:
+    - entity: 多头
+      value: ~1.4
+      coordinates: [2025-03-31, ~1.4]
+    - entity: 超额（右）
+      value: ~1.6
+      coordinates: [2025-03-31, ~1.6]
+  lowest_values:
+    - entity: 多头
+      value: ~1.0
+      coordinates: [2019-01-31, ~1.0]
+    - entity: 超额（右）
+      value: ~0.8
+      coordinates: [2019-01-31, ~0.8]
+  outliers: []
+
+## Annotations and Labels
+text_annotations:
+  - text: 超额（右）
+    location: 图例左下角
+    refers_to: 灰色区域
+  - text: 多头
+    location: 图例左下角
+    refers_to: 红色线条
+
+legend:
+  - item: 超额（右）
+    symbol: 灰色填充
+    meaning: 表示超额净值表现
+  - item: 多头
+    symbol: 红色实线
+    meaning: 表示多头策略净值表现
+
+## Metadata
+source_attribution: 数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+methodology_note: PINN-MTICG因子分组测试，具体方法未在图中详细说明
+time_period: 2019-01-31 至 2025-03-31
+data_description: 相对净值表现，分组测试
+sample_info: 未在图中明确给出
+
+## Visual Design
+color_scheme: 灰色用于“超额（右）”，红色用于“多头”线条，背景为白色，坐标轴为黑色细线
+special_markings:
+  - type: 分段灰色区域
+    description: 表示不同时间区间的超额净值表现
+  - type: 红色实线
+    description: 表示多头策略净值走势
+
+## For multi-country/entity comparisons:
+entity_groupings: []
+
+## Context Integration
+contextual_relevance: |
+  图表用于展示PINN-MTICG因子分组在回测期间的净值表现，为后续沪深300指数增强策略分析提供实证基础。
+
+source_context:
+  context_before: |
+    数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    **图23:PINN-MTICG因子分组测试-相对净值**
+  context_after: |
+    数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    # 5模型回测及指数增强策略
+    ## 5.1沪深300指数增强策略
+
+## Quality and Completeness Check
+data_completeness:
+  all_labels_readable: yes
+  all_values_extracted: partial（具体数值未标注，仅可估算区间）
+  uncertainties: 数据点具体数值无法完全读取，仅能估算趋势和大致区间
+  total_data_points_visible: 约60-70个（按月度分布估算）
+
+filename_processed: c4a8f71ad85247cb.jpg
+figure_number_extracted: 图23
+json_match_found: no（仅通过上下文文本推断，无JSON文件直接匹配）
+language: 中文
+document_title: 未提供

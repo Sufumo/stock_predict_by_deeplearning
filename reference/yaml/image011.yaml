@@ -1,0 +1,145 @@
+## Chart Identification
+chart_title: "GAT个股关联信息编码结构"
+figure_number: "Figure 11"
+figure_reference_in_text: "图11"
+chart_type: flowchart
+
+## Visual Summary
+content_summary: "This flowchart illustrates the encoding structure of individual stock association information using GAT, showing the parallel processing of industry association graphs and capital flow graphs, each extracting node and edge features before GAT encoding and feature fusion."
+key_insight: "Both industry association and capital flow information are encoded via GAT to generate fused features for individual stocks, highlighting the dual-source information integration in the model."
+
+## Data Extraction
+axes:
+  x_axis:
+    label: null
+    unit: null
+    range: null
+    scale: null
+  y_axis:
+    label: null
+    unit: null
+    range: null
+    scale: null
+
+data_series: []
+
+## For scatter plots with labeled points:
+labeled_entities: []
+
+## For correlation/scatter plots specifically:
+correlation_metrics:
+  correlation_coefficient: null
+  linear_correlation: null
+  regression_equation: null
+  linear_formula: null
+  r_squared: null
+
+## Statistical Information
+statistical_summary:
+  sample_size: null
+  sample_description: null
+  world_gdp_coverage: null
+  filtering_criteria: null
+
+## Key Data Points (for highlighting specific values)
+notable_points:
+  highest_values: []
+  lowest_values: []
+  outliers: []
+
+## Annotations and Labels
+text_annotations:
+  - text: "原始截面特征"
+    location: "far left vertical box"
+    refers_to: "input features"
+  - text: "行业关联图"
+    location: "top dashed box"
+    refers_to: "industry association graph branch"
+  - text: "行业关联图特征"
+    location: "top left red box"
+    refers_to: "industry association graph features"
+  - text: "节点特征"
+    location: "top middle red box"
+    refers_to: "node features for industry graph"
+  - text: "行业关联边"
+    location: "top right red box"
+    refers_to: "industry association edges"
+  - text: "跨行业关联边"
+    location: "top far right red box"
+    refers_to: "cross-industry association edges"
+  - text: "GAT编码"
+    location: "top vertical gold box"
+    refers_to: "GAT encoding step for industry graph"
+  - text: "编码特征融合"
+    location: "top far right vertical gold box"
+    refers_to: "feature fusion after GAT encoding"
+  - text: "资金流向图"
+    location: "bottom dashed box"
+    refers_to: "capital flow graph branch"
+  - text: "资金流向图特征"
+    location: "bottom left red box"
+    refers_to: "capital flow graph features"
+  - text: "节点特征"
+    location: "bottom middle red box"
+    refers_to: "node features for capital flow graph"
+  - text: "资金流关联边"
+    location: "bottom right red box"
+    refers_to: "capital flow association edges"
+  - text: "GAT编码"
+    location: "bottom vertical gold box"
+    refers_to: "GAT encoding step for capital flow graph"
+  - text: "编码特征融合"
+    location: "bottom far right vertical gold box"
+    refers_to: "feature fusion after GAT encoding"
+  - text: "基于截面特征的时序序列相关性构建边"
+    location: "bottom horizontal arrow"
+    refers_to: "edge construction based on time series correlation of cross-sectional features"
+
+legend: []
+
+## Metadata
+source_attribution: "数据来源：西南证券整理"
+methodology_note: "Edges in the capital flow graph are constructed based on the time series correlation of cross-sectional features."
+time_period: null
+data_description: null
+sample_info: null
+
+## Visual Design
+color_scheme: "Red boxes for feature and edge types, gold vertical boxes for encoding and fusion steps, dashed line boxes for graph branches, arrows indicating process flow."
+special_markings:
+  - type: "dashed box"
+    description: "Separates industry association graph and capital flow graph branches."
+  - type: "arrows"
+    description: "Indicate flow of data and process steps."
+  - type: "horizontal arrow"
+    description: "Shows edge construction based on time series correlation."
+
+## For multi-country/entity comparisons:
+entity_groupings: []
+
+## Context Integration
+contextual_relevance: |
+  This chart visually explains the process described in the preceding text, detailing how both industry association and capital flow graphs are constructed from original cross-sectional features, with node and edge features extracted and encoded via GAT. The resulting encoded features are then fused, supporting the subsequent GAT model backtesting discussed in the following text.
+
+source_context:
+  context_before: |
+    ### ·资金流向图：
+    相较于较为稳定的行业关联图，本文构建资金流向图，以捕捉短期切换的个股之间的关系。同样本文选取全部A股作为节点，上述资金流向图中的近20日平均成交额、Amihud 非流动性指标等作为节点特征，选取上述资金流向图中的边权重特征过去80日的时序序列，分别计算各个特征的相关系数并进行等权求和，得到两个不同股票的资金流相关性，若相关性大于相关性阈值（corrthreshold)，则在该两个股票间构建边。
+    **图11:GAT个股关联信息编码结构**
+  context_after: |
+    数据来源：西南证券整理
+    ## 3.2基于行业关联图与资金流向图的GAT模型回测结果
+    在本节中，本文主要测试了依托于个股之间的行业关联信息及资金关联信息构造的图神经网络模型GAT的选股因子效果。自2019年1月至2025年2月，全A范围内GAT模型（indcap-GAT）因子月均IC（以RankIC表征）为8.77%，多头组合年化收益率为32.77%，月均单边换手率0.61X，整体来看，仅靠个股关联信息训练出的indcap-GAT模型具备一定的选股效果，但在因子相关性表现弱于前文提到的多尺度Transformer模型，多头组合表现大致类似，但因子换手有显著的降低。
+
+## Quality and Completeness Check
+data_completeness:
+  all_labels_readable: yes
+  all_values_extracted: yes
+  uncertainties: []
+  total_data_points_visible: 0
+
+filename_processed: "图11.GAT个股关联信息编码结构.png"
+figure_number_extracted: "11"  # Extracted from "图11" in filename, matching "Figure 11" in JSON context
+json_match_found: yes
+language: "Chinese"
+document_title: null

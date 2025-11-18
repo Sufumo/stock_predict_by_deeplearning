@@ -1,0 +1,144 @@
+## Chart Identification
+chart_title: PINN-MTICG中证1000指数增强表现（近三月）
+figure_number: 图37
+figure_reference_in_text: 图37
+chart_type: line_graph
+
+## Visual Summary
+content_summary: 本图展示了PINN-MTICG中证1000指数增强产品在近三个月内的表现，比较了超额收益、指数增强和指数收益的走势。
+key_insight: 近三月内，指数增强产品整体表现优于指数收益，超额收益呈现逐步上升趋势。
+
+## Data Extraction
+axes:
+  x_axis:
+    label: 日期
+    unit: 无
+    range: 2025/1/1 - 2025/3/18
+    scale: linear
+  y_axis:
+    label: 收益率
+    unit: 无
+    range: 0.95 - 1.15（左轴）；0.96 - 1.04（右轴，灰色区域）
+    scale: linear
+
+data_series:
+  - series_name: 超额收益（近三月，右）
+    data_points:
+      # Only approximate key points shown due to image resolution
+      - x: 2025/1/1
+        y: ~1.00
+      - x: 2025/2/1
+        y: ~1.05
+      - x: 2025/3/18
+        y: ~1.11
+    color: 灰色
+    marker_type: 无
+    trend: 上升
+  - series_name: 指数增强（近三月）
+    data_points:
+      - x: 2025/1/1
+        y: ~1.00
+      - x: 2025/2/1
+        y: ~1.03
+      - x: 2025/3/18
+        y: ~1.04
+    color: 红色
+    marker_type: 无
+    trend: 上升
+  - series_name: 指数收益（近三月）
+    data_points:
+      - x: 2025/1/1
+        y: ~1.00
+      - x: 2025/2/1
+        y: ~1.01
+      - x: 2025/3/18
+        y: ~1.02
+    color: 橙色
+    marker_type: 无
+    trend: 上升
+
+## Statistical Information
+statistical_summary:
+  sample_size: 未明确标注
+  sample_description: 近三月PINN-MTICG中证1000指数增强表现
+  world_gdp_coverage: 无
+  filtering_criteria: 无
+
+## Key Data Points
+notable_points:
+  highest_values:
+    - entity: 超额收益（近三月，右）
+      value: ~1.11
+      coordinates: [2025/3/18, ~1.11]
+  lowest_values:
+    - entity: 指数收益（近三月）
+      value: ~0.95
+      coordinates: [2025/1/1, ~0.95]
+  outliers: []
+
+## Annotations and Labels
+text_annotations:
+  - text: 超额收益（近三月，右）
+    location: 图例左下
+    refers_to: 灰色区域
+  - text: 指数增强（近三月）
+    location: 图例左下
+    refers_to: 红色线
+  - text: 指数收益（近三月）
+    location: 图例左下
+    refers_to: 橙色线
+
+legend:
+  - item: 超额收益（近三月，右）
+    symbol: 灰色填充
+    meaning: 右轴对应的超额收益
+  - item: 指数增强（近三月）
+    symbol: 红色线
+    meaning: 增强指数产品表现
+  - item: 指数收益（近三月）
+    symbol: 橙色线
+    meaning: 指数本身收益
+
+## Metadata
+source_attribution: 数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+methodology_note: 未特别说明
+time_period: 2025年1月1日至2025年3月18日
+data_description: 近三月收益率走势
+sample_info: 未明确标注
+
+## Visual Design
+color_scheme: 灰色（超额收益）、红色（指数增强）、橙色（指数收益）；背景白色，线条清晰
+special_markings:
+  - type: 区域填充
+    description: 灰色区域代表超额收益（右轴）
+  - type: 折线
+    description: 红色与橙色折线分别代表指数增强与指数收益
+
+## For multi-country/entity comparisons
+entity_groupings: []
+
+## Context Integration
+contextual_relevance: |
+  本图用于展示PINN-MTICG中证1000指数增强产品在近三个月的收益表现，结合前后文可用于分析产品短期业绩及与指数的对比。
+
+source_context:
+  context_before: |
+    数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    **图37:PINN-MTICG中证1000指数增强表现（近三月）**
+  context_after: |
+    数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    **图38:PINN-MTICG中证1000指数增强表现（近一年）**
+    ![](https://web-api.textin.com/ocr_image/external/6c8477fd1fd42fb8.jpg)
+
+## Quality and Completeness Check
+data_completeness:
+  all_labels_readable: yes
+  all_values_extracted: partial（部分数据点因分辨率无法精确读取，仅提取关键节点）
+  uncertainties: 部分具体数值为估算，未能精确读取所有点
+  total_data_points_visible: 约50-60个（按时间轴每日数据估算）
+
+filename_processed: b8fbbe8c1eea86da.jpg
+figure_number_extracted: 图37（依据前后文“图37”标题提取，图片文件名无直接数字，依靠文本定位）
+json_match_found: no（未提供JSON文件，依据上下文文本匹配）
+language: 中文
+document_title: 未提供

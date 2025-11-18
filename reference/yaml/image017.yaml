@@ -1,0 +1,134 @@
+## Chart Identification
+chart_title: 图17:PINN-MTICG因子IC
+figure_number: 图17
+figure_reference_in_text: 图17
+chart_type: bar_line_combination
+
+## Visual Summary
+content_summary: 本图展示了PINN-MTICG因子的IC（信息系数）随时间的变化，包含每月的RankIC柱状图和累计RankIC的折线图，反映因子表现的稳定性和趋势。
+key_insight: PINN-MTICG因子的累计RankIC自2019年起持续上升，显示该因子在样本期间表现出较强的稳定性和有效性。
+
+## Data Extraction
+axes:
+  x_axis:
+    label: 日期（每月，格式如2019年3月31日）
+    unit: 无
+    range: 2019年3月31日 至 2025年3月31日
+    scale: linear
+  y_axis:
+    label: RankIC（左轴，灰色柱状）；累计RankIC（右轴，红色折线）
+    unit: 无
+    range: 左轴约-0.2至0.4，右轴约0至9
+    scale: linear
+
+data_series:
+  - series_name: RankIC
+    data_points:
+      - x: 2019年3月31日
+        y: 约0.05
+      - x: 2019年4月30日
+        y: 约0.10
+      - x: 2019年5月31日
+        y: 约0.08
+      # ...（每月数据，均为灰色柱状，具体数值需精确读取，已尽量还原）
+      - x: 2025年3月31日
+        y: 约0.35
+    color: 灰色
+    marker_type: bar
+    trend: 波动但整体正向为主
+
+  - series_name: 累计RankIC（右）
+    data_points:
+      - x: 2019年3月31日
+        y: 0
+      - x: 2019年4月30日
+        y: 约0.05
+      - x: 2019年5月31日
+        y: 约0.13
+      # ...（每月数据，红色折线，具体数值需精确读取，已尽量还原）
+      - x: 2025年3月31日
+        y: 约9
+    color: 红色
+    marker_type: line
+    trend: 持续上升
+
+## Statistical Information
+statistical_summary:
+  sample_size: 未明确标注
+  sample_description: 每月PINN-MTICG因子IC表现
+  world_gdp_coverage: 未提及
+  filtering_criteria: 未提及
+
+## Key Data Points
+notable_points:
+  highest_values:
+    - entity: 累计RankIC
+      value: 约9
+      coordinates: (2025年3月31日, 9)
+    - entity: RankIC
+      value: 约0.4
+      coordinates: (2025年3月31日, 0.4)
+  lowest_values:
+    - entity: RankIC
+      value: 约-0.2
+      coordinates: (某月, -0.2)
+  outliers:
+    - entity: RankIC
+      value: 约-0.2
+      deviation: 明显低于其他月份
+
+## Annotations and Labels
+text_annotations:
+  - text: RankIC
+    location: 图例左侧，灰色
+    refers_to: 柱状图
+  - text: 累计RankIC（右）
+    location: 图例右侧，红色
+    refers_to: 折线图
+
+legend:
+  - item: RankIC
+    symbol: 灰色柱状
+    meaning: 每月PINN-MTICG因子的IC值
+  - item: 累计RankIC（右）
+    symbol: 红色折线
+    meaning: PINN-MTICG因子的累计IC
+
+## Metadata
+source_attribution: 数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+methodology_note: IC（信息系数）用于衡量因子有效性，累计RankIC反映长期表现。
+time_period: 2019年3月31日 至 2025年3月31日
+data_description: 每月IC与累计IC
+sample_info: 未明确标注
+
+## Visual Design
+color_scheme: 灰色柱状表示每月RankIC，红色折线表示累计RankIC
+special_markings:
+  - type: 双轴
+    description: 左轴为RankIC，右轴为累计RankIC
+
+## Context Integration
+contextual_relevance: |
+  图17展示了PINN-MTICG因子的IC表现，为后文分组测试和收益率分析提供因子有效性依据。结合上下文，图表说明了因子在样本期间的稳定性和趋势，为后续多空组合收益率分析提供数据支撑。
+
+source_context:
+  context_before: |
+    数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    **图17:PINN-MTICG因子IC**
+  context_after: |
+    数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    分组测试方面，MTICG因子多头组合（组1）年化收益率36.04%，空头组合（组10）年化收益率-0.02%，多空组合（组1／组10）年化收益率39.62%;PINN-MTICG 因子多头组合年化收益率（组1)37.51%，空头组合年化收益率（组10)-4.88%，多空组合（组1／组10）年化收益率44.67％。整体来看，加入宏观信息约束后的PINN-MTICG模型在多头和空头均有贡献，空头提升相对较多。
+    **图18:MTICG因子分组测试-绝对净值**
+
+## Quality and Completeness Check
+data_completeness:
+  all_labels_readable: yes
+  all_values_extracted: partial（柱状具体数值为估算，折线趋势已还原）
+  uncertainties: 柱状具体数值因图像分辨率有限，部分为估算
+  total_data_points_visible: 约72（每月数据，2019年3月至2025年3月）
+
+filename_processed: cee7398a3aadafa0.jpg
+figure_number_extracted: 图17（依据上下文“图17:PINN-MTICG因子IC”及顺序推断，文件名无直接编号，采用文本编号）
+json_match_found: no（无JSON文件，依据上下文人工匹配）
+language: 中文
+document_title: 未提供

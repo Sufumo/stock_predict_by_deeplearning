@@ -1,0 +1,116 @@
+## Chart Identification
+chart_title: "时序编码模块架构：多尺度TransFormer"
+figure_number: "Figure 6"
+figure_reference_in_text: "图6"
+chart_type: flow_diagram
+
+## Visual Summary
+content_summary: 本图展示了多尺度Transformer时序编码模块的结构流程，包括三种不同时间尺度（20日、40日、80日）的特征提取与融合过程。
+key_insight: 模型通过对不同时间尺度的序列特征分别编码，并在门控融合层加权整合，实现对多尺度时序信息的有效提取和输出。
+
+## Data Extraction
+axes: null
+
+## For time series specifically:
+time_series_data: []
+
+data_series: []
+
+## For scatter plots with labeled points:
+labeled_entities: []
+
+## For correlation/scatter plots specifically:
+correlation_metrics:
+  correlation_coefficient: null
+  linear_correlation: null
+  regression_equation: null
+  linear_formula: null
+  r_squared: null
+
+## Statistical Information
+statistical_summary:
+  sample_size: null
+  sample_description: null
+  world_gdp_coverage: null
+  filtering_criteria: null
+
+## Key Data Points (for highlighting specific values)
+notable_points:
+  highest_values: []
+  lowest_values: []
+  outliers: []
+
+## Annotations and Labels
+text_annotations:
+  - text: "原始时序特征序列"
+    location: "最左侧垂直长方形"
+    refers_to: "输入特征序列"
+  - text: "尺度1：20日"
+    location: "第一行红色矩形"
+    refers_to: "20日尺度特征"
+  - text: "尺度2：40日"
+    location: "第二行红色矩形"
+    refers_to: "40日尺度特征"
+  - text: "尺度3：80日"
+    location: "第三行红色矩形"
+    refers_to: "80日尺度特征"
+  - text: "Transformer"
+    location: "三行红色矩形右侧"
+    refers_to: "各尺度特征编码"
+  - text: "时间序列上采样"
+    location: "红色Transformer右侧棕色竖长矩形"
+    refers_to: "对不同尺度输出上采样"
+  - text: "门控融合层"
+    location: "时间序列上采样右侧棕色竖长矩形"
+    refers_to: "加权融合不同尺度信息"
+  - text: "时序编码输出"
+    location: "最右侧棕色竖长矩形"
+    refers_to: "最终输出"
+
+legend: []
+
+## Metadata
+source_attribution: "数据来源：西南证券整理"
+methodology_note: "对20日、40日、80日三种时间尺度分别进行Transformer编码，输出上采样后通过门控融合层加权整合，最终输出时序编码结果。"
+time_period: "20日、40日、80日"
+data_description: "三种不同跨度的时序信息分别编码并融合"
+sample_info: null
+
+## Visual Design
+color_scheme: "输入和流程节点为棕色长方形，三种尺度及Transformer为红色长方形，流程箭头为灰色。"
+special_markings:
+  - type: "流程箭头"
+    description: "表示数据流动方向"
+  - type: "并行分支"
+    description: "三种尺度并行处理"
+entity_groupings: 
+  - group_name: "时间尺度"
+    count: 3
+    entities: ["20日", "40日", "80日"]
+
+## Context Integration
+contextual_relevance: |
+  本图作为“模型训练及调仓频次”与“多尺度Transformer时序模型回测效果”之间的核心结构示意，详细说明了多尺度Transformer模型如何处理不同时间跨度的时序特征，并通过门控融合层实现信息整合，为后续回测效果分析提供模型结构基础。
+
+source_context:
+  context_before: |
+    5）模型训练及调仓频次：一年更新，月频调仓。
+    **6）模型超参数**： $batch=截面个股数$ ， $\text {{Ir}}=1\mathrm {{e}}-4,$ ，损失函数1-IC
+    **图6：时序编码模块架构：多尺度TransFormer**
+  context_after: |
+    数据来源：西南证券整理
+    在多尺度Transformer模型构建中，本文主要区分为三个尺度：20日、40日以及80日，分别表征短、中、长三个不同跨度的时序信息，并分别使用transformer层进行编码处理，随后对transformer层输出的信息以80日长度为基准进行线性时间序列上采样，并引入可学习参数的门控融合层对三个不同时间尺度的信息进行加权求和，最终引入全连接层输出收益率预测。
+    ## 2.2多尺度Transformer时序模型回测效果
+
+## Quality and Completeness Check
+data_completeness:
+  all_labels_readable: yes
+  all_values_extracted: yes
+  uncertainties: []
+  total_data_points_visible: 7 # 7主要流程节点
+
+filename_processed: "图6.png"
+figure_number_extracted: "Figure 6"
+json_match_found: yes
+language: "Chinese"
+document_title: null

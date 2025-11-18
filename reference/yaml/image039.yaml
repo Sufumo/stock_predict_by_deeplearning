@@ -1,0 +1,176 @@
+## Chart Identification
+chart_title: 图39:PINN-MTICG中证1000指数增强表现（近三年）
+figure_number: 图39
+figure_reference_in_text: 图39
+chart_type: time_series
+
+## Visual Summary
+content_summary: 本图展示了PINN-MTICG模型在中证1000指数增强策略下近三年的超额收益和指数增强收益的表现，对比了模型与基准的收益曲线。
+key_insight: PINN-MTICG模型在近三年内实现了持续的超额收益，整体表现优于基准指数增强策略。
+
+## Data Extraction
+axes:
+  x_axis:
+    label: 日期
+    unit: 无
+    range: ["2022/4/1", "2025/3/31"]
+    scale: linear
+  y_axis:
+    label: 收益率
+    unit: 无
+    range: [0.8, 1.7]
+    scale: linear
+
+## For time series specifically:
+time_series_data:
+  - series_name: 超额收益(近三年，右)
+    color: 灰色
+    data_points:
+      # Approximate, as actual values not labeled, curve starts near 0.9 and ends near 1.6
+      - year: 2022/4/1
+        value: ~0.9
+      - year: 2025/3/31
+        value: ~1.6
+    start_year: 2022/4/1
+    end_year: 2025/3/31
+    trend_description: 持续上升，波动较小，整体呈现稳步增长趋势
+  - series_name: 指数增强收益(近三年)
+    color: 红色
+    data_points:
+      - year: 2022/4/1
+        value: ~0.9
+      - year: 2025/3/31
+        value: ~1.5
+    start_year: 2022/4/1
+    end_year: 2025/3/31
+    trend_description: 整体上升，期间有明显波动，后期增长加速
+  - series_name: 指数收益(近三年)
+    color: 橙色
+    data_points:
+      - year: 2022/4/1
+        value: ~0.9
+      - year: 2025/3/31
+        value: ~1.2
+    start_year: 2022/4/1
+    end_year: 2025/3/31
+    trend_description: 波动上升，整体增幅小于前两条曲线
+
+data_series:
+  - series_name: 超额收益(近三年，右)
+    color: 灰色
+    trend: 稳步上升
+  - series_name: 指数增强收益(近三年)
+    color: 红色
+    trend: 波动上升
+  - series_name: 指数收益(近三年)
+    color: 橙色
+    trend: 波动上升但增幅较小
+
+## For scatter plots with labeled points:
+labeled_entities: []
+
+## For correlation/scatter plots specifically:
+correlation_metrics:
+  correlation_coefficient: 
+  linear_correlation: 
+  regression_equation: 
+  linear_formula: 
+  r_squared: 
+
+## Statistical Information
+statistical_summary:
+  sample_size: 
+  sample_description: 
+  world_gdp_coverage: 
+  filtering_criteria: 
+
+## Key Data Points (for highlighting specific values)
+notable_points:
+  highest_values:
+    - entity: 超额收益(近三年，右)
+      value: ~1.6
+      coordinates: [2025/3/31, ~1.6]
+    - entity: 指数增强收益(近三年)
+      value: ~1.5
+      coordinates: [2025/3/31, ~1.5]
+    - entity: 指数收益(近三年)
+      value: ~1.2
+      coordinates: [2025/3/31, ~1.2]
+  lowest_values:
+    - entity: 超额收益(近三年，右)
+      value: ~0.9
+      coordinates: [2022/4/1, ~0.9]
+    - entity: 指数增强收益(近三年)
+      value: ~0.9
+      coordinates: [2022/4/1, ~0.9]
+    - entity: 指数收益(近三年)
+      value: ~0.9
+      coordinates: [2022/4/1, ~0.9]
+  outliers: []
+
+## Annotations and Labels
+text_annotations:
+  - text: 超额收益(近三年，右)
+    location: 图例，灰色曲线
+    refers_to: 灰色曲线
+  - text: 指数增强收益(近三年)
+    location: 图例，红色曲线
+    refers_to: 红色曲线
+  - text: 指数收益(近三年)
+    location: 图例，橙色曲线
+    refers_to: 橙色曲线
+
+legend:
+  - item: 超额收益(近三年，右)
+    symbol: 灰色曲线
+    meaning: PINN-MTICG模型的超额收益
+  - item: 指数增强收益(近三年)
+    symbol: 红色曲线
+    meaning: PINN-MTICG模型的指数增强收益
+  - item: 指数收益(近三年)
+    symbol: 橙色曲线
+    meaning: 基准指数收益
+
+## Metadata
+source_attribution: 数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+methodology_note: PINN-MTICG模型融合时序特征、截面关联及宏观信息约束，采用多尺度Transformmer和图注意力网络，嵌入宏观经济方程作为软约束。
+time_period: 2022/4/1 - 2025/3/31
+data_description: 近三年收益率表现
+sample_info: 全A范围内，涵盖中证1000指数成分股
+
+## Visual Design
+color_scheme: 灰色（超额收益）、红色（指数增强收益）、橙色（指数收益），背景白色，坐标轴黑色
+special_markings:
+  - type: 曲线
+    description: 三条曲线分别代表超额收益、指数增强收益和指数收益
+  - type: 图例
+    description: 右上方有图例标注各曲线含义
+
+## For multi-country/entity comparisons:
+entity_groupings: []
+
+## Context Integration
+contextual_relevance: |
+  图39用于展示PINN-MTICG模型在中证1000指数增强策略下的近三年收益表现，结合上下文，说明该模型在选股和指数增强策略中的有效性和稳定性，为后文总结与展望提供数据支撑。
+
+source_context:
+  context_before: |
+    数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    **图39:PINN-MTICG中证1000指数增强表现（近三年）**
+  context_after: |
+    数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    # 6 总结与展望
+    本文构建了一类融合时序特征、截面关联及宏观信息约束的深度学习选股框架--PINN 信息约束与时序截面双流网络模型（PINN-MTICG）。通过多尺度Transformmer模型捕捉个股量价数据的长期时序依赖，结合图注意力网络（GAT）挖掘行业关联与资金流向的非线性关系，并引入物理信息神经网络（PINN）嵌入宏观经济方程作为软约束。模型实现了“微观特征-中观关联-宏观状态”的多层次信息融合。回测结果显示，全A范围内，在2019年1月至2025年2月，PINN-MTICG模型月均IC达11.41%，年化收益率37.51%，整体表现优于单一时序或截面模型。在指数增强策略中，该模型对沪深300和中证1000的年化超额收益率分别达到13.12％和17.07%，展现出一定的选股能力和策略稳定性。
+
+## Quality and Completeness Check
+data_completeness:
+  all_labels_readable: yes
+  all_values_extracted: partial（曲线具体数值未全部标注，仅首尾及趋势可估算）
+  uncertainties: 曲线中间具体数值无法精确读取，所有数值为估算
+  total_data_points_visible: 约36（每月数据点，三年）
+
+filename_processed: 6c8477fd1fd42fb8.jpg
+figure_number_extracted: 图39（根据“图39:”在上下文及图片标题中提取，图片文件名无直接数字，故以标题为准）
+json_match_found: no（未提供JSON文件，仅上下文文本，已用上下文内容填充）
+language: 中文
+document_title: 未提供（上下文无文档标题信息）

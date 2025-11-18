@@ -1,0 +1,157 @@
+## Chart Identification
+chart_title: 图10：多尺度Transformer 因子多头分年度净值
+figure_number: 图10
+figure_reference_in_text: 图10
+chart_type: time_series
+
+## Visual Summary
+content_summary: 本图展示了多尺度Transformer因子多头策略的分年度净值走势，以及超额（右轴）的变化情况，覆盖2019年到2025年期间。
+key_insight: 多头策略净值整体呈波动上升趋势，部分年份出现明显回撤，超额指标在不同年份间波动较大但整体保持在1附近。
+
+## Data Extraction
+axes:
+  x_axis:
+    label: 日期
+    unit: 无
+    range: ["2019-03-31", "2025-03-19"]
+    scale: linear
+  y_axis:
+    label: 净值 / 超额
+    unit: 无
+    range: [0.4, 1.6]
+    scale: linear
+
+## For time series specifically:
+time_series_data:
+  - series_name: 多头
+    color: 红色
+    data_points:
+      - year: 2019-03-31
+        value: 1.0
+      - year: 2020-04-14
+        value: ~1.5
+      - year: 2021-04-13
+        value: ~1.2
+      - year: 2022-04-13
+        value: ~1.1
+      - year: 2023-04-13
+        value: ~1.3
+      - year: 2024-04-16
+        value: ~1.4
+      - year: 2025-03-19
+        value: ~1.5
+    start_year: 2019
+    end_year: 2025
+    trend_description: 多头净值整体波动上升，期间有回撤但最终创新高。
+  - series_name: 超额（右）
+    color: 灰色
+    data_points:
+      # 由于为面积图，具体数值难以精确读取，主要在1附近波动
+    start_year: 2019
+    end_year: 2025
+    trend_description: 超额指标在不同年份间波动，整体维持在1上下。
+
+data_series:
+  - series_name: 多头
+    data_points:
+      # 见上方 time_series_data
+    color: 红色
+    marker_type: 线条
+    trend: 波动上升
+  - series_name: 超额（右）
+    data_points:
+      # 见上方 time_series_data
+    color: 灰色
+    marker_type: 面积
+    trend: 稳定波动
+
+## For scatter plots with labeled points:
+labeled_entities: []
+
+## For correlation/scatter plots specifically:
+correlation_metrics:
+  correlation_coefficient: null
+  linear_correlation: null
+  regression_equation: null
+  linear_formula: null
+  r_squared: null
+
+## Statistical Information
+statistical_summary:
+  sample_size: null
+  sample_description: null
+  world_gdp_coverage: null
+  filtering_criteria: null
+
+## Key Data Points (for highlighting specific values)
+notable_points:
+  highest_values:
+    - entity: 多头
+      value: ~1.6
+      coordinates: [2025-03-19, ~1.6]
+  lowest_values:
+    - entity: 多头
+      value: ~0.8
+      coordinates: [2022-04-13, ~0.8]
+  outliers: []
+
+## Annotations and Labels
+text_annotations:
+  - text: 超额（右）
+    location: 图例左下
+    refers_to: 灰色面积
+  - text: 多头
+    location: 图例左下
+    refers_to: 红色线条
+
+legend:
+  - item: 超额（右）
+    symbol: 灰色面积
+    meaning: 超额收益（右轴）
+  - item: 多头
+    symbol: 红色线条
+    meaning: 多头策略净值
+
+## Metadata
+source_attribution: 数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+methodology_note: 多尺度Transformer因子多头策略分年度净值，具体计算方法未在图中说明。
+time_period: 2019-03-31至2025-03-19
+data_description: 分年度净值走势
+sample_info: 未明确说明
+
+## Visual Design
+color_scheme: 红色（多头线条），灰色（超额面积）
+special_markings:
+  - type: 年度分割线
+    description: 每年4月附近有竖线分割，突出年度变化
+  - type: 双轴
+    description: 超额为右轴，净值为左轴
+
+## For multi-country/entity comparisons:
+entity_groupings: []
+
+## Context Integration
+contextual_relevance: |
+  图10展示了多尺度Transformer因子多头策略的分年度净值变化，结合上下文，说明了该策略在不同年份的表现，为后续讨论截面模型和行业关联图提供了时序基础。
+
+source_context:
+  context_before: |
+    数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    **图10：多尺度Transformer 因子多头分年度净值**
+  context_after: |
+    数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    # 3 截面模型：基于行业关联图与资金流向图的GAT模型
+    除了时序数据之外，市场截面结构信息同样对选股模型的表现有着重要影响。在股票市场中，各个股票之间的相互关系和影响是非常复杂的。传统的机器学习方法往往无法充分捕捉这些非线性和动态变化的关联性，而图结构则提供了一种天然的方式来表示这些关系。
+
+## Quality and Completeness Check
+data_completeness:
+  all_labels_readable: yes
+  all_values_extracted: 部分（具体数值因面积图难以精确读取，已尽量提取主要节点）
+  uncertainties: 灰色面积图具体数值无法完全精确读取，红色线条为估算节点
+  total_data_points_visible: 约40-50个（按年度及月度分割估算）
+
+filename_processed: 图10.jpg
+figure_number_extracted: 图10
+json_match_found: no（仅根据上下文文本，未见JSON文件，按实际文本处理）
+language: 中文
+document_title: 未提供

@@ -1,0 +1,182 @@
+## Chart Identification
+chart_title: 图32:MTICG中证1000指数增强表现
+figure_number: Figure 32
+figure_reference_in_text: 图32
+chart_type: time_series
+
+## Visual Summary
+content_summary: 本图展示了MTICG模型中证1000指数增强策略、指数基准和指数增强的相对净值在2019年至2025年期间的走势，突出增强策略的超额收益表现。
+key_insight: PINN-MTICG模型的中证1000指数增强策略在观察期内表现优异，年化超额收益率显著高于基准和指数增强。
+
+## Data Extraction
+axes:
+  x_axis:
+    label: 日期
+    unit: 无
+    range: [2019/01/01, 2025/03/31]
+    scale: linear
+  y_axis:
+    label: 相对净值
+    unit: 无
+    range: [0.5, 3.5]
+    scale: linear
+
+## For time series specifically:
+time_series_data:
+  - series_name: 基准（右）
+    color: 灰色
+    data_points:
+      - year: 2019/01/01
+        value: ~1.0
+      - year: 2020/01/01
+        value: ~1.3
+      - year: 2021/01/01
+        value: ~1.7
+      - year: 2022/01/01
+        value: ~2.0
+      - year: 2023/01/01
+        value: ~2.2
+      - year: 2024/01/01
+        value: ~2.5
+      - year: 2025/03/31
+        value: ~2.7
+    start_year: 2019/01/01
+    end_year: 2025/03/31
+    trend_description: 稳步上升，整体呈现线性增长趋势。
+  - series_name: 指数增强
+    color: 橙色
+    data_points:
+      - year: 2019/01/01
+        value: ~1.0
+      - year: 2020/01/01
+        value: ~1.2
+      - year: 2021/01/01
+        value: ~1.5
+      - year: 2022/01/01
+        value: ~1.4
+      - year: 2023/01/01
+        value: ~1.6
+      - year: 2024/01/01
+        value: ~1.8
+      - year: 2025/03/31
+        value: ~2.0
+    start_year: 2019/01/01
+    end_year: 2025/03/31
+    trend_description: 整体上升，期间有波动，最终高于基准。
+  - series_name: 增强策略
+    color: 红色
+    data_points:
+      - year: 2019/01/01
+        value: ~1.0
+      - year: 2020/01/01
+        value: ~1.5
+      - year: 2021/01/01
+        value: ~2.0
+      - year: 2022/01/01
+        value: ~2.2
+      - year: 2023/01/01
+        value: ~2.7
+      - year: 2024/01/01
+        value: ~2.9
+      - year: 2025/03/31
+        value: ~3.2
+    start_year: 2019/01/01
+    end_year: 2025/03/31
+    trend_description: 明显上升，超额收益显著，波动性较大但整体优于其他系列。
+
+data_series: []
+
+## For scatter plots with labeled points:
+labeled_entities: []
+
+## For correlation/scatter plots specifically:
+correlation_metrics:
+  correlation_coefficient: 
+  linear_correlation: 
+  regression_equation: 
+  linear_formula: 
+  r_squared: 
+
+## Statistical Information
+statistical_summary:
+  sample_size: 
+  sample_description: 
+  world_gdp_coverage: 
+  filtering_criteria: 
+
+## Key Data Points (for highlighting specific values)
+notable_points:
+  highest_values:
+    - entity: 增强策略
+      value: ~3.2
+      coordinates: [2025/03/31, ~3.2]
+  lowest_values:
+    - entity: 指数增强
+      value: ~1.0
+      coordinates: [2019/01/01, ~1.0]
+  outliers: []
+
+## Annotations and Labels
+text_annotations:
+  - text: 基准（右）
+    location: 图例
+    refers_to: 灰色曲线
+  - text: 指数增强
+    location: 图例
+    refers_to: 橙色曲线
+  - text: 增强策略
+    location: 图例
+    refers_to: 红色曲线
+
+legend:
+  - item: 基准（右）
+    symbol: 灰色线
+    meaning: 指数基准表现
+  - item: 指数增强
+    symbol: 橙色线
+    meaning: 指数增强策略表现
+  - item: 增强策略
+    symbol: 红色线
+    meaning: PINN-MTICG模型中证1000指数增强策略表现
+
+## Metadata
+source_attribution: 数据来源：wind、恒生聚源、ifind、西南证券整理，截至2025年3月31日
+methodology_note: 年化超额收益率为策略与基准的收益差异，具体计算方法未在图中说明。
+time_period: 2019/01/01-2025/03/31
+data_description: 相对净值走势，包含基准、指数增强及增强策略三条曲线
+sample_info: 未明确说明
+
+## Visual Design
+color_scheme: 灰色（基准）、橙色（指数增强）、红色（增强策略）
+special_markings:
+  - type: 曲线
+    description: 三条不同颜色曲线分别代表三种策略表现
+
+## For multi-country/entity comparisons:
+entity_groupings: []
+
+## Context Integration
+contextual_relevance: |
+  图表展示了PINN-MTICG模型在中证1000指数增强策略上的表现，结合上下文可知该策略年化超额收益率达17.07%，明显优于基准和传统指数增强策略，体现了模型的有效性。
+
+source_context:
+  context_before: |
+    数据来源：wind、恒生聚源、ifind、西南证券整理，截至2025年3月31日
+    整体来看，PINN-MTICG模型中证1000指数增强策略年化超额收益率17.07%, MTICG 模型沪深300指数增强策略年化超额收益率15.23％。
+    **图32:MTICG中证1000指数增强表现**
+  context_after: |
+    数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    **图33:MTICG中证1000指数增强相对净值**
+
+## Quality and Completeness Check
+data_completeness:
+  all_labels_readable: yes
+  all_values_extracted: partial（部分数据点为估算，因图中未全部标注具体数值）
+  uncertainties: ["具体每个时间点的净值需原始数据支持，图中为近似读取"]
+  total_data_points_visible: 21（每条曲线约7个主要拐点）
+
+filename_processed: 20641b924e90bde6.jpg
+figure_number_extracted: Figure 32（由上下文“图32”及图片顺序推断，因文件名无数字，结合文本定位）
+json_match_found: no（无JSON文件，依据上下文推断）
+language: 中文
+document_title: 未提供

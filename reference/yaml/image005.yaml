@@ -1,0 +1,164 @@
+## Chart Identification
+chart_title: 图5:PINN网络结构
+figure_number: Figure 5
+figure_reference_in_text: 图5
+chart_type: neural_network_architecture_diagram
+
+## Visual Summary
+content_summary: This diagram illustrates the structure of a Physics-Informed Neural Network (PINN), showing the flow from input layers through hidden layers to output layers, and how optimization is performed using both neural network loss and physics loss, with physics information incorporated via derivatives.
+key_insight: The PINN architecture integrates physics-based constraints into neural network training by combining standard neural network loss with physics loss derived from differential equations.
+
+## Data Extraction
+axes:
+  x_axis:
+    label: None
+    unit: None
+    range: None
+    scale: None
+  y_axis:
+    label: None
+    unit: None
+    range: None
+    scale: None
+
+## For time series specifically:
+time_series_data: []
+
+data_series:
+- series_name: input layers
+  data_points:
+    - x: x₁
+      y: N/A
+      label: x₁
+    - x: xᵢ
+      y: N/A
+      label: xᵢ
+  color: blue
+  marker_type: circle
+  trend: N/A
+- series_name: hidden layers
+  data_points: []
+  color: orange
+  marker_type: circle
+  trend: N/A
+- series_name: output layers
+  data_points:
+    - x: y_p
+      y: N/A
+      label: y_p
+  color: gray
+  marker_type: circle
+  trend: N/A
+
+## For scatter plots with labeled points:
+labeled_entities: []
+
+## For correlation/scatter plots specifically:
+correlation_metrics:
+  correlation_coefficient: None
+  linear_correlation: None
+  regression_equation: None
+  linear_formula: None
+  r_squared: None
+
+## Statistical Information
+statistical_summary:
+  sample_size: None
+  sample_description: None
+  world_gdp_coverage: None
+  filtering_criteria: None
+
+## Key Data Points (for highlighting specific values)
+notable_points:
+  highest_values: []
+  lowest_values: []
+  outliers: []
+
+## Annotations and Labels
+text_annotations:
+- text: optimization
+  location: top left, pointing to loss calculation
+  refers_to: loss calculation process
+- text: NNs-loss
+  location: top center, inside green dashed box
+  refers_to: neural network loss component
+- text: physics-loss
+  location: top center, inside green dashed box
+  refers_to: physics loss component
+- text: physics information
+  location: top right, green box
+  refers_to: set of physics-based derivatives
+- text: ∂y_p/∂x₁
+  location: right, inside physics information box
+  refers_to: derivative of output with respect to input x₁
+- text: ∂y_p/∂x₂
+  location: right, inside physics information box
+  refers_to: derivative of output with respect to input x₂
+- text: ∂y_p/∂x_j
+  location: right, inside physics information box
+  refers_to: derivative of output with respect to input x_j
+- text: input layers
+  location: left, blue circles
+  refers_to: input nodes
+- text: hidden layers
+  location: center, orange circles
+  refers_to: hidden nodes
+- text: output layers
+  location: right, gray circle
+  refers_to: output node
+
+legend:
+- item: input layers
+  symbol: blue circle
+  meaning: neural network input nodes
+- item: hidden layers
+  symbol: orange circle
+  meaning: neural network hidden nodes
+- item: output layers
+  symbol: gray circle
+  meaning: neural network output node
+
+## Metadata
+source_attribution: 数据来源：西南证券整理
+methodology_note: PINN combines neural network loss with physics-based loss using derivatives of output with respect to inputs.
+time_period: None
+data_description: None
+sample_info: None
+
+## Visual Design
+color_scheme: Blue for input layers, orange for hidden layers, gray for output layers, green for physics information box, black arrows and lines.
+special_markings:
+- type: dashed box
+  description: Indicates loss calculation (NNs-loss + physics-loss)
+- type: arrows
+  description: Show flow of data and optimization process
+
+## For multi-country/entity comparisons:
+entity_groupings: []
+
+## Context Integration
+contextual_relevance: |
+  This figure visually explains the structure and optimization process of PINN as described in the preceding text, specifically illustrating how the total loss function combines data-driven and physics-based components, and how physics information is integrated into the neural network.
+
+source_context:
+  context_before: |
+    **（3）总损失**
+    $$L=\lambda L_{{data}}+(1-\lambda )L_{{physics}}$$
+    **图5:PINN网络结构**
+  context_after: |
+    数据来源：西南证券整理
+    # 2时序模型：多尺度TransFormer模型
+    个股量价时序特征是可以我们可以获取到相较高频的个股特征数据，而本文主要采用Transformer模型处理该类时序特征，Transformer模型的自注意力机制使得其能够在不依赖传统循环神经网络（RNN）结构的情况下，高效捕捉长时序数据中的依赖关系，且具有更强的并行计算能力。
+
+## Quality and Completeness Check
+data_completeness:
+  all_labels_readable: yes
+  all_values_extracted: yes
+  uncertainties: []
+  total_data_points_visible: 7 (input nodes, output node, three physics derivatives, loss components)
+
+filename_processed: 图5_PINN网络结构.jpg
+figure_number_extracted: Figure 5 (from "图5" in filename, matching with context)
+json_match_found: yes
+language: Chinese
+document_title: None (not provided in context)

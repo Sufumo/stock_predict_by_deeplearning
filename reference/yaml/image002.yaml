@@ -1,0 +1,142 @@
+## Chart Identification
+chart_title: "TransFormer 网络结构"
+figure_number: "Figure 2"
+figure_reference_in_text: "图2"
+chart_type: diagram
+
+## Visual Summary
+content_summary: "The diagram illustrates the architecture of the Transformer network, detailing both the encoder and decoder structures and the flow of information through embedding, positional encoding, multi-head attention, feed-forward layers, and output probability computation."
+key_insight: "The Transformer model processes input and output sequences in parallel using self-attention mechanisms, with distinct encoder and decoder stacks, enabling efficient modeling of long-range dependencies."
+
+## Data Extraction
+axes: 
+  x_axis:
+    label: null
+    unit: null
+    range: null
+    scale: null
+  y_axis:
+    label: null
+    unit: null
+    range: null
+    scale: null
+
+time_series_data: []
+
+data_series: []
+
+## For scatter plots with labeled points:
+labeled_entities: []
+
+## For correlation/scatter plots specifically:
+correlation_metrics:
+  correlation_coefficient: null
+  linear_correlation: null
+  regression_equation: null
+  linear_formula: null
+  r_squared: null
+
+## Statistical Information
+statistical_summary:
+  sample_size: null
+  sample_description: null
+  world_gdp_coverage: null
+  filtering_criteria: null
+
+## Key Data Points (for highlighting specific values)
+notable_points:
+  highest_values: []
+  lowest_values: []
+  outliers: []
+
+## Annotations and Labels
+text_annotations:
+  - text: "Inputs"
+    location: "bottom left"
+    refers_to: "input to encoder"
+  - text: "Input Embedding"
+    location: "left, above Inputs"
+    refers_to: "embedding layer for encoder input"
+  - text: "Positional Encoding"
+    location: "left, between Input Embedding and Add & Norm"
+    refers_to: "added to input embeddings"
+  - text: "Add & Norm"
+    location: "multiple, inside encoder and decoder blocks"
+    refers_to: "layer normalization after addition"
+  - text: "Feed Forward"
+    location: "inside encoder and decoder blocks"
+    refers_to: "position-wise feed-forward network"
+  - text: "Multi-Head Attention"
+    location: "inside encoder and decoder blocks"
+    refers_to: "multi-head self-attention mechanism"
+  - text: "Masked Multi-Head Attention"
+    location: "decoder block, first attention layer"
+    refers_to: "prevents attending to future positions"
+  - text: "Outputs"
+    location: "bottom right"
+    refers_to: "output to decoder"
+  - text: "Output Embedding"
+    location: "right, above Outputs"
+    refers_to: "embedding layer for decoder input"
+  - text: "Positional Encoding"
+    location: "right, between Output Embedding and Add & Norm"
+    refers_to: "added to output embeddings"
+  - text: "Linear"
+    location: "top, above Softmax"
+    refers_to: "linear transformation before softmax"
+  - text: "Softmax"
+    location: "top, above Output Probabilities"
+    refers_to: "softmax activation for output probabilities"
+  - text: "Output Probabilities"
+    location: "topmost"
+    refers_to: "final output of the model"
+  - text: "N×"
+    location: "left and right, beside encoder and decoder stacks"
+    refers_to: "the stack is repeated N times"
+
+legend: []
+
+## Metadata
+source_attribution: "数据来源：西南证券整理"
+methodology_note: null
+time_period: null
+data_description: null
+sample_info: null
+
+## Visual Design
+color_scheme: "Distinct pastel colors for each module: blue (Inputs/Outputs), orange (Input/Output Embedding), pink (Multi-Head Attention/Masked Multi-Head Attention), yellow (Feed Forward), purple (Add & Norm), green (Linear, Softmax), red (Output Probabilities)."
+special_markings:
+  - type: "stack repetition indicator"
+    description: "N× labels indicate that encoder and decoder blocks are repeated N times"
+  - type: "arrows"
+    description: "Arrows indicate data flow between modules and across encoder-decoder boundary"
+
+## For multi-country/entity comparisons:
+entity_groupings: []
+
+## Context Integration
+contextual_relevance: |
+  This diagram visually supports the preceding text's explanation of how the Transformer network differs from LSTM and GRU by showing the parallel structure, the use of self-attention, and the absence of recurrence. It provides a clear overview of the model's encoder-decoder architecture and the flow of information, which is further elaborated in the following text.
+
+source_context:
+  context_before: |
+    Transformer 是一种基于自注意力机制（Self-Attention）的深度学习模型，最初被提出用于自然语言处理领域，但其在时序数据处理中同样展现出强大的能力。相较于LSTM(Long Short-Term Memory),GRU(Gated Recurrent Unit）等循环神经网络，Transformer摒弃了递归结构，转而通过自注意力机制实现了全序列并行计算，这显著提升了训练速度。
+    此外，尽管LSTM和GRU通过门控机制缓解了梯度消失问题，但在超长序列中，这两个模型仍可能丢失早期信息；而Transformer的自注意力机制则直接建模模型中任意位置间的关联，无需依赖递归路径，因此相较于LSTM与GRU，更擅长捕捉跨周期的时序规律。
+    **图2:TransFormer 网络结构**
+  context_after: |
+    数据来源：西南证券整理
+    Transformer的核心模块包括多头自注意力层（Multi-Head Attention）和前馈神经网络（Feed-Forward Network）。其输入序列首先通过嵌入层转换为向量表示，并加入位置编码（Positional Encoding）以保留时序信息。自注意力机制通过计算序列中每个元素与其他元素的相关性权重，动态调整信息聚合方式。具体计算过程如下：
+    ### （1）自注意力计算
+
+## Quality and Completeness Check
+data_completeness:
+  all_labels_readable: yes
+  all_values_extracted: yes
+  uncertainties: []
+  total_data_points_visible: 0
+
+filename_processed: "图2.jpg"
+figure_number_extracted: "Figure 2"
+json_match_found: no  # No JSON context file was provided, so match cannot be confirmed
+language: "Chinese"
+document_title: null

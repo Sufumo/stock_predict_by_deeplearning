@@ -1,0 +1,128 @@
+## Chart Identification
+chart_title: 图注意力机制示意
+figure_number: 图3
+figure_reference_in_text: 图3
+chart_type: diagram
+
+## Visual Summary
+content_summary: This diagram visually illustrates the mechanism of graph attention, showing how node features are aggregated using attention coefficients computed via a softmax function.
+key_insight: The main insight is that node i's new feature representation is computed by aggregating its neighbors' features, weighted by attention coefficients α_ij.
+
+## Data Extraction
+axes:
+  x_axis:
+    label: null
+    unit: null
+    range: null
+    scale: null
+  y_axis:
+    label: null
+    unit: null
+    range: null
+    scale: null
+
+## For time series specifically:
+time_series_data: []
+
+data_series:
+  - series_name: W h_i
+    data_points: []
+    color: black
+    marker_type: circle
+    trend: null
+  - series_name: W h_j
+    data_points: []
+    color: black
+    marker_type: circle
+    trend: null
+
+## For scatter plots with labeled points:
+labeled_entities: []
+
+## For correlation/scatter plots specifically:
+correlation_metrics:
+  correlation_coefficient: null
+  linear_correlation: null
+  regression_equation: null
+  linear_formula: null
+  r_squared: null
+
+## Statistical Information
+statistical_summary:
+  sample_size: null
+  sample_description: null
+  world_gdp_coverage: null
+  filtering_criteria: null
+
+## Key Data Points (for highlighting specific values)
+notable_points:
+  highest_values: []
+  lowest_values: []
+  outliers: []
+
+## Annotations and Labels
+text_annotations:
+  - text: α_ij
+    location: top center above the softmax node
+    refers_to: attention coefficient between node i and node j
+  - text: softmax
+    location: center node
+    refers_to: function used to compute attention weights
+  - text: W h_i
+    location: leftmost node at the bottom
+    refers_to: transformed feature of node i
+  - text: W h_j
+    location: rightmost node at the bottom
+    refers_to: transformed feature of node j
+  - text: a̅
+    location: right side, pointing to the edge connecting bottom nodes to softmax node
+    refers_to: attention mechanism vector
+
+legend: []
+
+## Metadata
+source_attribution: 数据来源：西南证券整理
+methodology_note: The diagram represents a single round of node feature aggregation in a graph attention network, where each node's new feature is a weighted sum of its neighbors' features.
+time_period: null
+data_description: null
+sample_info: null
+
+## Visual Design
+color_scheme: Black and white; all nodes and arrows are drawn in black lines on white background.
+special_markings:
+  - type: directed arrows
+    description: Arrows indicate the flow of information from neighbor nodes to the central aggregation node.
+  - type: circular node
+    description: Represents the aggregation operation (softmax).
+  - type: labeled edges
+    description: Edges are labeled with attention mechanism notation.
+
+## For multi-country/entity comparisons:
+entity_groupings: []
+
+## Context Integration
+contextual_relevance: |
+  This diagram (图3) directly illustrates the graph attention mechanism described in the preceding mathematical formula, showing how the activation function and attention coefficients are used to aggregate node features in a graph neural network.
+
+source_context:
+  context_before: |
+    $$\dot {{h_{{ι}}}}=\sigma \left(\sum _{{j\in N(i)}}\alpha _{{ij}}\widetilde {{h_{{J}}}}\right)$$
+    其中， $0$ 表示激活函数，而 $\mathrm {{h}}_{{1}}$ 就是节点i的融合了其邻域信息的新特征，至此便完成了一轮节点特征的计算。
+    **图3：图注意力机制示意**
+  context_after: |
+    数据来源：西南证券整理
+    **图4：节点信息聚合过程**
+    ![](https://web-api.textin.com/ocr_image/external/5cba63915a74bcaa.jpg)
+
+## Quality and Completeness Check
+data_completeness:
+  all_labels_readable: yes
+  all_values_extracted: yes
+  uncertainties: []
+  total_data_points_visible: 7 (nodes at bottom), 1 (softmax node), 1 (attention coefficient label)
+
+filename_processed: 5cba63915a74bcaa.jpg
+figure_number_extracted: 图3
+json_match_found: no (context provided in prompt, but no explicit JSON file was given)
+language: Chinese
+document_title: null

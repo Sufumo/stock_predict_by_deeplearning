@@ -1,0 +1,149 @@
+## Chart Identification
+chart_title: 图4：节点信息聚合过程
+figure_number: 图4
+figure_reference_in_text: 图4
+chart_type: process_diagram
+
+## Visual Summary
+content_summary: 本图展示了节点 h₁ 从其邻居节点 h₂、h₃、h₄、h₅、h₆ 聚合信息的过程，并通过 concat/avg 得到新的节点表示 h'₁。
+key_insight: 节点 h₁ 通过与邻居节点的信息交互（加权聚合），形成新的节点特征 h'₁，体现了图神经网络中的信息聚合机制。
+
+## Data Extraction
+axes:
+  x_axis:
+    label: 无
+    unit: 无
+    range: 无
+    scale: 无
+  y_axis:
+    label: 无
+    unit: 无
+    range: 无
+    scale: 无
+
+data_series:
+  - series_name: 信息聚合权重
+    data_points:
+      - x: h₁
+        y: h₂
+        label: α₁₁
+      - x: h₁
+        y: h₃
+        label: α₁₂
+      - x: h₁
+        y: h₄
+        label: α₁₄
+      - x: h₁
+        y: h₅
+        label: α₁₅
+      - x: h₁
+        y: h₆
+        label: α₁₆
+      - x: h₁
+        y: h₃
+        label: α₁₃
+    color: 绿色/紫色（不同权重连线颜色区分）
+    marker_type: 波浪线
+    trend: 信息从邻居节点向中心节点聚合
+
+labeled_entities:
+  - name: h₁
+    x_value: 中心
+    y_value: 中心
+    position_description: 图中央，信息聚合的目标节点
+  - name: h₂
+    x_value: 上方
+    y_value: 上方
+    position_description: h₁的邻居节点，左上
+  - name: h₃
+    x_value: 左侧
+    y_value: 左侧
+    position_description: h₁的邻居节点，左
+  - name: h₄
+    x_value: 左下
+    y_value: 左下
+    position_description: h₁的邻居节点，左下
+  - name: h₅
+    x_value: 下方
+    y_value: 下方
+    position_description: h₁的邻居节点，下
+  - name: h₆
+    x_value: 右下
+    y_value: 右下
+    position_description: h₁的邻居节点，右下
+  - name: h'₁
+    x_value: 右侧
+    y_value: 右侧
+    position_description: 信息聚合后的新节点表示
+
+correlation_metrics:
+  correlation_coefficient: 无
+  linear_correlation: 无
+  regression_equation: 无
+  linear_formula: 无
+  r_squared: 无
+
+statistical_summary:
+  sample_size: 6个邻居节点
+  sample_description: h₁与其6个邻居节点的信息聚合过程
+  world_gdp_coverage: 无
+  filtering_criteria: 无
+
+notable_points:
+  highest_values: []
+  lowest_values: []
+  outliers: []
+
+annotations_and_labels:
+  text_annotations:
+    - text: concat/avg
+      location: h₁右侧，指向 h'₁
+      refers_to: 信息聚合操作
+    - text: α₁₁, α₁₂, α₁₃, α₁₄, α₁₅, α₁₆
+      location: 各邻居节点到 h₁ 的连线上
+      refers_to: 聚合权重
+  legend: []
+
+metadata:
+  source_attribution: 数据来源：西南证券整理
+  methodology_note: 信息通过加权聚合（α权重）从邻居节点传递到中心节点，再进行 concat/avg 操作得到新节点表示
+  time_period: 无
+  data_description: 节点信息聚合过程示意图
+  sample_info: 6个邻居节点
+
+visual_design:
+  color_scheme: 绿色和紫色波浪线表示不同的聚合权重，节点为黑色圆圈，文字为黑色
+  special_markings:
+    - type: 波浪线
+      description: 表示信息流动及权重
+    - type: 箭头
+      description: 信息聚合方向（邻居节点到中心节点，再到新节点表示）
+
+entity_groupings:
+  - group_name: 邻居节点
+    count: 6
+    entities: [h₂, h₃, h₄, h₅, h₆]
+
+contextual_relevance: |
+  图4展示了图神经网络中节点信息聚合的基本过程，为后文物理信息神经网络（PINN）模型的机制理解提供了基础，说明了节点如何通过邻居节点的信息加权聚合形成新的特征表示。
+
+source_context:
+  context_before: |
+    数据来源：西南证券整理
+    **图4：节点信息聚合过程**
+  context_after: |
+    数据来源：西南证券整理
+    ## 1.3物理信息神经网络（PINN）模型
+    物理信息神经网络（Physics-Informed Neural Networks,PINNs）通过将物理定律（如市场均衡方程、波动率模型）嵌入损失函数，增强模型对金融动力学规律的拟合能力，适用于衍生品定价、风险因子挖掘等场景。PINNs的损失函数包含数据拟合项和物理约束项：
+
+data_completeness:
+  all_labels_readable: yes
+  all_values_extracted: yes
+  uncertainties: 无
+  total_data_points_visible: 6条聚合权重连线
+
+filename_processed: d461474326347306.jpg
+figure_number_extracted: 图4
+json_match_found: no  # 仅有上下文文本，无JSON文件，图号由标题和上下文推断
+language: 中文
+document_title: 无（未提供JSON文件）

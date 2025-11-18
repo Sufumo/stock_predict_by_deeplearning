@@ -1,0 +1,159 @@
+## Chart Identification
+chart_title: 图12:Indcap-GAT因子IC
+figure_number: 图12
+figure_reference_in_text: 图12
+chart_type: time_series_with_bar_and_line
+
+## Visual Summary
+content_summary: This chart displays the time series of the Indcap-GAT factor IC, showing both the monthly RankIC values (bars) and the cumulative RankIC (right axis, red line) from January 2019 to March 2025.
+key_insight: The cumulative RankIC (red line) shows a steady upward trend, indicating consistent positive performance of the Indcap-GAT factor over time, while monthly RankIC values fluctuate.
+
+## Data Extraction
+axes:
+  x_axis:
+    label: None (dates shown as tick labels)
+    unit: None
+    range: 2019年1月 to 2025年3月
+    scale: linear
+  y_axis:
+    label: None (left axis for RankIC, right axis for cumulative RankIC)
+    unit: None
+    range: left axis approx. -2 to 7, right axis approx. -0.1 to 0.5
+    scale: linear
+
+## For time series specifically:
+time_series_data:
+  - series_name: 累计RankIC(右)
+    color: red
+    data_points:
+      - year: 2019年1月
+        value: approx. 1.0
+      - year: 2020年1月
+        value: approx. 2.0
+      - year: 2021年1月
+        value: approx. 3.0
+      - year: 2022年1月
+        value: approx. 4.0
+      - year: 2023年1月
+        value: approx. 5.0
+      - year: 2024年1月
+        value: approx. 6.0
+      - year: 2025年3月
+        value: approx. 6.7
+    start_year: 2019年1月
+    end_year: 2025年3月
+    trend_description: Steadily increasing cumulative RankIC over the entire period.
+
+data_series:
+  - series_name: RankIC
+    data_points:
+      # Only representative values shown; actual chart has monthly bars for each date tick
+      - x: 2019年1月
+        y: approx. 0.2
+      - x: 2020年1月
+        y: approx. 0.1
+      - x: 2021年1月
+        y: approx. 0.3
+      - x: 2022年1月
+        y: approx. 0.4
+      - x: 2023年1月
+        y: approx. 0.5
+      - x: 2024年1月
+        y: approx. 0.3
+      - x: 2025年3月
+        y: approx. 0.4
+    color: grey
+    marker_type: bar
+    trend: fluctuating
+
+## For scatter plots with labeled points:
+labeled_entities: []
+
+## For correlation/scatter plots specifically:
+correlation_metrics:
+  correlation_coefficient: None shown
+  linear_correlation: None shown
+  regression_equation: None shown
+  linear_formula: None shown
+  r_squared: None shown
+
+## Statistical Information
+statistical_summary:
+  sample_size: Not specified
+  sample_description: Not specified
+  world_gdp_coverage: Not specified
+  filtering_criteria: Not specified
+
+## Key Data Points (for highlighting specific values)
+notable_points:
+  highest_values:
+    - entity: 累计RankIC(右)
+      value: approx. 6.7
+      coordinates: [2025年3月, 6.7]
+  lowest_values:
+    - entity: RankIC
+      value: approx. -2.0
+      coordinates: [date with lowest bar, approx. -2.0]
+  outliers:
+    - entity: RankIC
+      value: approx. 2.0
+      deviation: Highest positive monthly spike
+
+## Annotations and Labels
+text_annotations:
+  - text: RankIC
+    location: legend below chart, left
+    refers_to: grey bars
+  - text: 累计RankIC(右)
+    location: legend below chart, right
+    refers_to: red line
+
+legend:
+  - item: RankIC
+    symbol: grey bar
+    meaning: Monthly RankIC value
+  - item: 累计RankIC(右)
+    symbol: red line
+    meaning: Cumulative RankIC (right axis)
+
+## Metadata
+source_attribution: 数据来源：wind、恒生聚源、ifind、西南证券整理，截至2025年3月31日
+methodology_note: Not specified
+time_period: 2019年1月 - 2025年3月
+data_description: Monthly and cumulative RankIC values for Indcap-GAT factor
+sample_info: Not specified
+
+## Visual Design
+color_scheme: Grey bars for RankIC, red line for cumulative RankIC
+special_markings:
+  - type: dual y-axis
+    description: Left axis for RankIC, right axis for cumulative RankIC
+
+## For multi-country/entity comparisons:
+entity_groupings: []
+
+## Context Integration
+contextual_relevance: |
+  This chart provides a quantitative assessment of the Indcap-GAT factor's performance over time, supporting the discussion in the surrounding text about factor effectiveness and stability as referenced in the context before and after the figure.
+
+source_context:
+  context_before: |
+    数据来源：wind、恒生聚源、ifind、西南证券整理，截至2025年3月31日
+    **图12:Indcap-GAT因子IC**
+  context_after: |
+    数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    **图13:Indcap-GAT因子分组-绝对净值**
+    ![](https://web-api.textin.com/ocr_image/external/87be258179982a54.jpg)
+
+## Quality and Completeness Check
+data_completeness:
+  all_labels_readable: yes
+  all_values_extracted: partial (exact monthly values not labeled, but trend and axis ranges captured)
+  uncertainties: Monthly bar values estimated from axis and visual height; exact values not labeled
+  total_data_points_visible: approx. 75 monthly bars, 75 cumulative points
+
+filename_processed: 87be258179982a54.jpg
+figure_number_extracted: 图12 (from context and sequential placement)
+json_match_found: no (context provided directly, no JSON file available)
+language: Chinese
+document_title: Not specified

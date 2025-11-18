@@ -1,0 +1,175 @@
+## Chart Identification
+chart_title: 图22:MTICG因子分组测试-相对净值
+figure_number: 图22
+figure_reference_in_text: 图22
+chart_type: time_series
+
+## Visual Summary
+content_summary: This chart displays the relative net value performance of MTICG factor groupings over time, showing both the "超额(右)" (excess, right axis) in gray and "多头" (long) in red from January 2019 to March 2025.
+key_insight: The MTICG factor group exhibits periods of growth and drawdown, with the "多头" (long) strategy generally trending upward but experiencing volatility, while "超额(右)" (excess, right axis) fluctuates within a defined range.
+
+## Data Extraction
+axes:
+  x_axis:
+    label: 日期 (dates shown as tick labels)
+    unit: none
+    range: 2019-01-31 to 2025-03-31
+    scale: linear
+  y_axis:
+    label: 相对净值 (Relative Net Value)
+    unit: none
+    range: 0.8 to 1.8 (left axis for "多头"), 0.8 to 1.4 (right axis for "超额(右)")
+    scale: linear
+
+## For time series specifically:
+time_series_data:
+  - series_name: 超额(右)
+    color: gray
+    data_points:
+      # Data points are visually estimated from the chart; exact values not labeled
+      # Example points (approximate, based on visible chart):
+      - year: 2019-01-31
+        value: ~1.0
+      - year: 2020-01-31
+        value: ~1.2
+      - year: 2021-01-31
+        value: ~1.3
+      - year: 2022-01-31
+        value: ~1.2
+      - year: 2023-01-31
+        value: ~1.3
+      - year: 2024-01-31
+        value: ~1.4
+      - year: 2025-03-31
+        value: ~1.4
+    start_year: 2019-01-31
+    end_year: 2025-03-31
+    trend_description: The "超额(右)" series shows an overall upward trend with periods of plateau and drawdown, ending near its peak.
+  - series_name: 多头
+    color: red
+    data_points:
+      # Data points are visually estimated from the chart; exact values not labeled
+      - year: 2019-01-31
+        value: ~1.0
+      - year: 2020-01-31
+        value: ~1.4
+      - year: 2021-01-31
+        value: ~1.6
+      - year: 2022-01-31
+        value: ~1.2
+      - year: 2023-01-31
+        value: ~1.4
+      - year: 2024-01-31
+        value: ~1.6
+      - year: 2025-03-31
+        value: ~1.8
+    start_year: 2019-01-31
+    end_year: 2025-03-31
+    trend_description: The "多头" series demonstrates strong growth with several peaks and corrections, ending at its highest value.
+
+data_series:
+  - series_name: 超额(右)
+    data_points: [see above]
+    color: gray
+    marker_type: area
+    trend: increasing with fluctuations
+  - series_name: 多头
+    data_points: [see above]
+    color: red
+    marker_type: line
+    trend: increasing with volatility
+
+## For scatter plots with labeled points:
+labeled_entities: []
+
+## For correlation/scatter plots specifically:
+correlation_metrics:
+  correlation_coefficient: null
+  linear_correlation: null
+  regression_equation: null
+  linear_formula: null
+  r_squared: null
+
+## Statistical Information
+statistical_summary:
+  sample_size: null
+  sample_description: null
+  world_gdp_coverage: null
+  filtering_criteria: null
+
+## Key Data Points (for highlighting specific values)
+notable_points:
+  highest_values:
+    - entity: 多头
+      value: ~1.8
+      coordinates: [2025-03-31, ~1.8]
+    - entity: 超额(右)
+      value: ~1.4
+      coordinates: [2025-03-31, ~1.4]
+  lowest_values:
+    - entity: 多头
+      value: ~1.0
+      coordinates: [2019-01-31, ~1.0]
+    - entity: 超额(右)
+      value: ~1.0
+      coordinates: [2019-01-31, ~1.0]
+  outliers: []
+
+## Annotations and Labels
+text_annotations:
+  - text: 超额(右)
+    location: legend, right of chart
+    refers_to: gray area series
+  - text: 多头
+    location: legend, right of chart
+    refers_to: red line series
+
+legend:
+  - item: 超额(右)
+    symbol: gray area
+    meaning: excess return (right axis)
+  - item: 多头
+    symbol: red line
+    meaning: long position
+
+## Metadata
+source_attribution: 数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+methodology_note: Not specified in the chart
+time_period: 2019-01-31 to 2025-03-31
+data_description: Relative net value time series for MTICG factor groupings
+sample_info: Not specified
+
+## Visual Design
+color_scheme: Gray for "超额(右)" area, red for "多头" line
+special_markings:
+  - type: segmented background
+    description: Chart background is divided into vertical segments, possibly indicating periods or strategy changes
+
+## For multi-country/entity comparisons:
+entity_groupings: []
+
+## Context Integration
+contextual_relevance: |
+  This chart is referenced as 图22 in the document and is preceded by a data source attribution. It presents the performance of MTICG factor groupings, providing visual evidence for the discussion of factor-based investment strategies in the surrounding text.
+
+source_context:
+  context_before: |
+    数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    **图22:MTICG因子分组测试-相对净值**
+  context_after: |
+    数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    **图23:PINN-MTICG因子分组测试-相对净值**
+    ![](https://web-api.textin.com/ocr_image/external/3d476667c62a5652.jpg)
+
+## Quality and Completeness Check
+data_completeness:
+  all_labels_readable: yes
+  all_values_extracted: partial (exact data points not labeled, values visually estimated)
+  uncertainties: Data points are approximate due to lack of explicit labels; vertical segments' meaning is not specified
+  total_data_points_visible: ~80 (based on visible time series density)
+
+filename_processed: 8265202813164ce4.jpg
+figure_number_extracted: 图22 (extracted from "图22" in the title and context)
+json_match_found: no (no JSON context file provided; context inferred from surrounding text)
+language: Chinese
+document_title: Not specified (no JSON file provided)

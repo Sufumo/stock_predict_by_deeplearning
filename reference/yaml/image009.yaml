@@ -1,0 +1,274 @@
+## Chart Identification
+chart_title: 图9：多尺度TransFormer 因子分组测试-相对净值
+figure_number: Figure 9
+figure_reference_in_text: 图9
+chart_type: line_graph
+
+## Visual Summary
+content_summary: The chart displays the relative net value performance over time for ten different factor groups derived from a multi-scale Transformer model, covering the period from 2019/01/31 to 2025/03/31.
+key_insight: Group1 consistently outperforms other groups and the benchmark, showing strong cumulative growth, while Group10 underperforms, with the remaining groups displaying intermediate performance and similar trends.
+
+## Data Extraction
+axes:
+  x_axis:
+    label: 日期 (Dates, as shown in axis labels)
+    unit: none
+    range: [2019/01/31, 2025/03/31]
+    scale: linear
+  y_axis:
+    label: 相对净值 (Relative Net Value)
+    unit: none
+    range: [0, 3.5]
+    scale: linear
+
+time_series_data:
+  - series_name: Group1
+    color: dark red
+    data_points:
+      - year: 2019/01/31
+        value: ~1.0
+      - year: 2025/03/31
+        value: ~3.0
+    start_year: 2019/01/31
+    end_year: 2025/03/31
+    trend_description: Strong upward trend with some drawdowns, especially in early 2024, but overall significant growth.
+  - series_name: Group2
+    color: orange-red
+    data_points:
+      - year: 2019/01/31
+        value: ~1.0
+      - year: 2025/03/31
+        value: ~2.1
+    start_year: 2019/01/31
+    end_year: 2025/03/31
+    trend_description: Upward trend, less steep than Group1, with similar drawdown patterns.
+  - series_name: Group3
+    color: orange
+    data_points:
+      - year: 2019/01/31
+        value: ~1.0
+      - year: 2025/03/31
+        value: ~2.0
+    start_year: 2019/01/31
+    end_year: 2025/03/31
+    trend_description: Upward trend, moderate performance.
+  - series_name: Group4
+    color: orange-brown
+    data_points:
+      - year: 2019/01/31
+        value: ~1.0
+      - year: 2025/03/31
+        value: ~1.8
+    start_year: 2019/01/31
+    end_year: 2025/03/31
+    trend_description: Upward trend, similar to Group3.
+  - series_name: Group5
+    color: brown
+    data_points:
+      - year: 2019/01/31
+        value: ~1.0
+      - year: 2025/03/31
+        value: ~1.7
+    start_year: 2019/01/31
+    end_year: 2025/03/31
+    trend_description: Upward trend, slightly less than Group4.
+  - series_name: Group6
+    color: yellow-brown
+    data_points:
+      - year: 2019/01/31
+        value: ~1.0
+      - year: 2025/03/31
+        value: ~1.6
+    start_year: 2019/01/31
+    end_year: 2025/03/31
+    trend_description: Upward trend, moderate performance.
+  - series_name: Group7
+    color: yellow
+    data_points:
+      - year: 2019/01/31
+        value: ~1.0
+      - year: 2025/03/31
+        value: ~1.5
+    start_year: 2019/01/31
+    end_year: 2025/03/31
+    trend_description: Upward trend, less steep than previous groups.
+  - series_name: Group8
+    color: light yellow
+    data_points:
+      - year: 2019/01/31
+        value: ~1.0
+      - year: 2025/03/31
+        value: ~1.4
+    start_year: 2019/01/31
+    end_year: 2025/03/31
+    trend_description: Upward trend, lowest among the upward groups.
+  - series_name: Group9
+    color: light brown
+    data_points:
+      - year: 2019/01/31
+        value: ~1.0
+      - year: 2025/03/31
+        value: ~1.2
+    start_year: 2019/01/31
+    end_year: 2025/03/31
+    trend_description: Slight upward trend, close to flat.
+  - series_name: Group10
+    color: gray
+    data_points:
+      - year: 2019/01/31
+        value: ~1.0
+      - year: 2025/03/31
+        value: ~0.5
+    start_year: 2019/01/31
+    end_year: 2025/03/31
+    trend_description: Downward trend, significant underperformance.
+
+data_series:
+  - series_name: Group1
+    data_points: []
+    color: dark red
+    marker_type: line
+    trend: increasing
+  - series_name: Group2
+    data_points: []
+    color: orange-red
+    marker_type: line
+    trend: increasing
+  - series_name: Group3
+    data_points: []
+    color: orange
+    marker_type: line
+    trend: increasing
+  - series_name: Group4
+    data_points: []
+    color: orange-brown
+    marker_type: line
+    trend: increasing
+  - series_name: Group5
+    data_points: []
+    color: brown
+    marker_type: line
+    trend: increasing
+  - series_name: Group6
+    data_points: []
+    color: yellow-brown
+    marker_type: line
+    trend: increasing
+  - series_name: Group7
+    data_points: []
+    color: yellow
+    marker_type: line
+    trend: increasing
+  - series_name: Group8
+    data_points: []
+    color: light yellow
+    marker_type: line
+    trend: increasing
+  - series_name: Group9
+    data_points: []
+    color: light brown
+    marker_type: line
+    trend: stable
+  - series_name: Group10
+    data_points: []
+    color: gray
+    marker_type: line
+    trend: decreasing
+
+## Statistical Information
+statistical_summary:
+  sample_size: 10 groups
+  sample_description: 10 factor groups tested using multi-scale Transformer model
+  world_gdp_coverage: not specified
+  filtering_criteria: not specified
+
+## Key Data Points
+notable_points:
+  highest_values:
+    - entity: Group1
+      value: ~3.0
+      coordinates: [2025/03/31, ~3.0]
+  lowest_values:
+    - entity: Group10
+      value: ~0.5
+      coordinates: [2025/03/31, ~0.5]
+  outliers: []
+
+## Annotations and Labels
+text_annotations: []
+legend:
+  - item: Group1
+    symbol: dark red line
+    meaning: Factor group 1
+  - item: Group2
+    symbol: orange-red line
+    meaning: Factor group 2
+  - item: Group3
+    symbol: orange line
+    meaning: Factor group 3
+  - item: Group4
+    symbol: orange-brown line
+    meaning: Factor group 4
+  - item: Group5
+    symbol: brown line
+    meaning: Factor group 5
+  - item: Group6
+    symbol: yellow-brown line
+    meaning: Factor group 6
+  - item: Group7
+    symbol: yellow line
+    meaning: Factor group 7
+  - item: Group8
+    symbol: light yellow line
+    meaning: Factor group 8
+  - item: Group9
+    symbol: light brown line
+    meaning: Factor group 9
+  - item: Group10
+    symbol: gray line
+    meaning: Factor group 10
+
+## Metadata
+source_attribution: 数据来源：wind、恒生聚源、ifind、西南证券整理，截至2025年3月31日
+methodology_note: Multi-scale Transformer factor grouping test; relative net value calculated for each group.
+time_period: 2019/01/31 - 2025/03/31
+data_description: Relative net value for each factor group over time
+sample_info: 10 groups, performance tracked over 7 years
+
+## Visual Design
+color_scheme: Gradient from dark red (Group1, best performer) to gray (Group10, worst performer), with intermediate groups in shades of orange, brown, and yellow.
+special_markings:
+  - type: line
+    description: Each colored line represents a different factor group’s relative net value over time.
+
+## For multi-country/entity comparisons
+entity_groupings:
+  - group_name: Factor groups
+    count: 10
+    entities: [Group1, Group2, Group3, Group4, Group5, Group6, Group7, Group8, Group9, Group10]
+
+## Context Integration
+contextual_relevance: |
+  This chart provides empirical results for the multi-scale Transformer factor grouping test, showing the relative net value performance of each group. The context before the figure introduces the data sources and the chart’s focus, while the context after the figure discusses the performance of the factor groups, highlighting the strong results of the long-only portfolio since 2019, specific annualized excess returns, and drawdowns, especially in 2021, 2023, and early 2025.
+
+source_context:
+  context_before: |
+    数据来源：wind、恒生聚源、ifind、西南证券整理，截至2025年3月31日
+    **图9：多尺度TransFormer 因子分组测试-相对净值**
+  context_after: |
+    数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    从因子分组的相对净值表现来看，相对万得全A，多尺度Transformer因子在2024年1月底出现了较大的超额回撤，但在2024年9月底的上涨行情（0924行情）内并未出现较为明显的超额回撤。
+    分年度来看，多头组合自2019年至2025年3月，7年均跑赢万得全A指数，其中2021年相对万得全A年化超额35.39%，超额最大回撤12.95%;2023全年相对万得全A年化超额收益率24.86%，超额最大回撤仅3.90%．此外，因子今年以来超额表现较好，2025年初至3月31日，累计超额收益率7.56%，超额最大回撤1.52％。
+
+## Quality and Completeness Check
+data_completeness:
+  all_labels_readable: yes
+  all_values_extracted: partial (exact values for all dates not readable; trends and endpoints extracted)
+  uncertainties: Intermediate data points estimated visually; exact numerical values for all time points not available.
+  total_data_points_visible: ~75 (10 groups x ~7 years with monthly data)
+
+filename_processed: 图9.jpg
+figure_number_extracted: Figure 9 (extracted from filename "图9.jpg" using "图" as "Figure")
+json_match_found: no (context provided directly, not from JSON file)
+language: Chinese
+document_title: not specified

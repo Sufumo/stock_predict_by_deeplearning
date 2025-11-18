@@ -1,0 +1,256 @@
+## Chart Identification
+chart_title: 图8：多尺度Transformer因子分组-绝对净值
+figure_number: 图8
+figure_reference_in_text: 图8
+chart_type: time_series_multi_line
+
+## Visual Summary
+content_summary: 本图展示了多尺度Transformer因子分组的绝对净值随时间的变化，分为Group1至Group10十个分组，并与基准进行对比。
+key_insight: Group1的绝对净值增长最为显著，远高于其他分组，且各组间净值呈明显分层趋势。
+
+## Data Extraction
+axes:
+  x_axis:
+    label: 日期
+    unit: 无
+    range: ["2014/3/31", "2025/3/31"]
+    scale: linear
+  y_axis:
+    label: 绝对净值
+    unit: 无
+    range: [1, 8]
+    scale: linear
+
+## For time series specifically:
+time_series_data:
+  - series_name: 基准
+    color: 灰色
+    data_points:
+      # 由于图像分辨率有限，无法精确读取所有点，仅示例部分点
+      - year: 2014/3/31
+        value: 1
+      - year: 2025/3/31
+        value: 2
+    start_year: 2014/3/31
+    end_year: 2025/3/31
+    trend_description: 基准整体净值缓慢上升，远低于各分组。
+  - series_name: Group1
+    color: 深红色
+    data_points:
+      - year: 2014/3/31
+        value: 1
+      - year: 2025/3/31
+        value: 8
+    start_year: 2014/3/31
+    end_year: 2025/3/31
+    trend_description: Group1净值持续上涨，2025年达到最高点。
+  - series_name: Group2
+    color: 红色
+    data_points:
+      - year: 2014/3/31
+        value: 1
+      - year: 2025/3/31
+        value: 7
+    start_year: 2014/3/31
+    end_year: 2025/3/31
+    trend_description: Group2净值稳步上升，略低于Group1。
+  - series_name: Group3
+    color: 橙红色
+    data_points:
+      - year: 2014/3/31
+        value: 1
+      - year: 2025/3/31
+        value: 6.5
+    start_year: 2014/3/31
+    end_year: 2025/3/31
+    trend_description: Group3净值逐步增长，位于中上水平。
+  - series_name: Group4
+    color: 橙色
+    data_points:
+      - year: 2014/3/31
+        value: 1
+      - year: 2025/3/31
+        value: 6
+    start_year: 2014/3/31
+    end_year: 2025/3/31
+    trend_description: Group4净值持续增长，略低于Group3。
+  - series_name: Group5
+    color: 黄色
+    data_points:
+      - year: 2014/3/31
+        value: 1
+      - year: 2025/3/31
+        value: 5.5
+    start_year: 2014/3/31
+    end_year: 2025/3/31
+    trend_description: Group5净值稳定上升，处于中间水平。
+  - series_name: Group6
+    color: 浅黄色
+    data_points:
+      - year: 2014/3/31
+        value: 1
+      - year: 2025/3/31
+        value: 5
+    start_year: 2014/3/31
+    end_year: 2025/3/31
+    trend_description: Group6净值逐步增长，略低于Group5。
+  - series_name: Group7
+    color: 浅橙色
+    data_points:
+      - year: 2014/3/31
+        value: 1
+      - year: 2025/3/31
+        value: 4.5
+    start_year: 2014/3/31
+    end_year: 2025/3/31
+    trend_description: Group7净值缓慢上升，低于中位水平。
+  - series_name: Group8
+    color: 浅红色
+    data_points:
+      - year: 2014/3/31
+        value: 1
+      - year: 2025/3/31
+        value: 4
+    start_year: 2014/3/31
+    end_year: 2025/3/31
+    trend_description: Group8净值增长较慢，处于较低水平。
+  - series_name: Group9
+    color: 灰黄色
+    data_points:
+      - year: 2014/3/31
+        value: 1
+      - year: 2025/3/31
+        value: 3.5
+    start_year: 2014/3/31
+    end_year: 2025/3/31
+    trend_description: Group9净值增长缓慢，接近最低组。
+  - series_name: Group10
+    color: 灰色
+    data_points:
+      - year: 2014/3/31
+        value: 1
+      - year: 2025/3/31
+        value: 3
+    start_year: 2014/3/31
+    end_year: 2025/3/31
+    trend_description: Group10净值基本稳定，增长最慢。
+
+data_series:
+  # 已在time_series_data中详细列出
+
+## For scatter plots with labeled points:
+labeled_entities: []
+
+## For correlation/scatter plots specifically:
+correlation_metrics:
+  correlation_coefficient: null
+  linear_correlation: null
+  regression_equation: null
+  linear_formula: null
+  r_squared: null
+
+## Statistical Information
+statistical_summary:
+  sample_size: 10组+基准
+  sample_description: 多尺度Transformer因子分组
+  world_gdp_coverage: null
+  filtering_criteria: null
+
+## Key Data Points (for highlighting specific values)
+notable_points:
+  highest_values:
+    - entity: Group1
+      value: 8
+      coordinates: ["2025/3/31", 8]
+  lowest_values:
+    - entity: Group10
+      value: 3
+      coordinates: ["2025/3/31", 3]
+  outliers: []
+
+## Annotations and Labels
+text_annotations:
+  - text: 图8：多尺度Transformer因子分组-绝对净值
+    location: 图表顶部
+    refers_to: 整体图表
+legend:
+  - item: 基准
+    symbol: 灰色线
+    meaning: 基准参考
+  - item: Group1
+    symbol: 深红色线
+    meaning: 因子分组1
+  - item: Group2
+    symbol: 红色线
+    meaning: 因子分组2
+  - item: Group3
+    symbol: 橙红色线
+    meaning: 因子分组3
+  - item: Group4
+    symbol: 橙色线
+    meaning: 因子分组4
+  - item: Group5
+    symbol: 黄色线
+    meaning: 因子分组5
+  - item: Group6
+    symbol: 浅黄色线
+    meaning: 因子分组6
+  - item: Group7
+    symbol: 浅橙色线
+    meaning: 因子分组7
+  - item: Group8
+    symbol: 浅红色线
+    meaning: 因子分组8
+  - item: Group9
+    symbol: 灰黄色线
+    meaning: 因子分组9
+  - item: Group10
+    symbol: 灰色线
+    meaning: 因子分组10
+
+## Metadata
+source_attribution: 数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+methodology_note: 多尺度Transformer因子分组，绝对净值随时间变化
+time_period: 2014/3/31-2025/3/31
+data_description: 各因子分组绝对净值随时间变化
+sample_info: 10组因子分组+基准
+
+## Visual Design
+color_scheme: 深红、红、橙红、橙、黄、浅黄、浅橙、浅红、灰黄、灰色，多层次暖色调分组线条
+special_markings:
+  - type: 多条折线
+    description: 分别代表不同因子分组及基准
+  - type: 阴影区域
+    description: 基准线下方灰色填充，突出分组表现
+
+## For multi-country/entity comparisons:
+entity_groupings:
+  - group_name: 因子分组
+    count: 10
+    entities: [Group1, Group2, Group3, Group4, Group5, Group6, Group7, Group8, Group9, Group10]
+
+## Context Integration
+contextual_relevance: |
+  图8用于展示多尺度Transformer因子分组在不同时间点的绝对净值表现，为后续表3的分组表现数据做铺垫，帮助理解各分组的长期趋势和分层结构。
+
+source_context:
+  context_before: |
+    数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    **图8：多尺度Transformer因子分组-绝对净值**
+  context_after: |
+    数据来源：wind、ifind、西南证券整理，截至2025年3月31日
+    **表3：多尺度Transformer 因子10分组表现**
+    <table border="1" ><tr>
+
+## Quality and Completeness Check
+data_completeness:
+  all_labels_readable: yes
+  all_values_extracted: partial（由于分辨率限制，无法逐点精确读取所有数值，但分组趋势和端点值已提取）
+  uncertainties: ["具体每一时间点的数值无法全部精确读取，仅提取端点和趋势"]
+  total_data_points_visible: 约120（每组约12年，每年1点，10组+基准）
+
+filename_processed: 69bba0581f6ac228.jpg
+figure_number_extracted: 图8（从上下文和标题自动识别，因文件名无明显figure编号，依据图表标题“图8”提取）
+json_match_found: no（未提供JSON文件，依据上下文直接分析）
+language: 中文
+document_title: 未提供
