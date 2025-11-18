@@ -97,29 +97,29 @@ collect_industry_data(output_dir="./data")
 #### 1. 使用默认配置训练
 
 ```bash
-python example_train.py
+python train.py
 ```
 
 #### 2. 使用自定义配置文件
 
 ```bash
-python example_train.py --config config/my_config.yaml
+python train.py --config config/my_config.yaml
 ```
 
 #### 3. 命令行参数覆盖
 
 ```bash
 # 修改训练参数
-python example_train.py --batch_size 64 --lr 0.0002 --epochs 100
+python train.py --batch_size 64 --lr 0.0002 --epochs 100
 
 # 修改模型参数
-python example_train.py --d_model 256 --nhead 16 --use_dwt
+python train.py --d_model 256 --nhead 16 --use_dwt
 
 # 使用K折验证
-python example_train.py --use_kfold --n_splits 5
+python train.py --use_kfold --n_splits 5
 
 # 指定设备
-python example_train.py --device cuda
+python train.py --device cuda
 ```
 
 ### 配置文件说明

@@ -95,7 +95,21 @@ def main():
 
     scheduler_params = None
     if config.training.use_scheduler:
-        scheduler_params = config.training.scheduler_params
+        # 将Config对象转换为字典
+        if hasattr(config.training.scheduler_params, 'to_dict'):
+            scheduler_params = config.training.scheduler_params.to_dict()
+        elif isinstance(config.training.scheduler_params, dict):
+            scheduler_params = config.training.scheduler_params
+        else:
+            # 如果是Config对象但没有to_dict方法，手动转换为字典
+            scheduler_params = {
+                'mode': getattr(config.training.scheduler_params, 'mode', 'min'),
+                'factor': getattr(config.training.scheduler_params, 'factor', 0.5),
+                'patience': getattr(config.training.scheduler_params, 'patience', 5),
+                'min_lr': getattr(config.training.scheduler_params, 'min_lr', 0.00001)
+            }
+            # 移除None值
+            scheduler_params = {k: v for k, v in scheduler_params.items() if v is not None}
 
     trainer = Trainer(
         model=model,

@@ -252,7 +252,7 @@ class IndustryDataLoader:
     
     def prepare_data(self) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
         """
-        准备数据（兼容 example_train.py 的接口）
+        准备数据（兼容 train.py 的接口）
         
         Returns:
             samples: [样本数, 最大窗口, 特征数] 的序列数组
