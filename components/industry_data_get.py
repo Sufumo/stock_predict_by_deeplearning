@@ -123,6 +123,7 @@ def collect_industry_data(output_dir: str):
         return
     
     print(f"共获取到 {len(industry_list)} 个行业")
+    # industry_list = [["物流行业","90","BK0422"],["食品饮料","90","BK0438"]]
     
     # 第二步：循环获取每个行业的K线数据
     all_industry_data = {}
@@ -169,7 +170,7 @@ def collect_industry_data(output_dir: str):
 # 使用示例
 if __name__ == "__main__":
     # 设置输出目录
-    output_directory = "./industry_data"
+    output_directory = "./"
     
     print(get_industry_list())
     

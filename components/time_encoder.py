@@ -53,10 +53,13 @@ class SharedTransformerEncoder(nn.Module):
         super(SharedTransformerEncoder, self).__init__()
         
         self.d_model = d_model
-        
+
         # 输入投影层
         self.input_projection = nn.Linear(7, d_model)  # 7个特征维度
-        
+
+        # ⭐ 添加 LayerNorm 稳定输入，防止数值不稳定
+        self.input_norm = nn.LayerNorm(d_model)
+
         # 位置编码
         self.pos_encoder = PositionalEncoding(d_model, max_seq_len)
         
@@ -87,10 +90,13 @@ class SharedTransformerEncoder(nn.Module):
             编码后的特征向量，形状为 [batch_size, d_model]
         """
         batch_size, seq_len, features = x.shape
-        
+
         # 投影到模型维度
         x = self.input_projection(x)  # [batch_size, seq_len, d_model]
-        
+
+        # ⭐ 应用 LayerNorm 归一化
+        x = self.input_norm(x)
+
         # 转换为 (seq_len, batch_size, d_model) 格式
         x = x.transpose(0, 1)
         

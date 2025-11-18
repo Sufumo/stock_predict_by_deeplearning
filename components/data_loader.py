@@ -6,9 +6,76 @@ import json
 import os
 import numpy as np
 import pandas as pd
+import pickle
 from typing import Dict, List, Tuple, Optional
 from torch.utils.data import Dataset
 import torch
+
+
+class StandardScaler:
+    """
+    标准化器 - 将特征标准化为均值0，标准差1
+    支持分组归一化（不同特征组使用不同的均值和标准差）
+    """
+
+    def __init__(self):
+        self.mean = None
+        self.std = None
+        self.fitted = False
+
+    def fit(self, data: np.ndarray):
+        """
+        拟合标准化器
+
+        Args:
+            data: shape [N, D] 的数组，N是样本数，D是特征数
+        """
+        self.mean = np.mean(data, axis=0, keepdims=True)
+        self.std = np.std(data, axis=0, keepdims=True)
+        # 防止除零错误，对于std=0的特征，设置为1
+        self.std = np.where(self.std < 1e-8, 1.0, self.std)
+        self.fitted = True
+
+    def transform(self, data: np.ndarray) -> np.ndarray:
+        """
+        应用标准化
+
+        Args:
+            data: shape [N, D] 或 [..., D] 的数组
+
+        Returns:
+            标准化后的数据
+        """
+        if not self.fitted:
+            raise RuntimeError("Scaler has not been fitted. Call fit() first.")
+
+        return (data - self.mean) / self.std
+
+    def fit_transform(self, data: np.ndarray) -> np.ndarray:
+        """拟合并转换"""
+        self.fit(data)
+        return self.transform(data)
+
+    def inverse_transform(self, data: np.ndarray) -> np.ndarray:
+        """逆变换，恢复原始尺度"""
+        if not self.fitted:
+            raise RuntimeError("Scaler has not been fitted.")
+
+        return data * self.std + self.mean
+
+    def get_params(self) -> dict:
+        """获取参数"""
+        return {
+            'mean': self.mean,
+            'std': self.std,
+            'fitted': self.fitted
+        }
+
+    def set_params(self, params: dict):
+        """设置参数"""
+        self.mean = params['mean']
+        self.std = params['std']
+        self.fitted = params['fitted']
 
 
 class IndustryDataLoader:
@@ -47,12 +114,20 @@ class IndustryDataLoader:
         self.window_sizes = window_sizes if window_sizes is not None else [20, 40, 80]
         self.future_days = future_days if future_days is not None else 30
         self.num_classes = num_classes if num_classes is not None else 5
-        
+
         self.raw_data = None
         self.relation_df = None
         self.industry_list = None
         self.industry_to_idx = {}
         self.adj_matrix = None
+
+        # 特征标准化器（分组归一化）
+        # 特征索引：0-开盘, 1-收盘, 2-最高, 3-最低, 4-成交量, 5-成交额, 6-收益率
+        self.scaler_price = StandardScaler()     # 价格特征 [0, 1, 2, 3]
+        self.scaler_volume = StandardScaler()    # 成交量 [4]
+        self.scaler_amount = StandardScaler()    # 成交额 [5]
+        # 收益率 [6] 保持原始值，不归一化（已经在合理范围）
+        self.scalers_fitted = False
         
     def load_data(self):
         """加载原始数据"""
@@ -121,7 +196,80 @@ class IndustryDataLoader:
             return None
         
         return np.array(data_list, dtype=np.float32)
-    
+
+    def fit_scalers(self):
+        """
+        拟合所有特征的标准化器
+        需要先遍历所有行业数据，收集所有特征值
+        """
+        print("正在拟合特征标准化器...")
+
+        all_price_features = []    # [开盘, 收盘, 最高, 最低]
+        all_volume_features = []   # [成交量]
+        all_amount_features = []   # [成交额]
+
+        for industry_name in self.industry_list:
+            data = self.parse_kline_data(industry_name)
+            if data is None or len(data) == 0:
+                continue
+
+            # data shape: [时间步, 7特征]
+            # 特征索引：0-开盘, 1-收盘, 2-最高, 3-最低, 4-成交量, 5-成交额, 6-收益率
+            all_price_features.append(data[:, :4])     # 价格 [0:4]
+            all_volume_features.append(data[:, 4:5])   # 成交量 [4:5]
+            all_amount_features.append(data[:, 5:6])   # 成交额 [5:6]
+
+        # 合并所有行业的数据
+        all_price_features = np.concatenate(all_price_features, axis=0)
+        all_volume_features = np.concatenate(all_volume_features, axis=0)
+        all_amount_features = np.concatenate(all_amount_features, axis=0)
+
+        # 拟合标准化器
+        self.scaler_price.fit(all_price_features)
+        self.scaler_volume.fit(all_volume_features)
+        self.scaler_amount.fit(all_amount_features)
+        self.scalers_fitted = True
+
+        # 打印归一化前的统计信息
+        print(f"\n归一化前的特征统计:")
+        print(f"  价格特征 - Mean: {self.scaler_price.mean.flatten()[:4]}")
+        print(f"  价格特征 - Std:  {self.scaler_price.std.flatten()[:4]}")
+        print(f"  成交量   - Mean: {self.scaler_volume.mean.item():.2e}, Std: {self.scaler_volume.std.item():.2e}")
+        print(f"  成交额   - Mean: {self.scaler_amount.mean.item():.2e}, Std: {self.scaler_amount.std.item():.2e}")
+
+        # 验证归一化后的范围
+        normalized_prices = self.scaler_price.transform(all_price_features)
+        normalized_volume = self.scaler_volume.transform(all_volume_features)
+        normalized_amount = self.scaler_amount.transform(all_amount_features)
+
+        print(f"\n归一化后的特征范围:")
+        print(f"  价格特征 - Min: {normalized_prices.min(axis=0)}, Max: {normalized_prices.max(axis=0)}")
+        print(f"  成交量   - Min: {normalized_volume.min():.2f}, Max: {normalized_volume.max():.2f}")
+        print(f"  成交额   - Min: {normalized_amount.min():.2f}, Max: {normalized_amount.max():.2f}")
+        print()
+
+    def normalize_features(self, data: np.ndarray) -> np.ndarray:
+        """
+        对单个序列的特征进行归一化
+
+        Args:
+            data: shape [时间步, 7特征] 的原始数据
+
+        Returns:
+            归一化后的数据，shape不变
+        """
+        if not self.scalers_fitted:
+            raise RuntimeError("Scalers have not been fitted. Call fit_scalers() first.")
+
+        # 分别归一化不同的特征组
+        normalized_data = data.copy()
+        normalized_data[:, :4] = self.scaler_price.transform(data[:, :4])      # 价格
+        normalized_data[:, 4:5] = self.scaler_volume.transform(data[:, 4:5])   # 成交量
+        normalized_data[:, 5:6] = self.scaler_amount.transform(data[:, 5:6])   # 成交额
+        # 收益率 data[:, 6:7] 保持不变
+
+        return normalized_data
+
     def build_adjacency_matrix(self) -> np.ndarray:
         """
         构建行业关系邻接矩阵
@@ -153,15 +301,15 @@ class IndustryDataLoader:
         
         return adj_matrix
     
-    def prepare_sequences(self, window_sizes: List[int] = [20, 40, 80], 
+    def prepare_sequences(self, window_sizes: List[int] = [20, 40, 80],
                           future_days: int = 30) -> Dict[str, np.ndarray]:
         """
         准备时间序列数据
-        
+
         Args:
             window_sizes: 时间窗口大小列表 [20, 40, 80]
             future_days: 预测未来天数
-            
+
         Returns:
             字典，包含：
             - 'sequences': [样本数, 最大窗口, 特征数] 的数组
@@ -169,12 +317,16 @@ class IndustryDataLoader:
             - 'masks': [样本数, 最大窗口] 的掩码，标记有效时间步
             - 'industry_indices': [样本数] 的行业索引
         """
+        # 如果标准化器还未拟合，先拟合
+        if not self.scalers_fitted:
+            self.fit_scalers()
+
         max_window = max(window_sizes)
         all_sequences = []
         all_targets = []
         all_masks = []
         all_industry_indices = []
-        
+
         # 先收集所有行业的未来收益率，用于全局分位数计算
         all_future_returns = []
         
@@ -217,12 +369,15 @@ class IndustryDataLoader:
             for i in range(len(data) - max_window - future_days + 1):
                 # 提取序列
                 seq = data[i:i+max_window]
-                
+
+                # ⭐ 应用特征归一化
+                seq_normalized = self.normalize_features(seq)
+
                 # 计算未来收益率
                 start_price = current_prices[i+max_window-1]
                 end_price = current_prices[i+max_window+future_days-1]
                 future_return = (end_price - start_price) / start_price if start_price > 0 else 0.0
-                
+
                 # 分配分位数标签
                 if future_return <= quantiles[0]:
                     target = 0  # 最低20%
@@ -234,11 +389,11 @@ class IndustryDataLoader:
                     target = 3  # 60-80%
                 else:
                     target = 4  # 最高20%
-                
-                all_sequences.append(seq)
+
+                all_sequences.append(seq_normalized)  # 使用归一化后的序列
                 all_targets.append(target)
                 all_industry_indices.append(industry_idx)
-                
+
                 # 创建掩码（全部有效，因为都是max_window长度）
                 mask = np.ones(max_window, dtype=np.float32)
                 all_masks.append(mask)
@@ -282,7 +437,7 @@ class IndustryDataLoader:
     def get_data_dict(self) -> Dict[str, np.ndarray]:
         """
         获取完整的数据字典（包含sequences, targets, masks, industry_indices）
-        
+
         Returns:
             包含所有数据的字典
         """
@@ -290,6 +445,59 @@ class IndustryDataLoader:
         if not hasattr(self, '_data_dict') or self._data_dict is None:
             self.prepare_data()
         return self._data_dict
+
+    def save_scalers(self, save_path: str = "checkpoints/scalers.pkl"):
+        """
+        保存特征标准化器到文件
+
+        Args:
+            save_path: 保存路径
+        """
+        if not self.scalers_fitted:
+            print("Warning: Scalers have not been fitted yet.")
+            return
+
+        # 确保目录存在
+        os.makedirs(os.path.dirname(save_path), exist_ok=True)
+
+        scaler_params = {
+            'price': self.scaler_price.get_params(),
+            'volume': self.scaler_volume.get_params(),
+            'amount': self.scaler_amount.get_params(),
+            'fitted': self.scalers_fitted
+        }
+
+        with open(save_path, 'wb') as f:
+            pickle.dump(scaler_params, f)
+
+        print(f"✓ 标准化器已保存到: {save_path}")
+
+    def load_scalers(self, load_path: str = "checkpoints/scalers.pkl"):
+        """
+        从文件加载特征标准化器
+
+        Args:
+            load_path: 加载路径
+        """
+        if not os.path.exists(load_path):
+            print(f"Warning: Scaler file not found at {load_path}")
+            return False
+
+        with open(load_path, 'rb') as f:
+            scaler_params = pickle.load(f)
+
+        self.scaler_price.set_params(scaler_params['price'])
+        self.scaler_volume.set_params(scaler_params['volume'])
+        self.scaler_amount.set_params(scaler_params['amount'])
+        self.scalers_fitted = scaler_params['fitted']
+
+        print(f"✓ 标准化器已从 {load_path} 加载")
+        print(f"  价格特征 - Mean: {self.scaler_price.mean.flatten()[:4]}")
+        print(f"  价格特征 - Std:  {self.scaler_price.std.flatten()[:4]}")
+        print(f"  成交量   - Mean: {self.scaler_volume.mean.item():.2e}, Std: {self.scaler_volume.std.item():.2e}")
+        print(f"  成交额   - Mean: {self.scaler_amount.mean.item():.2e}, Std: {self.scaler_amount.std.item():.2e}")
+
+        return True
 
 
 class IndustryDataset(Dataset):

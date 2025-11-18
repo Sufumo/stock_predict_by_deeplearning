@@ -75,12 +75,27 @@ class GraphAttentionLayer(nn.Module):
             # 广播计算 e_ij = Wh1_i + Wh2_j
             e = Wh1 + Wh2.T  # [num_nodes, num_nodes]
             e = self.leakyrelu(e)
-            
+
+            # ⭐ 添加激活值截断，防止极端值导致 softmax 溢出
+            e = torch.clamp(e, min=-10, max=10)
+
             # 应用邻接矩阵掩码（只保留有连接的节点对）
             # 将无连接的节点对的注意力分数设为负无穷
             attention_mask = (adj > 0).float()
-            e = e.masked_fill(attention_mask == 0, float('-inf'))
-            
+
+            # ⭐ 检查是否存在完全孤立的节点（所有邻居都被mask）
+            # 如果某个节点的整行都是0，使用-1e9代替-inf，防止softmax产生NaN
+            has_neighbors = attention_mask.sum(dim=1) > 0  # [num_nodes]
+            if not has_neighbors.all():
+                # 存在孤立节点，使用-1e9而非-inf
+                e = e.masked_fill(attention_mask == 0, -1e9)
+                # 对于完全孤立的节点，保留其自注意力（假设对角线为1）
+                diagonal_mask = torch.eye(num_nodes, device=e.device, dtype=torch.bool)
+                e = e.masked_fill(diagonal_mask & (attention_mask.sum(dim=1, keepdim=True) == 0), 0)
+            else:
+                # 正常情况，使用-inf
+                e = e.masked_fill(attention_mask == 0, float('-inf'))
+
             # Softmax归一化
             attention = F.softmax(e, dim=1)
             attention = self.dropout_layer(attention)

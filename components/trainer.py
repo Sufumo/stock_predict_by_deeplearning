@@ -16,10 +16,12 @@ from pathlib import Path
 try:
     from .metrics import FinancialMetricsCalculator
     from .validator import TimeSeriesKFold
+    from .monitor import NaNDetector, GradientMonitor
 except ImportError:
     # 如果是直接运行该文件
     from metrics import FinancialMetricsCalculator
     from validator import TimeSeriesKFold
+    from monitor import NaNDetector, GradientMonitor
 
 
 class Trainer:
@@ -89,7 +91,49 @@ class Trainer:
             self.val_history['IC'] = []
             self.val_history['RankIC'] = []
             self.val_history['long_short_return'] = []
-    
+
+        # ⭐ NaN/Inf检测器（用于调试）
+        self.nan_detector = NaNDetector(model, check_frequency=50)
+        self.enable_nan_detection = False  # 默认关闭，可在训练时开启
+
+        # ⭐ 梯度监控器（用于调试）
+        self.gradient_monitor = GradientMonitor(model)
+        self.enable_gradient_monitor = False  # 默认关闭
+
+    def enable_debugging(self, enable_nan_detection: bool = True, enable_gradient_monitor: bool = False):
+        """
+        启用调试模式
+
+        Args:
+            enable_nan_detection: 启用NaN/Inf检测
+            enable_gradient_monitor: 启用梯度监控
+        """
+        self.enable_nan_detection = enable_nan_detection
+        self.enable_gradient_monitor = enable_gradient_monitor
+
+        if enable_nan_detection:
+            self.nan_detector.enable()
+            print("✓ NaN/Inf detection enabled")
+
+        if enable_gradient_monitor:
+            self.gradient_monitor.register_hooks()
+            print("✓ Gradient monitoring enabled")
+
+    def disable_debugging(self):
+        """禁用调试模式"""
+        self.enable_nan_detection = False
+        self.enable_gradient_monitor = False
+        self.nan_detector.disable()
+        self.gradient_monitor.remove_hooks()
+        print("✓ Debugging disabled")
+
+    def print_monitoring_report(self):
+        """打印监控报告"""
+        if self.enable_gradient_monitor:
+            self.gradient_monitor.print_summary(top_k=10)
+        if self.enable_nan_detection:
+            self.nan_detector.print_report()
+
     def train_epoch(self, dataloader: DataLoader, adj_matrix: torch.Tensor) -> Dict[str, float]:
         """
         训练一个epoch
@@ -143,8 +187,27 @@ class Trainer:
             # 计算损失
             loss = self.criterion(predictions, targets)
 
+            # ⭐ NaN/Inf检测（在反向传播前）
+            if self.enable_nan_detection:
+                if torch.isnan(loss) or torch.isinf(loss):
+                    print(f"\n❌ NaN/Inf detected in loss!")
+                    print(f"   Loss value: {loss.item()}")
+                    print(f"   Predictions stats: mean={predictions.mean().item():.4f}, "
+                          f"std={predictions.std().item():.4f}, "
+                          f"min={predictions.min().item():.4f}, "
+                          f"max={predictions.max().item():.4f}")
+                    print(f"   Targets: {targets[:10].cpu().numpy()}")
+                    self.nan_detector.print_report()
+                    raise ValueError("Training collapsed due to NaN/Inf loss!")
+
             # 反向传播
             loss.backward()
+
+            # ⭐ NaN检测（梯度）
+            if self.enable_nan_detection:
+                if not self.nan_detector.step(loss):
+                    self.nan_detector.print_report()
+                    raise ValueError("Training collapsed due to NaN/Inf in gradients!")
 
             # 梯度裁剪
             if self.max_grad_norm is not None:

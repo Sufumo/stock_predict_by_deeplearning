@@ -3,8 +3,8 @@
 # 数据配置
 data:
   data_dir: "./data"
-  kline_file: "industry_kline_data.json"
-  relation_file: "industry_relation.csv"
+  kline_file: "industry_kline_data_cleaned.json"
+  relation_file: "industry_relation_cleaned.csv"
   industry_list_file: "industry_list.json"
 
   # 时间窗口
@@ -68,10 +68,10 @@ model:
 # 训练配置
 training:
   # 基础参数
-  batch_size: 32
-  num_epochs: 50
-  learning_rate: 0.0001
-  weight_decay: 0.0001
+  batch_size: 64  # ⭐ 增大batch size提高训练稳定性 (32 → 64)
+  num_epochs: 1
+  learning_rate: 0.00005  # ⭐ 降低学习率配合归一化 (1e-4 → 5e-5)
+  weight_decay: 0.00001  # ⭐ 减少正则化强度 (1e-4 → 1e-5)
 
   # 学习率调度
   use_scheduler: true
@@ -79,8 +79,8 @@ training:
   scheduler_params:
     mode: "min"
     factor: 0.5
-    patience: 5
-    min_lr: 0.00001
+    patience: 3  # ⭐ 减少patience以更快响应 (5 → 3)
+    min_lr: 0.000001  # ⭐ 降低最小学习率 (1e-5 → 1e-6)
 
   # 早停
   use_early_stopping: true

@@ -1,0 +1,115 @@
+============================================================
+MMF-GAT Industry Stock Prediction Training
+============================================================
+Random seed set to: 42
+Using device: cuda
+
+============================================================
+Step 1: Loading Data
+============================================================
+加载了 86 个行业的数据
+Total samples: 315370
+Number of industries: 86
+Label distribution: [63074 63074 63074 63074 63074]
+
+============================================================
+Step 2: Creating Model
+============================================================
+/usr/local/lib/python3.12/dist-packages/torch/nn/modules/transformer.py:392: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.self_attn.batch_first was not True(use batch_first for better inference performance)
+  warnings.warn(
+Total parameters: 655,848
+
+============================================================
+Step 3: Creating Trainer
+============================================================
+
+============================================================
+Step 4: Training
+============================================================
+Using 3-Fold Cross-Validation
+
+============================================================
+Starting 3-Fold Time Series Cross-Validation
+============================================================
+
+
+------------------------------------------------------------
+Fold 1/3
+Train samples: 126148, Val samples: 63074
+------------------------------------------------------------
+
+Fold 1, Epoch 1/1
+Training: 100% 3943/3943 [09:23<00:00,  7.00it/s, loss=nan, acc=20.90%]
+Validating: 100% 1972/1972 [03:24<00:00,  9.65it/s, loss=nan, acc=19.42%]
+  Train Loss: nan, Acc: 20.90%
+  Val Loss: nan, Acc: 19.42%
+  Val IC: 0.0000, RankIC: 0.0000
+Validating: 100% 1972/1972 [03:23<00:00,  9.68it/s, loss=nan, acc=19.42%]
+Validating: 100% 3943/3943 [06:50<00:00,  9.60it/s, loss=nan, acc=20.91%]
+
+Fold 1 Final Results:
+  Val Loss: nan
+  Val Acc: 19.42%
+  Val IC: 0.0000
+  Val RankIC: 0.0000
+
+------------------------------------------------------------
+Fold 2/3
+Train samples: 189222, Val samples: 63074
+------------------------------------------------------------
+
+Fold 2, Epoch 1/1
+Training: 100% 5914/5914 [13:42<00:00,  7.19it/s, loss=nan, acc=20.42%]
+Validating: 100% 1972/1972 [03:23<00:00,  9.71it/s, loss=nan, acc=18.76%]
+  Train Loss: nan, Acc: 20.42%
+  Val Loss: nan, Acc: 18.76%
+  Val IC: 0.0000, RankIC: 0.0000
+Validating: 100% 1972/1972 [03:24<00:00,  9.65it/s, loss=nan, acc=18.76%]
+Validating: 100% 5914/5914 [10:15<00:00,  9.60it/s, loss=nan, acc=20.42%]
+
+Fold 2 Final Results:
+  Val Loss: nan
+  Val Acc: 18.76%
+  Val IC: 0.0000
+  Val RankIC: 0.0000
+
+------------------------------------------------------------
+Fold 3/3
+Train samples: 252296, Val samples: 63074
+------------------------------------------------------------
+
+Fold 3, Epoch 1/1
+Training: 100% 7885/7885 [18:20<00:00,  7.17it/s, loss=nan, acc=20.00%]
+Validating: 100% 1972/1972 [03:23<00:00,  9.71it/s, loss=nan, acc=19.99%]
+  Train Loss: nan, Acc: 20.00%
+  Val Loss: nan, Acc: 19.99%
+  Val IC: 0.0000, RankIC: 0.0000
+Validating: 100% 1972/1972 [03:22<00:00,  9.75it/s, loss=nan, acc=19.99%]
+Validating: 100% 7885/7885 [13:41<00:00,  9.59it/s, loss=nan, acc=20.00%]
+
+Fold 3 Final Results:
+  Val Loss: nan
+  Val Acc: 19.99%
+  Val IC: 0.0000
+  Val RankIC: 0.0000
+
+============================================================
+K-Fold Cross-Validation Summary
+============================================================
+
+Average Train Loss: nan ± nan
+Average Train Acc: 20.44% ± 0.37%
+Average Val Loss: nan ± nan
+Average Val Acc: 19.39% ± 0.50%
+
+Financial Metrics:
+Average IC: 0.0000 ± 0.0000
+Average RankIC: 0.0000 ± 0.0000
+Average Long-Short: 0.0000 ± 0.0000
+K-fold results plot saved to visualizations/kfold_results.png
+
+============================================================
+Training Complete!
+Model saved to: checkpoints/best_model.pth
+Visualizations saved to: ./visualizations
+============================================================
