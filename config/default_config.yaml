@@ -74,7 +74,7 @@ model:
 training:
   # 基础参数
   batch_size: 64  # ⭐ 增大batch size提高训练稳定性 (32 → 64)
-  num_epochs: 1
+  num_epochs: 20
   learning_rate: 0.00005  # ⭐ 降低学习率配合归一化 (1e-4 → 5e-5)
   weight_decay: 0.00001  # ⭐ 减少正则化强度 (1e-4 → 1e-5)
 
