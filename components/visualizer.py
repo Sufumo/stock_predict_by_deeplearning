@@ -269,6 +269,177 @@ class Visualizer:
         plt.close()
         print(f"K-fold results plot saved to {save_path}")
 
+    def plot_subgraph_structure(self, subgraph_nodes: List[int],
+                                batch_nodes: List[int],
+                                adj_matrix: np.ndarray,
+                                industry_names: Optional[List[str]] = None,
+                                save_name: str = "subgraph_structure.png"):
+        """
+        可视化子图结构
+
+        Args:
+            subgraph_nodes: 子图中的所有节点索引
+            batch_nodes: batch中的中心节点索引
+            adj_matrix: 子图的邻接矩阵
+            industry_names: 行业名称列表
+            save_name: 保存文件名
+        """
+        try:
+            import networkx as nx
+        except ImportError:
+            print("Warning: networkx not installed, skipping subgraph visualization")
+            return
+
+        # 创建图
+        G = nx.from_numpy_array(adj_matrix)
+
+        # 节点标签
+        if industry_names is not None:
+            labels = {i: industry_names[node_idx] if node_idx < len(industry_names)
+                     else f'Industry_{node_idx}'
+                     for i, node_idx in enumerate(subgraph_nodes)}
+        else:
+            labels = {i: f'Ind{subgraph_nodes[i]}' for i in range(len(subgraph_nodes))}
+
+        # 区分中心节点和邻居节点
+        batch_indices_in_subgraph = [subgraph_nodes.index(n) for n in batch_nodes if n in subgraph_nodes]
+        neighbor_indices = [i for i in range(len(subgraph_nodes)) if i not in batch_indices_in_subgraph]
+
+        # 绘图
+        plt.figure(figsize=(14, 10))
+        pos = nx.spring_layout(G, k=2, iterations=50, seed=42)
+
+        # 绘制邻居节点(蓝色)
+        nx.draw_networkx_nodes(G, pos, nodelist=neighbor_indices,
+                              node_color='lightblue', node_size=500,
+                              alpha=0.7, label='Neighbor nodes')
+
+        # 绘制中心节点(红色)
+        nx.draw_networkx_nodes(G, pos, nodelist=batch_indices_in_subgraph,
+                              node_color='red', node_size=800,
+                              alpha=0.9, label='Batch nodes (center)')
+
+        # 绘制边
+        nx.draw_networkx_edges(G, pos, alpha=0.5, width=1.5)
+
+        # 绘制标签
+        nx.draw_networkx_labels(G, pos, labels, font_size=8)
+
+        plt.title(f'Subgraph Structure: {len(batch_nodes)} center nodes + {len(neighbor_indices)} neighbors',
+                 fontsize=14)
+        plt.legend(fontsize=10)
+        plt.axis('off')
+
+        save_path = self.save_dir / save_name
+        plt.savefig(save_path, dpi=self.dpi, bbox_inches='tight')
+        plt.close()
+        print(f"Subgraph structure saved to {save_path}")
+
+    def plot_embedding_similarity(self, embeddings: np.ndarray,
+                                  industry_names: Optional[List[str]] = None,
+                                  top_k: int = 30,
+                                  save_name: str = "embedding_similarity.png"):
+        """
+        可视化行业嵌入的相似度矩阵
+
+        Args:
+            embeddings: 行业嵌入矩阵 [num_industries, embedding_dim]
+            industry_names: 行业名称列表
+            top_k: 只显示前k个行业
+            save_name: 保存文件名
+        """
+        from sklearn.metrics.pairwise import cosine_similarity
+
+        # 计算余弦相似度
+        similarity_matrix = cosine_similarity(embeddings)
+
+        # 如果行业太多,只显示top_k
+        if len(embeddings) > top_k:
+            # 选择平均相似度最高的top_k个行业
+            avg_similarity = similarity_matrix.mean(axis=1)
+            top_indices = np.argsort(avg_similarity)[-top_k:]
+            similarity_matrix = similarity_matrix[top_indices][:, top_indices]
+
+            if industry_names is not None:
+                industry_names = [industry_names[i] for i in top_indices]
+        else:
+            top_indices = range(len(embeddings))
+
+        # 绘图
+        plt.figure(figsize=(12, 10))
+        sns.heatmap(similarity_matrix, cmap='coolwarm', center=0,
+                   xticklabels=industry_names if industry_names else top_indices,
+                   yticklabels=industry_names if industry_names else top_indices,
+                   cbar_kws={'label': 'Cosine Similarity'})
+
+        plt.xlabel('Industry', fontsize=12)
+        plt.ylabel('Industry', fontsize=12)
+        plt.title(f'Industry Embedding Similarity (Top {top_k})', fontsize=14)
+        plt.xticks(rotation=45, ha='right')
+        plt.yticks(rotation=0)
+
+        save_path = self.save_dir / save_name
+        plt.savefig(save_path, dpi=self.dpi, bbox_inches='tight')
+        plt.close()
+        print(f"Embedding similarity saved to {save_path}")
+
+    def plot_subgraph_attention_summary(self, attention_weights: np.ndarray,
+                                       subgraph_nodes: List[int],
+                                       batch_nodes: List[int],
+                                       industry_names: Optional[List[str]] = None,
+                                       save_name: str = "attention_summary.png"):
+        """
+        可视化子图中的注意力权重分布
+
+        Args:
+            attention_weights: GAT注意力权重 [num_subgraph_nodes, num_subgraph_nodes]
+            subgraph_nodes: 子图节点索引
+            batch_nodes: batch中心节点索引
+            industry_names: 行业名称列表
+            save_name: 保存文件名
+        """
+        batch_indices_in_subgraph = [subgraph_nodes.index(n) for n in batch_nodes if n in subgraph_nodes]
+
+        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 6))
+
+        # 左图: 注意力权重热力图
+        if industry_names is not None:
+            labels = [industry_names[node_idx] if node_idx < len(industry_names)
+                     else f'Ind{node_idx}' for node_idx in subgraph_nodes]
+        else:
+            labels = [f'Ind{idx}' for idx in subgraph_nodes]
+
+        sns.heatmap(attention_weights, cmap='YlOrRd', ax=ax1,
+                   xticklabels=labels, yticklabels=labels,
+                   cbar_kws={'label': 'Attention Weight'})
+        ax1.set_title('Attention Weights Heatmap', fontsize=14)
+        ax1.set_xlabel('Target Node', fontsize=12)
+        ax1.set_ylabel('Source Node', fontsize=12)
+
+        # 右图: batch节点接收到的平均注意力
+        batch_attention = attention_weights[batch_indices_in_subgraph, :].mean(axis=0)
+        node_types = ['Center' if i in batch_indices_in_subgraph else 'Neighbor'
+                     for i in range(len(subgraph_nodes))]
+
+        colors = ['red' if t == 'Center' else 'blue' for t in node_types]
+        ax2.bar(range(len(batch_attention)), batch_attention, color=colors, alpha=0.7)
+        ax2.set_xlabel('Node Index in Subgraph', fontsize=12)
+        ax2.set_ylabel('Avg Attention Received', fontsize=12)
+        ax2.set_title('Average Attention Received by Each Node', fontsize=14)
+        ax2.grid(True, alpha=0.3, axis='y')
+
+        # 添加图例
+        from matplotlib.patches import Patch
+        legend_elements = [Patch(facecolor='red', alpha=0.7, label='Center nodes'),
+                          Patch(facecolor='blue', alpha=0.7, label='Neighbor nodes')]
+        ax2.legend(handles=legend_elements)
+
+        plt.tight_layout()
+        save_path = self.save_dir / save_name
+        plt.savefig(save_path, dpi=self.dpi, bbox_inches='tight')
+        plt.close()
+        print(f"Attention summary saved to {save_path}")
+
 
 if __name__ == "__main__":
     # 测试

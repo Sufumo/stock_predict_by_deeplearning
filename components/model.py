@@ -18,7 +18,7 @@ class IndustryStockModel(nn.Module):
     整合时间特征提取和行业关系建模
     """
     
-    def __init__(self, 
+    def __init__(self,
                  input_features: int = 7,
                  time_encoder_dim: int = 128,
                  compression_dim: int = 64,
@@ -28,7 +28,10 @@ class IndustryStockModel(nn.Module):
                  num_heads: int = 8,
                  num_gat_layers: int = 2,
                  dropout: float = 0.1,
-                 use_dwt: bool = True):
+                 use_dwt: bool = True,
+                 num_industries: int = 86,
+                 use_industry_embedding: bool = True,
+                 embedding_fusion_alpha: float = 1.0):
         """
         Args:
             input_features: 输入特征数（K线数据的特征维度）
@@ -41,13 +44,19 @@ class IndustryStockModel(nn.Module):
             num_gat_layers: GAT层数
             dropout: Dropout比率
             use_dwt: 是否使用DWT增强
+            num_industries: 行业总数
+            use_industry_embedding: 是否使用可学习的行业嵌入
+            embedding_fusion_alpha: 时间特征融合权重(1.0=完全使用时间特征,0.0=完全使用嵌入)
         """
         super(IndustryStockModel, self).__init__()
-        
+
         self.input_features = input_features
         self.time_encoder_dim = time_encoder_dim
         self.compression_dim = compression_dim
         self.use_dwt = use_dwt
+        self.num_industries = num_industries
+        self.use_industry_embedding = use_industry_embedding
+        self.embedding_fusion_alpha = embedding_fusion_alpha
         
         # DWT增强模块
         if use_dwt:
@@ -77,7 +86,16 @@ class IndustryStockModel(nn.Module):
             out_features=compression_dim,
             dropout=dropout
         )
-        
+
+        # ⭐ 可学习的行业嵌入层
+        # 为每个行业学习一个固定的嵌入向量,用于邻居节点特征
+        if use_industry_embedding:
+            self.industry_embeddings = nn.Embedding(num_industries, compression_dim)
+            # 使用小随机值初始化
+            nn.init.normal_(self.industry_embeddings.weight, mean=0.0, std=0.01)
+        else:
+            self.industry_embeddings = None
+
         # GAT图注意力网络
         self.gat = GAT(
             in_features=compression_dim,
@@ -203,21 +221,36 @@ class IndustryStockModel(nn.Module):
         subgraph_nodes_tensor = torch.tensor(subgraph_nodes, device=device)
         num_subgraph_nodes = len(subgraph_nodes)
 
-        # 创建子图特征矩阵
-        subgraph_features = torch.zeros(
-            num_subgraph_nodes, self.compression_dim, device=device
-        )
+        # ⭐ 创建子图特征矩阵 - 使用行业嵌入初始化
+        if self.use_industry_embedding and self.industry_embeddings is not None:
+            # 使用行业嵌入初始化所有节点(包括batch节点和邻居节点)
+            subgraph_embeddings = self.industry_embeddings(subgraph_nodes_tensor)
+            subgraph_features = subgraph_embeddings.clone()
+        else:
+            # 如果不使用嵌入,初始化为零向量
+            subgraph_features = torch.zeros(
+                num_subgraph_nodes, self.compression_dim, device=device
+            )
 
         # 创建从原始索引到子图索引的映射
         index_mapping = {orig_idx: sub_idx for sub_idx, orig_idx in enumerate(subgraph_nodes)}
 
-        # 填充batch中行业的特征
+        # ⭐ 填充batch中行业的特征 - 可选融合或替换
         for i, orig_idx in enumerate(industry_indices):
             sub_idx = index_mapping[orig_idx.item()]
-            subgraph_features[sub_idx] = compressed_features[i]
 
-        # 对于邻居节点,使用零向量(或可选:使用历史平均特征)
-        # 这里保持零向量,因为邻居只是提供结构信息
+            if self.use_industry_embedding and self.embedding_fusion_alpha < 1.0:
+                # 融合模式: 时间特征 + 行业嵌入
+                alpha = self.embedding_fusion_alpha
+                subgraph_features[sub_idx] = (
+                    alpha * compressed_features[i] +
+                    (1 - alpha) * subgraph_features[sub_idx]
+                )
+            else:
+                # 替换模式: 完全使用时间特征 (默认)
+                subgraph_features[sub_idx] = compressed_features[i]
+
+        # 邻居节点保持行业嵌入特征(或零向量)
 
         # 提取子图的邻接矩阵
         subgraph_adj = adj_matrix[subgraph_nodes_tensor][:, subgraph_nodes_tensor]

@@ -1,0 +1,132 @@
+/opt/anaconda3/bin/python /Users/wenxinsong/Documents/DeepLearing/transformer/train.py 
+============================================================
+MMF-GAT Industry Stock Prediction Training
+============================================================
+Random seed set to: 42
+Using device: mps
+
+============================================================
+Step 1: Loading Data
+============================================================
+加载了 86 个行业的数据（来自 industry_list.json）
+读取到 246 条行业关系（来自 industry_relation_cleaned.csv）
+正在拟合特征标准化器...
+
+归一化前的特征统计:
+  价格特征 - Mean: [10939.196 10948.34  11055.776 10831.486]
+  价格特征 - Std:  [19007.521 19024.227 19223.234 18832.852]
+  成交量   - Mean: 1.12e+07, Std: 1.16e+07
+  成交额   - Mean: 1.49e+10, Std: 1.83e+10
+
+归一化后的特征范围:
+  价格特征 - Min: [-0.55949676 -0.5590897  -0.55871224 -0.5593277 ], Max: [8.518014  8.501667  8.5366335 8.487944 ]
+  成交量   - Min: -0.92, Max: 12.72
+  成交额   - Min: -0.79, Max: 15.80
+
+Total samples: 55315
+Number of industries: 86
+Label distribution: [11063 11063 11063 11063 11063]
+
+============================================================
+Step 2: Creating Model
+============================================================
+/opt/anaconda3/lib/python3.13/site-packages/torch/nn/modules/transformer.py:392: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.self_attn.batch_first was not True(use batch_first for better inference performance)
+  warnings.warn(
+Total parameters: 661,608
+
+============================================================
+Step 3: Creating Trainer
+============================================================
+
+============================================================
+Step 4: Training
+============================================================
+Using 3-Fold Cross-Validation
+
+============================================================
+Starting 3-Fold Time Series Cross-Validation
+============================================================
+
+
+------------------------------------------------------------
+Fold 1/3
+Train samples: 22126, Val samples: 11063
+------------------------------------------------------------
+
+Fold 1, Epoch 1/1
+Training: 100%|██████████| 346/346 [01:23<00:00,  4.16it/s, loss=1.5903, acc=18.54%]
+Validating: 100%|██████████| 173/173 [00:22<00:00,  7.68it/s, loss=1.5907, acc=19.28%]
+  Train Loss: 1.6148, Acc: 18.54%
+  Val Loss: 1.6126, Acc: 19.28%
+  Val IC: -0.0562, RankIC: -0.0611
+Validating: 100%|██████████| 173/173 [00:22<00:00,  7.67it/s, loss=1.5907, acc=19.28%]
+Validating: 100%|██████████| 346/346 [00:45<00:00,  7.67it/s, loss=1.5905, acc=18.54%]
+
+Fold 1 Final Results:
+  Val Loss: 1.6126
+  Val Acc: 19.28%
+  Val IC: -0.0562
+  Val RankIC: -0.0611
+
+------------------------------------------------------------
+Fold 2/3
+Train samples: 33189, Val samples: 11063
+------------------------------------------------------------
+
+Fold 2, Epoch 1/1
+Training: 100%|██████████| 519/519 [02:04<00:00,  4.17it/s, loss=1.6116, acc=20.09%]
+Validating: 100%|██████████| 173/173 [00:23<00:00,  7.25it/s, loss=1.4459, acc=23.34%]
+  Train Loss: 1.6112, Acc: 20.09%
+  Val Loss: 1.6045, Acc: 23.34%
+  Val IC: 0.0745, RankIC: 0.0544
+Validating: 100%|██████████| 173/173 [00:22<00:00,  7.61it/s, loss=1.4459, acc=23.34%]
+Validating: 100%|██████████| 519/519 [01:10<00:00,  7.41it/s, loss=1.6087, acc=24.30%]
+Training:   0%|          | 0/692 [00:00<?, ?it/s]
+Fold 2 Final Results:
+  Val Loss: 1.6045
+  Val Acc: 23.34%
+  Val IC: 0.0745
+  Val RankIC: 0.0544
+
+------------------------------------------------------------
+Fold 3/3
+Train samples: 44252, Val samples: 11063
+------------------------------------------------------------
+
+Fold 3, Epoch 1/1
+Training: 100%|██████████| 692/692 [02:40<00:00,  4.31it/s, loss=1.3200, acc=23.44%]
+Validating: 100%|██████████| 173/173 [00:23<00:00,  7.43it/s, loss=1.5864, acc=22.61%]
+  Train Loss: 1.6039, Acc: 23.44%
+  Val Loss: 1.6085, Acc: 22.61%
+  Val IC: 0.0666, RankIC: 0.0029
+Validating: 100%|██████████| 173/173 [00:24<00:00,  7.19it/s, loss=1.5864, acc=22.61%]
+Validating: 100%|██████████| 692/692 [01:29<00:00,  7.69it/s, loss=1.2983, acc=24.16%]
+
+Fold 3 Final Results:
+  Val Loss: 1.6085
+  Val Acc: 22.61%
+  Val IC: 0.0666
+  Val RankIC: 0.0029
+
+============================================================
+K-Fold Cross-Validation Summary
+============================================================
+
+Average Train Loss: 1.6054 ± 0.0055
+Average Train Acc: 22.33% ± 2.68%
+Average Val Loss: 1.6085 ± 0.0033
+Average Val Acc: 21.74% ± 1.77%
+
+Financial Metrics:
+Average IC: 0.0283 ± 0.0598
+Average RankIC: -0.0013 ± 0.0472
+Average Long-Short: 0.0752 ± 0.2394
+K-fold results plot saved to visualizations/kfold_results.png
+
+============================================================
+Training Complete!
+Model saved to: checkpoints/best_model.pth
+Visualizations saved to: ./visualizations
+============================================================
+
+进程已结束，退出代码为 0

@@ -7,6 +7,7 @@ import os
 import numpy as np
 import pandas as pd
 import pickle
+from pathlib import Path
 from typing import Dict, List, Tuple, Optional
 from torch.utils.data import Dataset
 import torch
@@ -82,7 +83,8 @@ class IndustryDataLoader:
     """行业数据加载器"""
     
     def __init__(self, data_dir: str = None, data_path: str = None, relation_path: str = None,
-                 window_sizes: List[int] = None, future_days: int = None, num_classes: int = None):
+                 industry_list_path: str = None, window_sizes: List[int] = None,
+                 future_days: int = None, num_classes: int = None):
         """
         初始化数据加载器
         
@@ -98,18 +100,36 @@ class IndustryDataLoader:
             future_days: 预测未来天数（新方式）
             num_classes: 分类类别数（新方式，用于兼容）
         """
+        self.data_path = None
+        self.relation_path = None
+        self.industry_list_path = industry_list_path
+        
         # 新方式：使用 data_dir
         if data_dir is not None:
-            from pathlib import Path
-            data_dir = Path(data_dir)
-            self.data_path = str(data_dir / "industry_kline_data.json")
-            self.relation_path = str(data_dir / "industry_relation.csv")
+            base_dir = Path(data_dir)
+            self.data_path = self._resolve_data_file(
+                base_dir,
+                ["industry_kline_data_cleaned.json", "industry_kline_data.json"],
+                "industry_kline_data.json"
+            )
+            self.relation_path = self._resolve_data_file(
+                base_dir,
+                ["industry_relation_cleaned.csv", "industry_relation.csv"],
+                "industry_relation.csv"
+            )
+            if self.industry_list_path is None:
+                industry_list_file = base_dir / "industry_list.json"
+                if industry_list_file.exists():
+                    self.industry_list_path = str(industry_list_file)
         # 旧方式：直接指定路径
         elif data_path is not None and relation_path is not None:
             self.data_path = data_path
             self.relation_path = relation_path
         else:
             raise ValueError("必须提供 data_dir 或 (data_path, relation_path)")
+        
+        if self.industry_list_path is None:
+            raise ValueError("必须提供 industry_list.json，用于构建样本的行业列表")
         
         self.window_sizes = window_sizes if window_sizes is not None else [20, 40, 80]
         self.future_days = future_days if future_days is not None else 30
@@ -129,22 +149,48 @@ class IndustryDataLoader:
         # 收益率 [6] 保持原始值，不归一化（已经在合理范围）
         self.scalers_fitted = False
         
+    @staticmethod
+    def _resolve_data_file(base_dir: Path, candidates: List[str], default_name: str) -> str:
+        """
+        在候选列表中查找存在的文件，若都不存在，则返回默认名称对应的路径
+        """
+        for name in candidates:
+            if not name:
+                continue
+            candidate_path = base_dir / name
+            if candidate_path.exists():
+                return str(candidate_path)
+        return str(base_dir / default_name)
+
     def load_data(self):
         """加载原始数据"""
         # 加载K线数据
         with open(self.data_path, 'r', encoding='utf-8') as f:
             self.raw_data = json.load(f)
         
-        # 加载行业关系数据
-        self.relation_df = pd.read_csv(self.relation_path)
+        # 加载行业列表（用于确定GAT节点和样本行业）
+        with open(self.industry_list_path, 'r', encoding='utf-8') as f:
+            industry_list_raw = json.load(f)
+        if not isinstance(industry_list_raw, list):
+            raise ValueError("industry_list.json 格式必须为字符串列表")
         
-        # 获取行业列表（按CSV中的顺序）
-        self.industry_list = self.relation_df['industry'].tolist()
+        seen = set()
+        self.industry_list = []
+        for name in industry_list_raw:
+            if not isinstance(name, str):
+                continue
+            if name not in seen:
+                self.industry_list.append(name)
+                seen.add(name)
         
         # 创建行业到索引的映射
         self.industry_to_idx = {industry: idx for idx, industry in enumerate(self.industry_list)}
         
-        print(f"加载了 {len(self.industry_list)} 个行业的数据")
+        # 加载行业关系数据（用于构建静态GAT图）
+        self.relation_df = pd.read_csv(self.relation_path)
+        
+        print(f"加载了 {len(self.industry_list)} 个行业的数据（来自 industry_list.json）")
+        print(f"读取到 {len(self.relation_df)} 条行业关系（来自 industry_relation_cleaned.csv）")
         
     def parse_kline_data(self, industry_name: str) -> np.ndarray:
         """
@@ -272,32 +318,46 @@ class IndustryDataLoader:
 
     def build_adjacency_matrix(self) -> np.ndarray:
         """
-        构建行业关系邻接矩阵
+        构建行业关系邻接矩阵（静态GAT图）
         
         Returns:
             邻接矩阵，形状为 [行业数, 行业数]
-            如果两个行业属于同一个sw_industry，则为1，否则为0
+            仅使用 industry_relation_cleaned.csv 中的边信息构图
         """
         n_industries = len(self.industry_list)
-        adj_matrix = np.zeros((n_industries, n_industries), dtype=np.float32)
+        adj_matrix = np.eye(n_industries, dtype=np.float32)
         
-        # 根据sw_industry分组
-        sw_groups = {}
-        for idx, row in self.relation_df.iterrows():
-            sw_industry = row['sw_industry']
-            if sw_industry not in sw_groups:
-                sw_groups[sw_industry] = []
-            sw_groups[sw_industry].append(idx)
+        if self.relation_df is None or n_industries == 0:
+            return adj_matrix
         
-        # 同一组内的行业之间建立连接
-        for group_indices in sw_groups.values():
-            for i in group_indices:
-                for j in group_indices:
-                    if i != j:
-                        adj_matrix[i, j] = 1.0
+        required_cols = {'industry', 'sw_industry'}
+        if not required_cols.issubset(self.relation_df.columns):
+            raise ValueError("industry_relation_cleaned.csv 必须包含 'industry' 和 'sw_industry' 两列")
         
-        # 添加自连接
-        np.fill_diagonal(adj_matrix, 1.0)
+        seen_edges = set()
+        valid_edges = 0
+        
+        for _, row in self.relation_df.iterrows():
+            src = row['industry']
+            dst = row['sw_industry']
+            if not isinstance(src, str) or not isinstance(dst, str):
+                continue
+            if src not in self.industry_to_idx or dst not in self.industry_to_idx:
+                continue
+            i = self.industry_to_idx[src]
+            j = self.industry_to_idx[dst]
+            if i == j:
+                continue
+            edge = tuple(sorted((i, j)))
+            if edge in seen_edges:
+                continue
+            seen_edges.add(edge)
+            adj_matrix[i, j] = 1.0
+            adj_matrix[j, i] = 1.0
+            valid_edges += 1
+        
+        if valid_edges == 0:
+            print("Warning: 未在 industry_relation_cleaned.csv 中找到有效的行业关系，将仅使用对角自连接。")
         
         return adj_matrix
     

@@ -82,7 +82,10 @@ def main():
         num_heads=config.model.gat.num_heads,
         num_gat_layers=config.model.gat.num_layers,
         dropout=config.model.gat.dropout,
-        use_dwt=config.model.use_dwt
+        use_dwt=config.model.use_dwt,
+        num_industries=config.model.num_industries,
+        use_industry_embedding=config.model.use_industry_embedding,
+        embedding_fusion_alpha=config.model.embedding_fusion_alpha
     )
 
     total_params = sum(p.numel() for p in model.parameters())
@@ -148,6 +151,11 @@ def main():
         if config.visualization.plot_training_curves:
             vis = Visualizer(save_dir=config.visualization.save_dir, dpi=config.visualization.dpi)
             vis.plot_kfold_results(fold_results, save_name="kfold_results.png")
+
+        # K折验证模式下，best_model.pth已在k_fold_validate中保存
+        # 检查文件是否存在
+        if not save_path.exists():
+            print(f"\n⚠ Warning: best_model.pth was not created. Check individual fold models: fold_X_best.pth")
 
     else:
         # 标准训练/验证分割
@@ -223,9 +231,73 @@ def main():
             accuracy = (pred_classes == val_targets).mean() * 100
             print(f"Final validation accuracy: {accuracy:.2f}%")
 
+        # ⭐ 6. 可视化行业嵌入和子图结构
+        if config.model.use_industry_embedding:
+            print(f"\n{'='*60}")
+            print("Step 6: Visualizing Industry Embeddings and Subgraph")
+            print(f"{'='*60}")
+
+            try:
+                import json
+                # 加载行业名称
+                industry_list_path = Path(config.data.data_dir) / config.data.industry_list_file
+                with open(industry_list_path, 'r', encoding='utf-8') as f:
+                    industry_names = json.load(f)
+            except Exception as e:
+                print(f"Warning: Could not load industry names: {e}")
+                industry_names = None
+
+            # 提取行业嵌入
+            embeddings = model.industry_embeddings.weight.detach().cpu().numpy()
+
+            # 可视化行业嵌入相似度
+            vis.plot_embedding_similarity(
+                embeddings,
+                industry_names=industry_names,
+                top_k=30,
+                save_name="industry_embedding_similarity.png"
+            )
+
+            # 可视化一个示例batch的子图结构
+            # 获取一个验证batch
+            sample_batch = next(iter(val_loader))
+            sample_industry_indices = sample_batch['industry_idx'].numpy()
+
+            # 获取唯一行业索引
+            unique_batch_nodes = np.unique(sample_industry_indices).tolist()
+
+            # 构建子图(模拟_process_subgraph的逻辑)
+            batch_and_neighbors = set(unique_batch_nodes)
+            adj_np = adj_matrix_tensor.cpu().numpy()
+            for idx in unique_batch_nodes:
+                neighbors = np.where(adj_np[idx] > 0)[0]
+                batch_and_neighbors.update(neighbors.tolist())
+
+            subgraph_nodes = sorted(list(batch_and_neighbors))
+
+            # 提取子图邻接矩阵
+            subgraph_adj = adj_np[np.ix_(subgraph_nodes, subgraph_nodes)]
+
+            # 可视化子图结构
+            vis.plot_subgraph_structure(
+                subgraph_nodes=subgraph_nodes,
+                batch_nodes=unique_batch_nodes,
+                adj_matrix=subgraph_adj,
+                industry_names=industry_names,
+                save_name="subgraph_structure_example.png"
+            )
+
+            print("✓ Industry embedding and subgraph visualizations completed")
+
     print(f"\n{'='*60}")
     print(f"Training Complete!")
-    print(f"Model saved to: {save_path}")
+    # 检查模型文件是否存在
+    if save_path.exists():
+        print(f"Model saved to: {save_path}")
+    else:
+        print(f"⚠ Model file not found at: {save_path}")
+        if config.data.use_kfold:
+            print(f"   Check individual fold models in: {config.training.save_dir}")
     print(f"Visualizations saved to: {config.visualization.save_dir}")
     print(f"{'='*60}")
 

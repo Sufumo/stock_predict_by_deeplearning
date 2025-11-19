@@ -65,6 +65,11 @@ model:
     use_subgraph_sampling: true
     k_hop_neighbors: 1
 
+  # ⭐ 行业嵌入配置 (新增)
+  num_industries: 86  # 行业总数
+  use_industry_embedding: true  # 是否使用可学习的行业嵌入
+  embedding_fusion_alpha: 1.0  # 时间特征融合权重 (1.0=完全替换, 0.5=均匀融合, 0.0=完全嵌入)
+
 # 训练配置
 training:
   # 基础参数

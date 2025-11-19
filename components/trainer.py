@@ -11,6 +11,7 @@ from typing import Dict, Optional, Tuple, List
 import numpy as np
 from tqdm import tqdm
 import os
+import shutil
 from pathlib import Path
 
 try:
@@ -578,7 +579,7 @@ class Trainer:
                     }, fold_save_path)
 
             # 加载最佳模型进行最终评估
-            checkpoint = torch.load(fold_save_path)
+            checkpoint = torch.load(fold_save_path, weights_only=False)
             self.model.load_state_dict(checkpoint['model_state_dict'])
 
             # 最终验证
@@ -618,6 +619,19 @@ class Trainer:
             print(f"Average IC: {np.mean(fold_results['val_IC']):.4f} ± {np.std(fold_results['val_IC']):.4f}")
             print(f"Average RankIC: {np.mean(fold_results['val_RankIC']):.4f} ± {np.std(fold_results['val_RankIC']):.4f}")
             print(f"Average Long-Short: {np.mean(fold_results['val_long_short']):.4f} ± {np.std(fold_results['val_long_short']):.4f}")
+
+        # ⭐ 保存最佳模型（选择验证准确率最高的fold）
+        best_fold_idx = np.argmax(fold_results['val_acc'])
+        best_fold = best_fold_idx + 1  # fold编号从1开始
+        best_fold_path = os.path.join(save_dir, f"fold_{best_fold}_best.pth")
+        best_model_path = os.path.join(save_dir, "best_model.pth")
+        
+        # 复制最佳fold的模型为best_model.pth
+        if os.path.exists(best_fold_path):
+            shutil.copy2(best_fold_path, best_model_path)
+            print(f"\n✓ Best model saved: {best_model_path} (from Fold {best_fold}, Val Acc: {fold_results['val_acc'][best_fold_idx]:.2f}%)")
+        else:
+            print(f"\n⚠ Warning: Could not find {best_fold_path} to save as best_model.pth")
 
         return fold_results
 
