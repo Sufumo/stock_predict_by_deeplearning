@@ -10,6 +10,7 @@ from .dwt_enhancement import DWTEnhancement
 from .time_encoder import MultiScaleTimeEncoder
 from .dynamic_gate import DynamicAttentionGate
 from .gat_layer import GAT, LearningCompressionLayer
+from .node_level_gate import NodeLevelGate, GlobalGate
 
 
 class IndustryStockModel(nn.Module):
@@ -31,7 +32,10 @@ class IndustryStockModel(nn.Module):
                  use_dwt: bool = True,
                  num_industries: int = 86,
                  use_industry_embedding: bool = True,
-                 embedding_fusion_alpha: float = 1.0):
+                 embedding_fusion_alpha: float = 1.0,
+                 use_node_gate: bool = False,
+                 gate_hidden_dim: int = 64,
+                 cross_sectional_mode: bool = False):
         """
         Args:
             input_features: 输入特征数（K线数据的特征维度）
@@ -47,6 +51,9 @@ class IndustryStockModel(nn.Module):
             num_industries: 行业总数
             use_industry_embedding: 是否使用可学习的行业嵌入
             embedding_fusion_alpha: 时间特征融合权重(1.0=完全使用时间特征,0.0=完全使用嵌入)
+            use_node_gate: 是否使用节点级门控（自适应融合）
+            gate_hidden_dim: 门控MLP隐藏层维度
+            cross_sectional_mode: 是否使用横截面局部训练模式
         """
         super(IndustryStockModel, self).__init__()
 
@@ -57,6 +64,8 @@ class IndustryStockModel(nn.Module):
         self.num_industries = num_industries
         self.use_industry_embedding = use_industry_embedding
         self.embedding_fusion_alpha = embedding_fusion_alpha
+        self.use_node_gate = use_node_gate
+        self.cross_sectional_mode = cross_sectional_mode
         
         # DWT增强模块
         if use_dwt:
@@ -96,6 +105,16 @@ class IndustryStockModel(nn.Module):
         else:
             self.industry_embeddings = None
 
+        # ⭐ 节点级门控机制（横截面局部训练模式）
+        if use_node_gate and use_industry_embedding:
+            self.node_gate = NodeLevelGate(
+                feature_dim=compression_dim,
+                hidden_dim=gate_hidden_dim,
+                dropout=dropout
+            )
+        else:
+            self.node_gate = None
+
         # GAT图注意力网络
         self.gat = GAT(
             in_features=compression_dim,
@@ -127,10 +146,11 @@ class IndustryStockModel(nn.Module):
                 mask_40: Optional[torch.Tensor] = None,
                 mask_80: Optional[torch.Tensor] = None,
                 adj_matrix: Optional[torch.Tensor] = None,
-                industry_indices: Optional[torch.Tensor] = None) -> Tuple[torch.Tensor, torch.Tensor]:
+                industry_indices: Optional[torch.Tensor] = None,
+                node_mask: Optional[torch.Tensor] = None) -> Tuple[torch.Tensor, torch.Tensor, Optional[torch.Tensor]]:
         """
         前向传播
-        
+
         Args:
             x_20: 20日窗口数据，形状为 [batch_size, 20, input_features]
             x_40: 40日窗口数据，形状为 [batch_size, 40, input_features]
@@ -138,10 +158,13 @@ class IndustryStockModel(nn.Module):
             mask_20, mask_40, mask_80: 对应的掩码
             adj_matrix: 邻接矩阵，形状为 [num_industries, num_industries]
             industry_indices: 行业索引，形状为 [batch_size]
-            
+            node_mask: [num_industries] bool tensor, True=有时间特征输入, False=掩码节点
+                      仅在cross_sectional_mode=True时使用
+
         Returns:
             - 预测概率，形状为 [batch_size, num_classes]
             - 行业特征，形状为 [batch_size, gat_output_dim]
+            - 门控值，形状为 [num_active_nodes, 1]，如果不使用门控则为None
         """
         batch_size = x_20.shape[0]
         
@@ -169,23 +192,33 @@ class IndustryStockModel(nn.Module):
         # 4. 信息压缩（LCL）
         compressed_features = self.compression_layer(time_features)  # [batch_size, compression_dim]
         
-        # 5. GAT处理 - 子图采样模式
-        # 只处理batch内的行业及其邻居,避免大量零特征问题
+        # 5. GAT处理 - 根据模式选择处理方式
+        gates = None  # 门控值（用于分析）
+
         if adj_matrix is not None and industry_indices is not None:
-            # 提取子图: batch中的行业 + 它们的1跳邻居
-            batch_gat_features = self._process_subgraph(
-                compressed_features,
-                industry_indices,
-                adj_matrix
-            )
+            if self.cross_sectional_mode and node_mask is not None:
+                # 横截面局部训练模式：完整86节点图 + 部分节点有输入
+                batch_gat_features, gates = self._process_cross_sectional_subgraph(
+                    compressed_features,
+                    industry_indices,
+                    adj_matrix,
+                    node_mask
+                )
+            else:
+                # 传统子图采样模式
+                batch_gat_features = self._process_subgraph(
+                    compressed_features,
+                    industry_indices,
+                    adj_matrix
+                )
         else:
             # 如果没有提供邻接矩阵，使用备用MLP
             batch_gat_features = self.fallback_mlp(compressed_features)
-        
+
         # 6. 预测
         predictions = self.predictor(batch_gat_features)  # [batch_size, num_classes]
-        
-        return predictions, batch_gat_features
+
+        return predictions, batch_gat_features, gates
 
     def _process_subgraph(self, compressed_features: torch.Tensor,
                          industry_indices: torch.Tensor,
@@ -267,6 +300,92 @@ class IndustryStockModel(nn.Module):
             batch_gat_features[i] = gat_output[sub_idx]
 
         return batch_gat_features
+
+    def _process_cross_sectional_subgraph(self, compressed_features: torch.Tensor,
+                                          industry_indices: torch.Tensor,
+                                          adj_matrix: torch.Tensor,
+                                          node_mask: torch.Tensor) -> Tuple[torch.Tensor, Optional[torch.Tensor]]:
+        """
+        横截面局部训练模式的GAT处理
+        构建完整的86节点图，部分节点有时间特征输入，其余节点使用纯嵌入
+
+        Args:
+            compressed_features: [batch_size, compression_dim] 有输入节点的时间特征
+            industry_indices: [batch_size] 有输入节点的行业索引
+            adj_matrix: [86, 86] 完整邻接矩阵
+            node_mask: [86] bool tensor, True=有时间特征输入, False=掩码节点
+
+        Returns:
+            batch_gat_features: [batch_size, gat_output_dim]
+            gates: [num_active_nodes, 1] 门控值（如果使用节点级门控）
+        """
+        batch_size = compressed_features.shape[0]
+        device = compressed_features.device
+        num_industries = self.num_industries
+
+        # 1. 初始化所有86个节点的嵌入
+        all_node_indices = torch.arange(num_industries, device=device)
+        all_embeddings = self.industry_embeddings(all_node_indices)  # [86, compression_dim]
+
+        # 2. 创建时间特征矩阵（初始化为零）
+        all_time_features = torch.zeros(num_industries, self.compression_dim, device=device)
+
+        # 3. 填充有输入节点的时间特征
+        for i, idx in enumerate(industry_indices):
+            all_time_features[idx] = compressed_features[i]
+
+        # 4. 根据是否使用节点级门控，决定融合方式
+        gates = None
+
+        if self.use_node_gate and self.node_gate is not None:
+            # 使用节点级门控融合
+            # 准备输入：有输入的节点和掩码节点分别处理
+            fused_features = all_embeddings.clone()  # 先用嵌入初始化
+
+            # 找到有输入的节点索引
+            active_node_indices = torch.where(node_mask)[0]  # [num_active]
+
+            if len(active_node_indices) > 0:
+                # 对有输入的节点应用门控融合
+                active_time_features = all_time_features[active_node_indices]  # [num_active, dim]
+                active_embeddings = all_embeddings[active_node_indices]  # [num_active, dim]
+
+                # 门控融合
+                fused_active, gates = self.node_gate(
+                    active_time_features,
+                    active_embeddings,
+                    return_gates=True
+                )  # [num_active, dim], [num_active, 1]
+
+                # 更新有输入节点的特征
+                fused_features[active_node_indices] = fused_active
+
+            # 掩码节点保持纯嵌入（已经在clone时设置）
+            final_features = fused_features
+
+        else:
+            # 使用固定alpha融合
+            # 有输入的节点：alpha * 时间特征 + (1-alpha) * 嵌入
+            # 掩码节点：纯嵌入
+            alpha = self.embedding_fusion_alpha
+
+            # 创建alpha mask
+            alpha_mask = node_mask.float().unsqueeze(1)  # [86, 1]
+
+            # 融合
+            final_features = (
+                alpha_mask * alpha * all_time_features +
+                alpha_mask * (1 - alpha) * all_embeddings +
+                (1 - alpha_mask) * all_embeddings
+            )
+
+        # 5. 在完整的86节点图上运行GAT
+        gat_output = self.gat(final_features, adj_matrix)  # [86, gat_output_dim]
+
+        # 6. 提取batch中节点的输出
+        batch_gat_features = gat_output[industry_indices]  # [batch_size, gat_output_dim]
+
+        return batch_gat_features, gates
 
     def extract_time_features(self, x_20: torch.Tensor, x_40: torch.Tensor, 
                              x_80: torch.Tensor,

@@ -529,6 +529,10 @@ class IndustryDataLoader:
             - 'industry_indices': [86] 的行业索引（0-85）
             - 'time_index': 时间步索引（用于计算未来收益率）
         """
+        # ⭐ 确保数据已加载（fit_scalers需要industry_list）
+        if self.raw_data is None or self.industry_list is None:
+            self.load_data()
+        
         # 如果标准化器还未拟合，先拟合
         if not self.scalers_fitted:
             self.fit_scalers()

@@ -23,9 +23,16 @@ data:
   val_ratio: 0.2
 
   # K折验证
-  use_kfold: true
+  use_kfold: false  # ⚠️ 横截面模式下建议关闭K折
   n_splits: 3
   min_train_size: 0.4
+
+  # ⭐ 横截面局部训练配置 (新增)
+  use_cross_sectional_training: true  # 是否使用横截面局部训练模式
+  num_center_nodes: 12  # 每次采样的中心节点数
+  sampler_type: "degree"  # 采样器类型: "degree", "sequential", "random"
+  sampler_temperature: 1.0  # 度数采样的温度参数（1.0=严格按度数）
+  samples_per_timestep: null  # 每个时间步采样次数（null=自动计算）
 
 # 模型配置
 model:
@@ -65,10 +72,16 @@ model:
     use_subgraph_sampling: true
     k_hop_neighbors: 1
 
-  # ⭐ 行业嵌入配置 (新增)
+  # ⭐ 行业嵌入配置
   num_industries: 86  # 行业总数
   use_industry_embedding: true  # 是否使用可学习的行业嵌入
   embedding_fusion_alpha: 1.0  # 时间特征融合权重 (1.0=完全替换, 0.5=均匀融合, 0.0=完全嵌入)
+                               # ⚠️ 仅在use_node_gate=false时生效
+
+  # ⭐ 节点级门控配置 (新增)
+  use_node_gate: true  # 是否使用节点级门控（自适应融合）
+  gate_hidden_dim: 64  # 门控MLP的隐藏层维度
+  cross_sectional_mode: true  # 是否使用横截面局部模式（需配合use_cross_sectional_training）
 
 # 训练配置
 training:

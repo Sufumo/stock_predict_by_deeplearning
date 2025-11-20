@@ -235,7 +235,164 @@ class Trainer:
             'loss': avg_loss,
             'accuracy': accuracy
         }
-    
+
+    def train_epoch_cross_sectional(self, dataloader: DataLoader, adj_matrix: torch.Tensor,
+                                    epoch: int = 0) -> Dict[str, float]:
+        """
+        横截面局部训练模式的训练epoch
+
+        特点：
+        - 时间步追踪
+        - 支持node_mask
+        - 记录门控值统计
+
+        Args:
+            dataloader: CrossSectionalLocalDataset的DataLoader
+            adj_matrix: 完整86节点邻接矩阵
+            epoch: 当前epoch编号
+
+        Returns:
+            训练指标字典
+        """
+        self.model.train()
+        total_loss = 0.0
+        correct = 0
+        total = 0
+
+        adj_matrix = adj_matrix.to(self.device)
+
+        # 时间步追踪
+        current_time_step = -1
+        time_step_losses = []
+        time_step_accs = []
+
+        # 门控值统计
+        all_gate_values = []
+
+        pbar = tqdm(dataloader, desc=f'Training Epoch {epoch+1}')
+        for batch_idx, batch in enumerate(pbar):
+            # 提取数据
+            sequences = batch['sequence'].to(self.device)  # [num_active, max_seq_len, features]
+            targets = batch['target'].to(self.device)  # [num_active]
+            masks = batch['mask'].to(self.device)  # [num_active, max_seq_len]
+            industry_indices = batch['industry_idx'].to(self.device)  # [num_active]
+            node_mask = batch['node_mask'].to(self.device)  # [86]
+            time_idx = batch['time_index'].item()  # scalar
+
+            # 检查是否进入新的时间步
+            if time_idx != current_time_step:
+                if current_time_step >= 0:
+                    # 记录上一个时间步的统计
+                    avg_ts_loss = np.mean(time_step_losses) if time_step_losses else 0.0
+                    avg_ts_acc = np.mean(time_step_accs) if time_step_accs else 0.0
+                    if batch_idx % 10 == 0:  # 每10批打印一次
+                        print(f"\n  Time step {current_time_step}: "
+                              f"Loss={avg_ts_loss:.4f}, Acc={avg_ts_acc:.2f}%")
+
+                current_time_step = time_idx
+                time_step_losses = []
+                time_step_accs = []
+
+            num_active, max_seq_len, features = sequences.shape
+
+            # 提取不同时间窗口的数据
+            x_80 = sequences  # [num_active, 80, features]
+            x_40 = sequences[:, -40:, :]  # [num_active, 40, features]
+            x_20 = sequences[:, -20:, :]  # [num_active, 20, features]
+
+            # 对应的掩码
+            mask_80 = masks
+            mask_40 = masks[:, -40:]
+            mask_20 = masks[:, -20:]
+
+            # 前向传播（横截面模式）
+            self.optimizer.zero_grad()
+            predictions, _, gates = self.model(
+                x_20, x_40, x_80,
+                mask_20, mask_40, mask_80,
+                adj_matrix, industry_indices,
+                node_mask=node_mask  # ⭐ 传递node_mask
+            )
+
+            # 计算损失
+            loss = self.criterion(predictions, targets)
+
+            # NaN/Inf检测
+            if self.enable_nan_detection:
+                if torch.isnan(loss) or torch.isinf(loss):
+                    print(f"\n❌ NaN/Inf detected in loss!")
+                    print(f"   Time step: {time_idx}")
+                    print(f"   Batch: {batch_idx}")
+                    print(f"   Loss value: {loss.item()}")
+                    self.nan_detector.print_report()
+                    raise ValueError("Training collapsed!")
+
+            # 反向传播
+            loss.backward()
+
+            # NaN检测（梯度）
+            if self.enable_nan_detection:
+                if not self.nan_detector.step(loss):
+                    self.nan_detector.print_report()
+                    raise ValueError("Training collapsed!")
+
+            # 梯度裁剪
+            if self.max_grad_norm is not None:
+                torch.nn.utils.clip_grad_norm_(self.model.parameters(), self.max_grad_norm)
+
+            self.optimizer.step()
+
+            # 统计
+            total_loss += loss.item() * num_active
+            _, predicted = torch.max(predictions.data, 1)
+            correct += (predicted == targets).sum().item()
+            total += num_active
+
+            # 记录时间步统计
+            time_step_losses.append(loss.item())
+            batch_acc = 100.0 * (predicted == targets).float().mean().item()
+            time_step_accs.append(batch_acc)
+
+            # 收集门控值
+            if gates is not None:
+                all_gate_values.append(gates.detach().cpu())
+
+            # 更新进度条
+            pbar.set_postfix({
+                'loss': f'{loss.item():.4f}',
+                'acc': f'{batch_acc:.1f}%',
+                'time_step': time_idx
+            })
+
+        # 最后一个时间步的统计
+        if len(time_step_losses) > 0:
+            avg_ts_loss = np.mean(time_step_losses)
+            avg_ts_acc = np.mean(time_step_accs)
+            print(f"\n  Time step {current_time_step}: "
+                  f"Loss={avg_ts_loss:.4f}, Acc={avg_ts_acc:.2f}%")
+
+        avg_loss = total_loss / total if total > 0 else 0.0
+        accuracy = 100 * correct / total if total > 0 else 0.0
+
+        # 计算门控值统计
+        gate_stats = {}
+        if len(all_gate_values) > 0:
+            all_gates_tensor = torch.cat(all_gate_values, dim=0)  # [total_active_nodes, 1]
+            gate_stats = {
+                'gate_mean': all_gates_tensor.mean().item(),
+                'gate_std': all_gates_tensor.std().item(),
+                'gate_min': all_gates_tensor.min().item(),
+                'gate_max': all_gates_tensor.max().item(),
+                'favor_time_ratio': (all_gates_tensor > 0.5).float().mean().item(),
+                'favor_embedding_ratio': (all_gates_tensor <= 0.5).float().mean().item()
+            }
+
+        return {
+            'loss': avg_loss,
+            'accuracy': accuracy,
+            **gate_stats
+        }
+
     def validate(self, dataloader: DataLoader, adj_matrix: torch.Tensor,
                 compute_metrics: bool = True) -> Dict[str, float]:
         """
@@ -347,30 +504,48 @@ class Trainer:
     
     def train(self, train_loader: DataLoader, val_loader: DataLoader,
               adj_matrix: torch.Tensor, num_epochs: int = 50,
-              save_path: Optional[str] = None) -> Dict[str, list]:
+              save_path: Optional[str] = None,
+              use_cross_sectional: bool = False) -> Dict[str, list]:
         """
         完整训练流程
-        
+
         Args:
             train_loader: 训练数据加载器
             val_loader: 验证数据加载器
             adj_matrix: 邻接矩阵
             num_epochs: 训练轮数
             save_path: 模型保存路径
-            
+            use_cross_sectional: 是否使用横截面训练模式
+
         Returns:
             训练历史字典
         """
         best_val_acc = 0.0
-        
+
+        # ⭐ 如果使用节点级门控，添加门控统计记录
+        if use_cross_sectional:
+            self.train_history['gate_mean'] = []
+            self.train_history['gate_std'] = []
+            self.train_history['favor_time_ratio'] = []
+
         for epoch in range(num_epochs):
             print(f'\nEpoch {epoch + 1}/{num_epochs}')
             print('-' * 50)
-            
-            # 训练
-            train_metrics = self.train_epoch(train_loader, adj_matrix)
+
+            # ⭐ 根据模式选择训练方法
+            if use_cross_sectional:
+                train_metrics = self.train_epoch_cross_sectional(train_loader, adj_matrix, epoch)
+            else:
+                train_metrics = self.train_epoch(train_loader, adj_matrix)
+
             self.train_history['loss'].append(train_metrics['loss'])
             self.train_history['accuracy'].append(train_metrics['accuracy'])
+
+            # 记录门控统计
+            if use_cross_sectional and 'gate_mean' in train_metrics:
+                self.train_history['gate_mean'].append(train_metrics.get('gate_mean', 0.0))
+                self.train_history['gate_std'].append(train_metrics.get('gate_std', 0.0))
+                self.train_history['favor_time_ratio'].append(train_metrics.get('favor_time_ratio', 0.5))
             
             # 验证
             val_metrics = self.validate(val_loader, adj_matrix)

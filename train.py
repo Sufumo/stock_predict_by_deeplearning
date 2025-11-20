@@ -8,6 +8,7 @@ import numpy as np
 from pathlib import Path
 
 from components.data_loader import IndustryDataLoader, IndustryDataset
+from components.cross_sectional_dataset import CrossSectionalLocalDataset
 from components.model import IndustryStockModel
 from components.trainer import Trainer
 from components.config_loader import (
@@ -49,23 +50,55 @@ def main():
         num_classes=config.data.num_classes
     )
 
-    # 准备数据
-    samples, targets, adj_matrix = data_loader.prepare_data()
+    # ⭐ 根据训练模式选择数据准备方式
+    use_cross_sectional = config.data.get('use_cross_sectional_training', False)
 
-    print(f"Total samples: {len(samples)}")
-    print(f"Number of industries: {adj_matrix.shape[0]}")
-    print(f"Label distribution: {np.bincount(targets)}")
+    if use_cross_sectional:
+        # 横截面局部训练模式
+        print("Using Cross-Sectional Local Training Mode")
 
-    # 获取完整的序列数据（包含masks和industry_indices）
-    data_dict = data_loader.get_data_dict()
+        # 准备横截面数据
+        cross_sectional_data = data_loader.prepare_cross_sectional_data(
+            window_sizes=[config.data.window_20, config.data.window_40, config.data.window_80],
+            future_days=config.data.future_days
+        )
 
-    # 创建数据集（包含所有必要信息）
-    dataset = IndustryDataset(
-        sequences=data_dict['sequences'],
-        targets=data_dict['targets'],
-        masks=data_dict['masks'],
-        industry_indices=data_dict['industry_indices']
-    )
+        # 加载邻接矩阵
+        _, _, adj_matrix = data_loader.prepare_data()
+
+        # 创建横截面局部数据集
+        dataset = CrossSectionalLocalDataset(
+            cross_sectional_data=cross_sectional_data,
+            adj_matrix=adj_matrix,
+            num_centers=config.data.get('num_center_nodes', 12),
+            sampler_type=config.data.get('sampler_type', 'degree'),
+            sampler_temperature=config.data.get('sampler_temperature', 1.0),
+            samples_per_timestep=config.data.get('samples_per_timestep', None)
+        )
+
+        print(f"Dataset size: {len(dataset)} samples")
+        print(f"Time steps: {len(cross_sectional_data)}")
+    else:
+        # 传统训练模式
+        print("Using Traditional Training Mode")
+
+        # 准备数据
+        samples, targets, adj_matrix = data_loader.prepare_data()
+
+        print(f"Total samples: {len(samples)}")
+        print(f"Number of industries: {adj_matrix.shape[0]}")
+        print(f"Label distribution: {np.bincount(targets)}")
+
+        # 获取完整的序列数据（包含masks和industry_indices）
+        data_dict = data_loader.get_data_dict()
+
+        # 创建数据集（包含所有必要信息）
+        dataset = IndustryDataset(
+            sequences=data_dict['sequences'],
+            targets=data_dict['targets'],
+            masks=data_dict['masks'],
+            industry_indices=data_dict['industry_indices']
+        )
 
     # 2. 创建模型
     print(f"\n{'='*60}")
@@ -85,7 +118,10 @@ def main():
         use_dwt=config.model.use_dwt,
         num_industries=config.model.num_industries,
         use_industry_embedding=config.model.use_industry_embedding,
-        embedding_fusion_alpha=config.model.embedding_fusion_alpha
+        embedding_fusion_alpha=config.model.embedding_fusion_alpha,
+        use_node_gate=config.model.get('use_node_gate', False),
+        gate_hidden_dim=config.model.get('gate_hidden_dim', 64),
+        cross_sectional_mode=config.model.get('cross_sectional_mode', False)
     )
 
     total_params = sum(p.numel() for p in model.parameters())
@@ -192,13 +228,14 @@ def main():
             num_workers=config.training.num_workers
         )
 
-        # 训练
+        # ⭐ 训练（根据模式选择）
         history = trainer.train(
             train_loader=train_loader,
             val_loader=val_loader,
             adj_matrix=adj_matrix_tensor,
             num_epochs=config.training.num_epochs,
-            save_path=str(save_path)
+            save_path=str(save_path),
+            use_cross_sectional=use_cross_sectional
         )
 
         # 可视化训练过程
