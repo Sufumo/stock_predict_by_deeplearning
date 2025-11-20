@@ -240,7 +240,9 @@ def main():
             adj_matrix=adj_matrix_tensor,
             num_epochs=config.training.num_epochs,
             save_path=str(save_path),
-            use_cross_sectional=use_cross_sectional
+            use_cross_sectional=use_cross_sectional,
+            save_dir=config.training.save_dir,
+            save_every_epoch=getattr(config.training, 'save_every_epoch', True)
         )
 
         # 可视化训练过程

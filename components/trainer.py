@@ -360,8 +360,17 @@ class Trainer:
                     self.nan_detector.print_report()
                     raise ValueError("Training collapsed!")
 
-            # 反向传播
-            loss.backward()
+            # 反向传播（添加异常处理）
+            try:
+                loss.backward()
+            except RuntimeError as e:
+                if "out of memory" in str(e):
+                    print(f"\n❌ GPU out of memory at batch {batch_idx}")
+                    print(f"   Try reducing batch_size or num_centers")
+                    torch.cuda.empty_cache() if torch.cuda.is_available() else None
+                    raise
+                else:
+                    raise
 
             # NaN检测（梯度）
             if self.enable_nan_detection:
@@ -369,11 +378,26 @@ class Trainer:
                     self.nan_detector.print_report()
                     raise ValueError("Training collapsed!")
 
-            # 梯度裁剪
+            # 梯度裁剪（添加异常处理）
             if self.max_grad_norm is not None:
-                torch.nn.utils.clip_grad_norm_(self.model.parameters(), self.max_grad_norm)
+                try:
+                    grad_norm = torch.nn.utils.clip_grad_norm_(self.model.parameters(), self.max_grad_norm)
+                    # 检查梯度是否异常大
+                    if grad_norm > self.max_grad_norm * 10:
+                        print(f"\n⚠ Warning: Very large gradient norm: {grad_norm:.2f} (clipped to {self.max_grad_norm})")
+                except RuntimeError as e:
+                    print(f"\n⚠ Warning: Gradient clipping failed: {e}")
+                    # 继续训练，不中断
 
-            self.optimizer.step()
+            try:
+                self.optimizer.step()
+            except RuntimeError as e:
+                if "out of memory" in str(e):
+                    print(f"\n❌ GPU out of memory during optimizer step")
+                    torch.cuda.empty_cache() if torch.cuda.is_available() else None
+                    raise
+                else:
+                    raise
 
             # 统计
             total_loss += loss.item() * num_active
@@ -471,7 +495,7 @@ class Trainer:
         }
 
     def validate(self, dataloader: DataLoader, adj_matrix: torch.Tensor,
-                compute_metrics: bool = True) -> Dict[str, float]:
+                compute_metrics: bool = True, use_cross_sectional: bool = False) -> Dict[str, float]:
         """
         验证模型
 
@@ -479,6 +503,7 @@ class Trainer:
             dataloader: 数据加载器
             adj_matrix: 邻接矩阵
             compute_metrics: 是否计算金融指标
+            use_cross_sectional: 是否使用横截面模式（batch格式不同）
 
         Returns:
             验证指标字典
@@ -498,11 +523,41 @@ class Trainer:
         with torch.no_grad():
             pbar = tqdm(dataloader, desc='Validating')
             for batch in pbar:
-                # 准备数据
-                sequences = batch['sequence'].to(self.device)
-                targets = batch['target'].to(self.device)
-                masks = batch['mask'].to(self.device)
-                industry_indices = batch['industry_idx'].to(self.device)
+                # ⭐ 检测batch格式（横截面模式使用列表格式）
+                if isinstance(batch['sequence'], list):
+                    # 横截面模式：合并列表格式的batch
+                    sequences_list = batch['sequence']
+                    targets_list = batch['target']
+                    masks_list = batch['mask']
+                    industry_indices_list = batch['industry_idx']
+                    node_mask = batch['node_mask'].to(self.device) if 'node_mask' in batch else None
+                    
+                    # 合并所有样本的序列
+                    all_sequences = []
+                    all_targets_batch = []
+                    all_masks = []
+                    all_industry_indices = []
+                    
+                    for i in range(len(sequences_list)):
+                        all_sequences.append(sequences_list[i].to(self.device))
+                        all_targets_batch.append(targets_list[i].to(self.device))
+                        all_masks.append(masks_list[i].to(self.device))
+                        all_industry_indices.append(industry_indices_list[i].to(self.device))
+                    
+                    sequences = torch.cat(all_sequences, dim=0)
+                    targets = torch.cat(all_targets_batch, dim=0)
+                    masks = torch.cat(all_masks, dim=0)
+                    industry_indices = torch.cat(all_industry_indices, dim=0)
+                    
+                    # 使用第一个样本的node_mask（如果存在）
+                    batch_node_mask = node_mask[0] if node_mask is not None and len(node_mask) > 0 else None
+                else:
+                    # 标准模式：直接使用tensor
+                    sequences = batch['sequence'].to(self.device)
+                    targets = batch['target'].to(self.device)
+                    masks = batch['mask'].to(self.device)
+                    industry_indices = batch['industry_idx'].to(self.device)
+                    batch_node_mask = None
                 
                 batch_size, max_seq_len, features = sequences.shape
                 
@@ -516,11 +571,20 @@ class Trainer:
                 mask_20 = masks[:, -20:]
                 
                 # 前向传播
-                predictions, _ = self.model(
-                    x_20, x_40, x_80,
-                    mask_20, mask_40, mask_80,
-                    adj_matrix, industry_indices
-                )
+                # ⭐ 横截面模式需要传递node_mask
+                if batch_node_mask is not None:
+                    predictions, _, _ = self.model(
+                        x_20, x_40, x_80,
+                        mask_20, mask_40, mask_80,
+                        adj_matrix, industry_indices,
+                        node_mask=batch_node_mask
+                    )
+                else:
+                    predictions, _ = self.model(
+                        x_20, x_40, x_80,
+                        mask_20, mask_40, mask_80,
+                        adj_matrix, industry_indices
+                    )
                 
                 # 计算损失
                 loss = self.criterion(predictions, targets)
@@ -582,7 +646,9 @@ class Trainer:
     def train(self, train_loader: DataLoader, val_loader: DataLoader,
               adj_matrix: torch.Tensor, num_epochs: int = 50,
               save_path: Optional[str] = None,
-              use_cross_sectional: bool = False) -> Dict[str, list]:
+              use_cross_sectional: bool = False,
+              save_dir: Optional[str] = None,
+              save_every_epoch: bool = True) -> Dict[str, list]:
         """
         完整训练流程
 
@@ -591,13 +657,24 @@ class Trainer:
             val_loader: 验证数据加载器
             adj_matrix: 邻接矩阵
             num_epochs: 训练轮数
-            save_path: 模型保存路径
+            save_path: 最佳模型保存路径
             use_cross_sectional: 是否使用横截面训练模式
+            save_dir: checkpoint保存目录（用于保存每个epoch的checkpoint）
+            save_every_epoch: 是否每个epoch都保存checkpoint
 
         Returns:
             训练历史字典
         """
         best_val_acc = 0.0
+        
+        # ⭐ 设置checkpoint保存目录
+        if save_dir is None and save_path:
+            save_dir = str(Path(save_path).parent)
+        elif save_dir is None:
+            save_dir = "./checkpoints"
+        
+        # 确保目录存在
+        Path(save_dir).mkdir(parents=True, exist_ok=True)
 
         # ⭐ 如果使用节点级门控，添加门控统计记录
         if use_cross_sectional:
@@ -609,11 +686,30 @@ class Trainer:
             print(f'\nEpoch {epoch + 1}/{num_epochs}')
             print('-' * 50)
 
-            # ⭐ 根据模式选择训练方法
-            if use_cross_sectional:
-                train_metrics = self.train_epoch_cross_sectional(train_loader, adj_matrix, epoch)
-            else:
-                train_metrics = self.train_epoch(train_loader, adj_matrix)
+            # ⭐ 根据模式选择训练方法（添加异常处理）
+            try:
+                if use_cross_sectional:
+                    train_metrics = self.train_epoch_cross_sectional(train_loader, adj_matrix, epoch)
+                else:
+                    train_metrics = self.train_epoch(train_loader, adj_matrix)
+            except Exception as e:
+                print(f"\n❌ Training error at epoch {epoch + 1}: {e}")
+                print(f"   Attempting to save checkpoint before exit...")
+                # 尝试保存当前状态
+                try:
+                    checkpoint_path = Path(save_dir) / f"epoch_{epoch + 1}_error.pth"
+                    torch.save({
+                        'epoch': epoch,
+                        'model_state_dict': self.model.state_dict(),
+                        'optimizer_state_dict': self.optimizer.state_dict(),
+                        'train_history': self.train_history,
+                        'val_history': self.val_history,
+                        'error': str(e)
+                    }, checkpoint_path)
+                    print(f"   Error checkpoint saved to: {checkpoint_path}")
+                except Exception as save_error:
+                    print(f"   Failed to save error checkpoint: {save_error}")
+                raise
 
             self.train_history['loss'].append(train_metrics['loss'])
             self.train_history['accuracy'].append(train_metrics['accuracy'])
@@ -624,8 +720,27 @@ class Trainer:
                 self.train_history['gate_std'].append(train_metrics.get('gate_std', 0.0))
                 self.train_history['favor_time_ratio'].append(train_metrics.get('favor_time_ratio', 0.5))
             
-            # 验证
-            val_metrics = self.validate(val_loader, adj_matrix)
+            # 验证（添加异常处理）
+            try:
+                val_metrics = self.validate(val_loader, adj_matrix, use_cross_sectional=use_cross_sectional)
+            except Exception as e:
+                print(f"\n❌ Validation error at epoch {epoch + 1}: {e}")
+                print(f"   Attempting to save checkpoint before exit...")
+                # 尝试保存当前状态
+                try:
+                    checkpoint_path = Path(save_dir) / f"epoch_{epoch + 1}_val_error.pth"
+                    torch.save({
+                        'epoch': epoch,
+                        'model_state_dict': self.model.state_dict(),
+                        'optimizer_state_dict': self.optimizer.state_dict(),
+                        'train_history': self.train_history,
+                        'val_history': self.val_history,
+                        'error': str(e)
+                    }, checkpoint_path)
+                    print(f"   Error checkpoint saved to: {checkpoint_path}")
+                except Exception as save_error:
+                    print(f"   Failed to save error checkpoint: {save_error}")
+                raise
             self.val_history['loss'].append(val_metrics['loss'])
             self.val_history['accuracy'].append(val_metrics['accuracy'])
 
@@ -653,18 +768,93 @@ class Trainer:
                 current_lr = self.optimizer.param_groups[0]['lr']
                 print(f'Learning Rate: {current_lr:.6f}')
 
+            # ⭐ 检查训练问题
+            # 1. 检查NaN/Inf
+            if np.isnan(train_metrics['loss']) or np.isinf(train_metrics['loss']):
+                print(f"\n⚠ Warning: NaN/Inf detected in training loss at epoch {epoch + 1}")
+                print(f"   Train Loss: {train_metrics['loss']}")
+                print(f"   Saving checkpoint before potential crash...")
+                checkpoint_path = Path(save_dir) / f"epoch_{epoch + 1}_nan.pth"
+                torch.save({
+                    'epoch': epoch,
+                    'model_state_dict': self.model.state_dict(),
+                    'optimizer_state_dict': self.optimizer.state_dict(),
+                    'train_history': self.train_history,
+                    'val_history': self.val_history,
+                    'warning': 'NaN/Inf detected'
+                }, checkpoint_path)
+                print(f"   Checkpoint saved to: {checkpoint_path}")
+            
+            # 2. 检查验证指标异常
+            if np.isnan(val_metrics['loss']) or np.isinf(val_metrics['loss']):
+                print(f"\n⚠ Warning: NaN/Inf detected in validation loss at epoch {epoch + 1}")
+                print(f"   Val Loss: {val_metrics['loss']}")
+            
+            # 3. 检查准确率异常低
+            if val_metrics['accuracy'] < 5.0:  # 5分位数分类，随机准确率约20%
+                print(f"\n⚠ Warning: Very low validation accuracy at epoch {epoch + 1}: {val_metrics['accuracy']:.2f}%")
+                print(f"   This might indicate training issues (overfitting, learning rate too high, etc.)")
+            
+            # ⭐ 保存每个epoch的checkpoint
+            if save_every_epoch:
+                try:
+                    epoch_checkpoint_path = Path(save_dir) / f"epoch_{epoch + 1}.pth"
+                    checkpoint_data = {
+                        'epoch': epoch,
+                        'model_state_dict': self.model.state_dict(),
+                        'optimizer_state_dict': self.optimizer.state_dict(),
+                        'scheduler_state_dict': self.scheduler.state_dict() if self.scheduler else None,
+                        'train_loss': train_metrics['loss'],
+                        'train_accuracy': train_metrics['accuracy'],
+                        'val_loss': val_metrics['loss'],
+                        'val_accuracy': val_metrics['accuracy'],
+                        'train_history': self.train_history,
+                        'val_history': self.val_history,
+                        'best_val_acc': best_val_acc,
+                    }
+                    
+                    # 添加金融指标（如果存在）
+                    if self.compute_financial_metrics:
+                        for key in ['IC', 'RankIC', 'long_short_return']:
+                            if key in val_metrics:
+                                checkpoint_data[f'val_{key}'] = val_metrics[key]
+                    
+                    # 添加门控统计（如果存在）
+                    if use_cross_sectional and 'gate_mean' in train_metrics:
+                        checkpoint_data['gate_mean'] = train_metrics.get('gate_mean', 0.0)
+                        checkpoint_data['gate_std'] = train_metrics.get('gate_std', 0.0)
+                    
+                    torch.save(checkpoint_data, epoch_checkpoint_path)
+                    print(f'✓ Epoch {epoch + 1} checkpoint saved to {epoch_checkpoint_path}')
+                    
+                    # 删除旧的checkpoint（只保留最近的5个）
+                    if epoch >= 5:
+                        old_checkpoint = Path(save_dir) / f"epoch_{epoch - 4}.pth"
+                        if old_checkpoint.exists():
+                            old_checkpoint.unlink()
+                            print(f'  (Removed old checkpoint: epoch_{epoch - 4}.pth)')
+                except Exception as e:
+                    print(f"\n⚠ Warning: Failed to save epoch checkpoint: {e}")
+                    print(f"   Training will continue, but checkpoint was not saved")
+
             # 保存最佳模型
             if val_metrics['accuracy'] > best_val_acc:
                 best_val_acc = val_metrics['accuracy']
                 if save_path:
-                    torch.save({
-                        'epoch': epoch,
-                        'model_state_dict': self.model.state_dict(),
-                        'optimizer_state_dict': self.optimizer.state_dict(),
-                        'val_accuracy': best_val_acc,
-                        'val_metrics': val_metrics,
-                    }, save_path)
-                    print(f'Model saved to {save_path}')
+                    try:
+                        torch.save({
+                            'epoch': epoch,
+                            'model_state_dict': self.model.state_dict(),
+                            'optimizer_state_dict': self.optimizer.state_dict(),
+                            'scheduler_state_dict': self.scheduler.state_dict() if self.scheduler else None,
+                            'val_accuracy': best_val_acc,
+                            'val_metrics': val_metrics,
+                            'train_history': self.train_history,
+                            'val_history': self.val_history,
+                        }, save_path)
+                        print(f'✓ Best model saved to {save_path} (Val Acc: {best_val_acc:.2f}%)')
+                    except Exception as e:
+                        print(f"\n⚠ Warning: Failed to save best model: {e}")
         
         return {
             'train': self.train_history,

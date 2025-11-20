@@ -111,6 +111,7 @@ training:
   # checkpoint
   save_dir: "./checkpoints"
   save_best_only: true
+  save_every_epoch: true  # ⭐ 是否每个epoch都保存checkpoint
   
   # 断点续训配置
   resume_from_checkpoint: true  # 是否从checkpoint恢复（跳过已完成的fold）

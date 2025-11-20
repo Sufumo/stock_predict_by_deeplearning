@@ -1,0 +1,96 @@
+Time Step Statistics (Epoch 1):
+============================================================
+  Total time steps: 693
+  Showing summary (every 10th time step):
+  Time step    1: Loss=1.6051, Acc=28.86%
+  Time step   12: Loss=1.6062, Acc=22.54%
+  Time step   23: Loss=1.6071, Acc=21.66%
+  Time step   34: Loss=1.6129, Acc=12.50%
+  Time step   46: Loss=1.6030, Acc=27.80%
+  Time step   57: Loss=1.6066, Acc=17.07%
+  Time step   69: Loss=1.6089, Acc=21.80%
+  Time step   83: Loss=1.6172, Acc=10.73%
+  Time step   93: Loss=1.6087, Acc=20.50%
+  Time step  110: Loss=1.6111, Acc=22.12%
+  Time step  122: Loss=1.6062, Acc=21.84%
+  Time step  135: Loss=1.6130, Acc=12.38%
+  Time step  147: Loss=1.6063, Acc=27.93%
+  Time step  160: Loss=1.6125, Acc=15.79%
+  Time step  173: Loss=1.6244, Acc=7.73%
+  Time step  183: Loss=1.6225, Acc=7.73%
+  Time step  194: Loss=1.6117, Acc=15.08%
+  Time step  207: Loss=1.6096, Acc=19.91%
+  Time step  221: Loss=1.6138, Acc=14.14%
+  Time step  233: Loss=1.6033, Acc=25.73%
+  Time step  245: Loss=1.6200, Acc=9.14%
+  Time step  257: Loss=1.6063, Acc=18.83%
+  Time step  269: Loss=1.6056, Acc=22.55%
+  Time step  281: Loss=1.6124, Acc=13.37%
+  Time step  292: Loss=1.5923, Acc=38.05%
+  Time step  304: Loss=1.6149, Acc=14.22%
+  Time step  317: Loss=1.5918, Acc=38.24%
+  Time step  328: Loss=1.5968, Acc=33.33%
+  Time step  339: Loss=1.6006, Acc=24.17%
+  Time step  351: Loss=1.6075, Acc=20.85%
+  Time step  365: Loss=1.6078, Acc=23.04%
+  Time step  376: Loss=1.6130, Acc=15.60%
+  Time step  389: Loss=1.6115, Acc=18.81%
+  Time step  400: Loss=1.6086, Acc=20.21%
+  Time step  413: Loss=1.6096, Acc=23.08%
+  Time step  426: Loss=1.6014, Acc=29.25%
+  Time step  438: Loss=1.5983, Acc=34.23%
+  Time step  450: Loss=1.6167, Acc=15.79%
+  Time step  463: Loss=1.6154, Acc=16.11%
+  Time step  476: Loss=1.6042, Acc=27.00%
+  Time step  487: Loss=1.6025, Acc=20.30%
+  Time step  500: Loss=1.6116, Acc=15.54%
+  Time step  512: Loss=1.6044, Acc=23.88%
+  Time step  523: Loss=1.6123, Acc=17.81%
+  Time step  535: Loss=1.6103, Acc=15.14%
+  Time step  547: Loss=1.6069, Acc=20.79%
+  Time step  561: Loss=1.6100, Acc=21.26%
+  Time step  572: Loss=1.6101, Acc=19.62%
+  Time step  590: Loss=1.6034, Acc=27.36%
+  Time step  602: Loss=1.5985, Acc=33.33%
+  Time step  612: Loss=1.6076, Acc=20.60%
+  Time step  623: Loss=1.6173, Acc=10.18%
+  Time step  634: Loss=1.6004, Acc=33.33%
+  Time step  644: Loss=1.6130, Acc=14.83%
+  Time step  661: Loss=1.6161, Acc=14.90%
+  Time step  675: Loss=1.6206, Acc=8.92%
+  Time step  692: Loss=1.6231, Acc=9.63%
+  Time step  704: Loss=1.6092, Acc=22.11%
+  Time step  717: Loss=1.6084, Acc=24.49%
+  Time step  730: Loss=1.6156, Acc=14.22%
+  Time step  743: Loss=1.6154, Acc=19.42%
+  Time step  753: Loss=1.6110, Acc=20.37%
+  Time step  765: Loss=1.6154, Acc=13.64%
+  Time step  777: Loss=1.6051, Acc=27.44%
+  Time step  788: Loss=1.6064, Acc=25.14%
+  Time step  799: Loss=1.6153, Acc=11.96%
+  Time step  810: Loss=1.6077, Acc=20.20%
+  Time step  821: Loss=1.6123, Acc=18.99%
+  Time step  835: Loss=1.6091, Acc=17.14%
+  Time step  848: Loss=1.6148, Acc=17.45%
+  Time step  850: Loss=1.6170, Acc=15.59%
+
+  Overall Statistics:
+    Mean Loss: 1.6097 ± 0.0070
+    Mean Acc:  20.58% ± 6.73%
+    Min Acc:   4.27%
+    Max Acc:   44.02%
+============================================================
+Validating:   0% 0/320 [00:00<?, ?it/s]
+Traceback (most recent call last):
+  File "/content/stock_predict_by_deeplearning/train.py", line 354, in <module>
+    main()
+  File "/content/stock_predict_by_deeplearning/train.py", line 237, in main
+    history = trainer.train(
+              ^^^^^^^^^^^^^^
+  File "/content/stock_predict_by_deeplearning/components/trainer.py", line 628, in train
+    val_metrics = self.validate(val_loader, adj_matrix)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/content/stock_predict_by_deeplearning/components/trainer.py", line 502, in validate
+    sequences = batch['sequence'].to(self.device)
+                ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'list' object has no attribute 'to'
