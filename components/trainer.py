@@ -271,13 +271,38 @@ class Trainer:
 
         pbar = tqdm(dataloader, desc=f'Training Epoch {epoch+1}')
         for batch_idx, batch in enumerate(pbar):
-            # 提取数据
-            sequences = batch['sequence'].to(self.device)  # [num_active, max_seq_len, features]
-            targets = batch['target'].to(self.device)  # [num_active]
-            masks = batch['mask'].to(self.device)  # [num_active, max_seq_len]
-            industry_indices = batch['industry_idx'].to(self.device)  # [num_active]
-            node_mask = batch['node_mask'].to(self.device)  # [86]
-            time_idx = batch['time_index'].item()  # scalar
+            # ⭐ 处理可变大小的batch（使用自定义collate函数）
+            # batch['sequence'] 等是列表，需要逐个处理或合并
+            sequences_list = batch['sequence']  # List of [num_active_i, max_seq_len, features]
+            targets_list = batch['target']  # List of [num_active_i]
+            masks_list = batch['mask']  # List of [num_active_i, max_seq_len]
+            industry_indices_list = batch['industry_idx']  # List of [num_active_i]
+            node_mask = batch['node_mask'].to(self.device)  # [batch_size, 86]
+            time_indices = batch['time_index']  # [batch_size]
+            
+            # ⭐ 合并所有样本的序列（因为每个样本的num_active可能不同）
+            # 将所有样本的序列、目标等合并成一个大的batch
+            all_sequences = []
+            all_targets = []
+            all_masks = []
+            all_industry_indices = []
+            all_node_masks = []
+            
+            for i in range(len(sequences_list)):
+                all_sequences.append(sequences_list[i].to(self.device))
+                all_targets.append(targets_list[i].to(self.device))
+                all_masks.append(masks_list[i].to(self.device))
+                all_industry_indices.append(industry_indices_list[i].to(self.device))
+                all_node_masks.append(node_mask[i])  # [86]
+            
+            # 合并所有序列
+            sequences = torch.cat(all_sequences, dim=0)  # [total_active, max_seq_len, features]
+            targets = torch.cat(all_targets, dim=0)  # [total_active]
+            masks = torch.cat(all_masks, dim=0)  # [total_active, max_seq_len]
+            industry_indices = torch.cat(all_industry_indices, dim=0)  # [total_active]
+            
+            # 使用第一个样本的time_index（通常batch中所有样本来自同一时间步）
+            time_idx = time_indices[0].item() if len(time_indices) > 0 else -1
 
             # 检查是否进入新的时间步
             if time_idx != current_time_step:
@@ -306,12 +331,17 @@ class Trainer:
             mask_20 = masks[:, -20:]
 
             # 前向传播（横截面模式）
+            # ⭐ 注意：由于合并了多个样本，node_mask需要特殊处理
+            # 这里使用第一个样本的node_mask（通常batch中所有样本来自同一时间步）
+            # 如果需要更精确的处理，可以分别处理每个样本
+            batch_node_mask = all_node_masks[0] if len(all_node_masks) > 0 else node_mask[0]
+            
             self.optimizer.zero_grad()
             predictions, _, gates = self.model(
                 x_20, x_40, x_80,
                 mask_20, mask_40, mask_80,
                 adj_matrix, industry_indices,
-                node_mask=node_mask  # ⭐ 传递node_mask
+                node_mask=batch_node_mask  # ⭐ 传递node_mask
             )
 
             # 计算损失

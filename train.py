@@ -8,7 +8,7 @@ import numpy as np
 from pathlib import Path
 
 from components.data_loader import IndustryDataLoader, IndustryDataset
-from components.cross_sectional_dataset import CrossSectionalLocalDataset
+from components.cross_sectional_dataset import CrossSectionalLocalDataset, cross_sectional_collate_fn
 from components.model import IndustryStockModel
 from components.trainer import Trainer
 from components.config_loader import (
@@ -214,18 +214,23 @@ def main():
         print(f"Val samples: {len(val_dataset)}")
 
         # 创建数据加载器
+        # ⭐ 横截面模式使用自定义collate函数
+        collate_fn = cross_sectional_collate_fn if use_cross_sectional else None
+        
         train_loader = DataLoader(
             train_dataset,
             batch_size=config.training.batch_size,
             shuffle=True,
-            num_workers=config.training.num_workers
+            num_workers=config.training.num_workers,
+            collate_fn=collate_fn
         )
 
         val_loader = DataLoader(
             val_dataset,
             batch_size=config.training.batch_size,
             shuffle=False,
-            num_workers=config.training.num_workers
+            num_workers=config.training.num_workers,
+            collate_fn=collate_fn
         )
 
         # ⭐ 训练（根据模式选择）

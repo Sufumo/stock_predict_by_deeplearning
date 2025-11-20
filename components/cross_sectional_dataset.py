@@ -215,3 +215,39 @@ class CrossSectionalLocalDataset(Dataset):
         """重置采样统计"""
         if hasattr(self.sampler, 'reset_statistics'):
             self.sampler.reset_statistics()
+
+
+def cross_sectional_collate_fn(batch):
+    """
+    自定义collate函数，用于处理CrossSectionalLocalDataset的可变大小序列
+    
+    由于每个样本的num_active可能不同，我们需要：
+    1. 将序列、目标、掩码等按样本组织（不堆叠）
+    2. 固定大小的张量（node_mask, time_index）可以正常堆叠
+    
+    Args:
+        batch: List of dicts from __getitem__
+    
+    Returns:
+        dict with batched tensors
+    """
+    # 固定大小的字段可以直接堆叠
+    node_masks = torch.stack([item['node_mask'] for item in batch])  # [batch_size, 86]
+    time_indices = torch.stack([item['time_index'] for item in batch])  # [batch_size]
+    
+    # 可变大小的字段需要保持为列表
+    sequences = [item['sequence'] for item in batch]  # List of [num_active_i, max_window, features]
+    targets = [item['target'] for item in batch]  # List of [num_active_i]
+    masks = [item['mask'] for item in batch]  # List of [num_active_i, max_window]
+    industry_indices = [item['industry_idx'] for item in batch]  # List of [num_active_i]
+    center_masks = [item['center_mask'] for item in batch]  # List of [num_active_i]
+    
+    return {
+        'sequence': sequences,  # List of tensors
+        'target': targets,  # List of tensors
+        'mask': masks,  # List of tensors
+        'industry_idx': industry_indices,  # List of tensors
+        'node_mask': node_masks,  # [batch_size, 86]
+        'center_mask': center_masks,  # List of tensors
+        'time_index': time_indices  # [batch_size]
+    }
