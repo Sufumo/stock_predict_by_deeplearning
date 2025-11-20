@@ -29,7 +29,7 @@ data:
 
   # ⭐ 横截面局部训练配置 (新增)
   use_cross_sectional_training: true  # 是否使用横截面局部训练模式
-  num_center_nodes: 12  # 每次采样的中心节点数
+  num_center_nodes: 6  # 每次采样的中心节点数
   sampler_type: "degree"  # 采样器类型: "degree", "sequential", "random"
   sampler_temperature: 1.0  # 度数采样的温度参数（1.0=严格按度数）
   samples_per_timestep: null  # 每个时间步采样次数（null=自动计算）
@@ -86,8 +86,8 @@ model:
 # 训练配置
 training:
   # 基础参数
-  batch_size: 64  # ⭐ 增大batch size提高训练稳定性 (32 → 64)
-  num_epochs: 20
+  batch_size: 8  # ⭐ 增大batch size提高训练稳定性 (32 → 64)
+  num_epochs: 10
   learning_rate: 0.00005  # ⭐ 降低学习率配合归一化 (1e-4 → 5e-5)
   weight_decay: 0.00001  # ⭐ 减少正则化强度 (1e-4 → 1e-5)
 
@@ -140,7 +140,7 @@ validation:
 inference:
   checkpoint_path: "./checkpoints/best_model.pth"
   output_dir: "./predictions"
-  batch_size: 64
+  batch_size: 8
 
 # 可视化配置
 visualization:

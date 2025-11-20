@@ -265,6 +265,9 @@ class Trainer:
         current_time_step = -1
         time_step_losses = []
         time_step_accs = []
+        
+        # ⭐ 存储每个时间步的统计信息（用于最后统一输出）
+        time_step_stats = {}  # {time_step: {'losses': [...], 'accs': [...]}}
 
         # 门控值统计
         all_gate_values = []
@@ -307,12 +310,12 @@ class Trainer:
             # 检查是否进入新的时间步
             if time_idx != current_time_step:
                 if current_time_step >= 0:
-                    # 记录上一个时间步的统计
-                    avg_ts_loss = np.mean(time_step_losses) if time_step_losses else 0.0
-                    avg_ts_acc = np.mean(time_step_accs) if time_step_accs else 0.0
-                    if batch_idx % 10 == 0:  # 每10批打印一次
-                        print(f"\n  Time step {current_time_step}: "
-                              f"Loss={avg_ts_loss:.4f}, Acc={avg_ts_acc:.2f}%")
+                    # ⭐ 存储上一个时间步的统计信息（不打印）
+                    if len(time_step_losses) > 0:
+                        time_step_stats[current_time_step] = {
+                            'losses': time_step_losses.copy(),
+                            'accs': time_step_accs.copy()
+                        }
 
                 current_time_step = time_idx
                 time_step_losses = []
@@ -394,15 +397,59 @@ class Trainer:
                 'time_step': time_idx
             })
 
-        # 最后一个时间步的统计
+        # ⭐ 存储最后一个时间步的统计信息
         if len(time_step_losses) > 0:
-            avg_ts_loss = np.mean(time_step_losses)
-            avg_ts_acc = np.mean(time_step_accs)
-            print(f"\n  Time step {current_time_step}: "
-                  f"Loss={avg_ts_loss:.4f}, Acc={avg_ts_acc:.2f}%")
+            time_step_stats[current_time_step] = {
+                'losses': time_step_losses.copy(),
+                'accs': time_step_accs.copy()
+            }
 
         avg_loss = total_loss / total if total > 0 else 0.0
         accuracy = 100 * correct / total if total > 0 else 0.0
+        
+        # ⭐ 统一输出所有时间步的统计信息
+        if len(time_step_stats) > 0:
+            print(f"\n{'='*60}")
+            print(f"Time Step Statistics (Epoch {epoch+1}):")
+            print(f"{'='*60}")
+            
+            # 按时间步排序
+            sorted_time_steps = sorted(time_step_stats.keys())
+            
+            # 每10个时间步打印一次摘要，或全部打印（如果时间步数较少）
+            if len(sorted_time_steps) <= 50:
+                # 打印所有时间步
+                for ts in sorted_time_steps:
+                    stats = time_step_stats[ts]
+                    avg_ts_loss = np.mean(stats['losses'])
+                    avg_ts_acc = np.mean(stats['accs'])
+                    print(f"  Time step {ts:4d}: Loss={avg_ts_loss:.4f}, Acc={avg_ts_acc:.2f}%")
+            else:
+                # 打印摘要：每10个时间步打印一次
+                print(f"  Total time steps: {len(sorted_time_steps)}")
+                print(f"  Showing summary (every 10th time step):")
+                for i, ts in enumerate(sorted_time_steps):
+                    if i % 10 == 0 or i == len(sorted_time_steps) - 1:
+                        stats = time_step_stats[ts]
+                        avg_ts_loss = np.mean(stats['losses'])
+                        avg_ts_acc = np.mean(stats['accs'])
+                        print(f"  Time step {ts:4d}: Loss={avg_ts_loss:.4f}, Acc={avg_ts_acc:.2f}%")
+            
+            # 打印总体统计
+            all_losses = []
+            all_accs = []
+            for stats in time_step_stats.values():
+                all_losses.extend(stats['losses'])
+                all_accs.extend(stats['accs'])
+            
+            if len(all_losses) > 0:
+                print(f"\n  Overall Statistics:")
+                print(f"    Mean Loss: {np.mean(all_losses):.4f} ± {np.std(all_losses):.4f}")
+                print(f"    Mean Acc:  {np.mean(all_accs):.2f}% ± {np.std(all_accs):.2f}%")
+                print(f"    Min Acc:   {np.min(all_accs):.2f}%")
+                print(f"    Max Acc:   {np.max(all_accs):.2f}%")
+            
+            print(f"{'='*60}")
 
         # 计算门控值统计
         gate_stats = {}
