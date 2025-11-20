@@ -137,6 +137,10 @@ def main():
         # K折交叉验证
         print(f"Using {config.data.n_splits}-Fold Cross-Validation")
 
+        # 断点续训配置
+        resume_from_checkpoint = getattr(config.training, 'resume_from_checkpoint', True)
+        load_previous_fold = getattr(config.training, 'load_previous_fold', False)
+        
         fold_results = trainer.k_fold_validate(
             dataset=dataset,
             adj_matrix=adj_matrix_tensor,
@@ -144,7 +148,9 @@ def main():
             min_train_size=config.data.min_train_size,
             num_epochs=config.training.num_epochs,
             batch_size=config.training.batch_size,
-            save_dir=config.training.save_dir
+            save_dir=config.training.save_dir,
+            resume_from_checkpoint=resume_from_checkpoint,
+            load_previous_fold=load_previous_fold
         )
 
         # 可视化K折结果

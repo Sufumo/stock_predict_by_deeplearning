@@ -1,0 +1,236 @@
+/opt/anaconda3/bin/python /Users/wenxinsong/Documents/DeepLearing/transformer/train.py 
+============================================================
+MMF-GAT Industry Stock Prediction Training
+============================================================
+Random seed set to: 42
+Using device: mps
+
+============================================================
+Step 1: Loading Data
+============================================================
+加载了 86 个行业的数据（来自 industry_list.json）
+读取到 246 条行业关系（来自 industry_relation_cleaned.csv）
+正在拟合特征标准化器...
+
+归一化前的特征统计:
+  价格特征 - Mean: [10939.196 10948.34  11055.776 10831.486]
+  价格特征 - Std:  [19007.521 19024.227 19223.234 18832.852]
+  成交量   - Mean: 1.12e+07, Std: 1.16e+07
+  成交额   - Mean: 1.49e+10, Std: 1.83e+10
+
+归一化后的特征范围:
+  价格特征 - Min: [-0.55949676 -0.5590897  -0.55871224 -0.5593277 ], Max: [8.518014  8.501667  8.5366335 8.487944 ]
+  成交量   - Min: -0.92, Max: 12.72
+  成交额   - Min: -0.79, Max: 15.80
+
+Total samples: 55315
+Number of industries: 86
+Label distribution: [11063 11063 11063 11063 11063]
+
+============================================================
+Step 2: Creating Model
+============================================================
+/opt/anaconda3/lib/python3.13/site-packages/torch/nn/modules/transformer.py:392: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.self_attn.batch_first was not True(use batch_first for better inference performance)
+  warnings.warn(
+Total parameters: 661,608
+
+============================================================
+Step 3: Creating Trainer
+============================================================
+
+============================================================
+Step 4: Training
+============================================================
+Using 3-Fold Cross-Validation
+
+============================================================
+Starting 3-Fold Time Series Cross-Validation
+============================================================
+
+✓ Found completed fold 1 checkpoint
+✓ Found completed fold 2 checkpoint
+
+📋 Resuming training: Found 2 completed fold(s): [1, 2]
+   ✓ Will SKIP fold(s): [1, 2] (using checkpoint results)
+   → Will TRAIN fold(s): [3]
+
+------------------------------------------------------------
+Fold 1/3 - SKIPPED (already completed)
+------------------------------------------------------------
+
+Validating: 100%|██████████| 173/173 [00:22<00:00,  7.59it/s, loss=1.4995, acc=25.89%]
+Validating: 100%|██████████| 346/346 [00:43<00:00,  7.89it/s, loss=1.2785, acc=31.56%]
+Fold 1 Results (from checkpoint):
+  Val Loss: 1.5862
+  Val Acc: 25.89%
+  Val IC: 0.0760
+  Val RankIC: 0.0081
+
+------------------------------------------------------------
+Fold 2/3 - SKIPPED (already completed)
+------------------------------------------------------------
+
+Validating: 100%|██████████| 173/173 [00:24<00:00,  7.08it/s, loss=1.0392, acc=29.11%]
+Validating: 100%|██████████| 519/519 [01:15<00:00,  6.89it/s, loss=1.6983, acc=33.26%]
+Fold 2 Results (from checkpoint):
+  Val Loss: 1.5553
+  Val Acc: 29.11%
+  Val IC: 0.2231
+  Val RankIC: 0.1598
+
+------------------------------------------------------------
+Fold 3/3
+Train samples: 44252, Val samples: 11063
+------------------------------------------------------------
+
+Fold 3, Epoch 1/20
+Training: 100%|██████████| 692/692 [03:08<00:00,  3.68it/s, loss=1.0305, acc=31.14%]
+Validating: 100%|██████████| 173/173 [00:23<00:00,  7.45it/s, loss=1.5267, acc=27.71%]
+  Train Loss: 1.5335, Acc: 31.14%
+  Val Loss: 1.5647, Acc: 27.71%
+  Val IC: 0.2336, RankIC: 0.1560
+Fold 3, Epoch 2/20
+Training: 100%|██████████| 692/692 [03:02<00:00,  3.79it/s, loss=0.9604, acc=30.59%]
+Validating: 100%|██████████| 173/173 [00:24<00:00,  7.09it/s, loss=1.5166, acc=28.11%]
+  Train Loss: 1.5308, Acc: 30.59%
+  Val Loss: 1.5516, Acc: 28.11%
+  Val IC: 0.2249, RankIC: 0.1239
+Fold 3, Epoch 3/20
+Training: 100%|██████████| 692/692 [02:39<00:00,  4.34it/s, loss=0.9888, acc=31.59%]
+Validating: 100%|██████████| 173/173 [00:22<00:00,  7.65it/s, loss=1.5126, acc=27.89%]
+  Train Loss: 1.5279, Acc: 31.59%
+  Val Loss: 1.5477, Acc: 27.89%
+  Val IC: 0.2118, RankIC: 0.1218
+Fold 3, Epoch 4/20
+Training: 100%|██████████| 692/692 [03:05<00:00,  3.73it/s, loss=1.0299, acc=31.50%]
+Validating: 100%|██████████| 173/173 [00:23<00:00,  7.34it/s, loss=1.5323, acc=28.54%]
+  Train Loss: 1.5281, Acc: 31.50%
+  Val Loss: 1.5447, Acc: 28.54%
+  Val IC: 0.2427, RankIC: 0.1460
+Fold 3, Epoch 5/20
+Training: 100%|██████████| 692/692 [02:49<00:00,  4.09it/s, loss=0.9730, acc=31.75%]
+Validating: 100%|██████████| 173/173 [00:23<00:00,  7.35it/s, loss=1.5226, acc=27.99%]
+  Train Loss: 1.5228, Acc: 31.75%
+  Val Loss: 1.5434, Acc: 27.99%
+  Val IC: 0.2431, RankIC: 0.1256
+Fold 3, Epoch 6/20
+Training: 100%|██████████| 692/692 [02:48<00:00,  4.11it/s, loss=1.0460, acc=31.87%]
+Validating: 100%|██████████| 173/173 [00:24<00:00,  7.16it/s, loss=1.5754, acc=28.77%]
+  Train Loss: 1.5214, Acc: 31.87%
+  Val Loss: 1.5457, Acc: 28.77%
+  Val IC: 0.2631, RankIC: 0.1886
+Training:   0%|          | 0/692 [00:00<?, ?it/s]Fold 3, Epoch 7/20
+Training: 100%|██████████| 692/692 [02:57<00:00,  3.91it/s, loss=1.0503, acc=31.99%]
+Validating: 100%|██████████| 173/173 [00:24<00:00,  6.93it/s, loss=1.5415, acc=29.49%]
+  Train Loss: 1.5211, Acc: 31.99%
+  Val Loss: 1.5444, Acc: 29.49%
+  Val IC: 0.2648, RankIC: 0.1781
+Fold 3, Epoch 8/20
+Training: 100%|██████████| 692/692 [03:41<00:00,  3.12it/s, loss=0.9795, acc=32.60%]
+Validating: 100%|██████████| 173/173 [00:23<00:00,  7.45it/s, loss=1.5357, acc=29.20%]
+  Train Loss: 1.5160, Acc: 32.60%
+  Val Loss: 1.5434, Acc: 29.20%
+  Val IC: 0.2537, RankIC: 0.1596
+Fold 3, Epoch 9/20
+Training: 100%|██████████| 692/692 [02:52<00:00,  4.01it/s, loss=0.9288, acc=33.08%]
+Validating: 100%|██████████| 173/173 [00:22<00:00,  7.64it/s, loss=1.5338, acc=29.21%]
+Training:   0%|          | 0/692 [00:00<?, ?it/s]  Train Loss: 1.5113, Acc: 33.08%
+  Val Loss: 1.5428, Acc: 29.21%
+  Val IC: 0.2502, RankIC: 0.1575
+Fold 3, Epoch 10/20
+Training: 100%|██████████| 692/692 [02:49<00:00,  4.08it/s, loss=1.0023, acc=32.74%]
+Validating: 100%|██████████| 173/173 [00:23<00:00,  7.52it/s, loss=1.5324, acc=29.63%]
+  Train Loss: 1.5130, Acc: 32.74%
+  Val Loss: 1.5448, Acc: 29.63%
+  Val IC: 0.2392, RankIC: 0.1542
+Fold 3, Epoch 11/20
+Training: 100%|██████████| 692/692 [02:44<00:00,  4.20it/s, loss=1.0587, acc=33.14%]
+Validating: 100%|██████████| 173/173 [00:24<00:00,  7.21it/s, loss=1.5475, acc=29.10%]
+  Train Loss: 1.5093, Acc: 33.14%
+  Val Loss: 1.5448, Acc: 29.10%
+  Val IC: 0.2613, RankIC: 0.1894
+Fold 3, Epoch 12/20
+Training: 100%|██████████| 692/692 [02:47<00:00,  4.12it/s, loss=1.0805, acc=32.93%]
+Validating: 100%|██████████| 173/173 [00:22<00:00,  7.67it/s, loss=1.5486, acc=29.28%]
+  Train Loss: 1.5115, Acc: 32.93%
+  Val Loss: 1.5453, Acc: 29.28%
+  Val IC: 0.2506, RankIC: 0.1727
+Fold 3, Epoch 13/20
+Training: 100%|██████████| 692/692 [03:37<00:00,  3.18it/s, loss=1.0075, acc=33.07%]
+Validating: 100%|██████████| 173/173 [00:35<00:00,  4.82it/s, loss=1.5606, acc=29.32%]
+  Train Loss: 1.5067, Acc: 33.07%
+  Val Loss: 1.5477, Acc: 29.32%
+  Val IC: 0.2601, RankIC: 0.1852
+Fold 3, Epoch 14/20
+Training: 100%|██████████| 692/692 [03:47<00:00,  3.05it/s, loss=0.9336, acc=33.19%]
+Validating: 100%|██████████| 173/173 [00:28<00:00,  6.00it/s, loss=1.5628, acc=29.53%]
+  Train Loss: 1.5083, Acc: 33.19%
+  Val Loss: 1.5431, Acc: 29.53%
+  Val IC: 0.2343, RankIC: 0.1382
+Fold 3, Epoch 15/20
+Training: 100%|██████████| 692/692 [03:50<00:00,  3.00it/s, loss=0.9056, acc=33.58%]
+Validating: 100%|██████████| 173/173 [00:23<00:00,  7.46it/s, loss=1.5456, acc=29.77%]
+  Train Loss: 1.5036, Acc: 33.58%
+  Val Loss: 1.5467, Acc: 29.77%
+  Val IC: 0.2421, RankIC: 0.1458
+Training:   0%|          | 0/692 [00:00<?, ?it/s]Fold 3, Epoch 16/20
+Training: 100%|██████████| 692/692 [02:38<00:00,  4.37it/s, loss=0.9067, acc=33.17%]
+Validating: 100%|██████████| 173/173 [00:23<00:00,  7.47it/s, loss=1.5510, acc=29.06%]
+Training:   0%|          | 0/692 [00:00<?, ?it/s]  Train Loss: 1.5033, Acc: 33.17%
+  Val Loss: 1.5438, Acc: 29.06%
+  Val IC: 0.2140, RankIC: 0.1255
+Fold 3, Epoch 17/20
+Training: 100%|██████████| 692/692 [02:37<00:00,  4.39it/s, loss=1.0002, acc=33.43%]
+Validating: 100%|██████████| 173/173 [00:22<00:00,  7.73it/s, loss=1.5325, acc=29.33%]
+Training:   0%|          | 0/692 [00:00<?, ?it/s]  Train Loss: 1.5044, Acc: 33.43%
+  Val Loss: 1.5488, Acc: 29.33%
+  Val IC: 0.2233, RankIC: 0.1303
+Fold 3, Epoch 18/20
+Training: 100%|██████████| 692/692 [02:35<00:00,  4.45it/s, loss=0.9545, acc=33.85%]
+Validating: 100%|██████████| 173/173 [00:22<00:00,  7.85it/s, loss=1.5426, acc=29.67%]
+Training:   0%|          | 0/692 [00:00<?, ?it/s]  Train Loss: 1.5022, Acc: 33.85%
+  Val Loss: 1.5467, Acc: 29.67%
+  Val IC: 0.2286, RankIC: 0.1414
+Fold 3, Epoch 19/20
+Training: 100%|██████████| 692/692 [02:37<00:00,  4.38it/s, loss=0.9281, acc=33.99%]
+Validating: 100%|██████████| 173/173 [00:22<00:00,  7.55it/s, loss=1.5823, acc=30.24%]
+  Train Loss: 1.5028, Acc: 33.99%
+  Val Loss: 1.5423, Acc: 30.24%
+  Val IC: 0.2850, RankIC: 0.2100
+Training:   0%|          | 0/692 [00:00<?, ?it/s]Fold 3, Epoch 20/20
+Training: 100%|██████████| 692/692 [02:35<00:00,  4.45it/s, loss=0.9432, acc=33.93%]
+Validating: 100%|██████████| 173/173 [00:22<00:00,  7.75it/s, loss=1.5681, acc=30.27%]
+  Train Loss: 1.4991, Acc: 33.93%
+  Val Loss: 1.5398, Acc: 30.27%
+  Val IC: 0.2670, RankIC: 0.1886
+Validating: 100%|██████████| 173/173 [00:22<00:00,  7.69it/s, loss=1.5681, acc=30.27%]
+Validating: 100%|██████████| 692/692 [01:25<00:00,  8.05it/s, loss=0.9281, acc=35.18%]
+
+Fold 3 Final Results:
+  Val Loss: 1.5398
+  Val Acc: 30.27%
+  Val IC: 0.2670
+  Val RankIC: 0.1886
+
+============================================================
+K-Fold Cross-Validation Summary
+============================================================
+
+Average Train Loss: 1.5068 ± 0.0196
+Average Train Acc: 33.34% ± 1.48%
+Average Val Loss: 1.5605 ± 0.0193
+Average Val Acc: 28.42% ± 1.85%
+
+Financial Metrics:
+Average IC: 0.1887 ± 0.0817
+Average RankIC: 0.1188 ± 0.0792
+Average Long-Short: 0.5772 ± 0.3268
+
+✓ Best model saved: ./checkpoints/best_model.pth (from Fold 3, Val Acc: 30.27%)
+K-fold results plot saved to visualizations/kfold_results.png
+
+============================================================
+Training Complete!
+Model saved to: checkpoints/best_model.pth
+Visualizations saved to: ./visualizations
+============================================================

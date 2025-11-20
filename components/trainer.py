@@ -468,7 +468,9 @@ class Trainer:
     def k_fold_validate(self, dataset, adj_matrix: torch.Tensor,
                        n_splits: int = 5, min_train_size: float = 0.4,
                        num_epochs: int = 30, batch_size: int = 32,
-                       save_dir: str = "./checkpoints") -> Dict[str, List]:
+                       save_dir: str = "./checkpoints",
+                       resume_from_checkpoint: bool = True,
+                       load_previous_fold: bool = False) -> Dict[str, List]:
         """
         时间序列K折交叉验证
 
@@ -480,6 +482,8 @@ class Trainer:
             num_epochs: 每折训练轮数
             batch_size: 批大小
             save_dir: 模型保存目录
+            resume_from_checkpoint: 是否从checkpoint恢复（跳过已完成的fold）
+            load_previous_fold: 是否从上一个fold的模型继续训练（False则重新初始化）
 
         Returns:
             K折验证结果字典
@@ -510,8 +514,86 @@ class Trainer:
         # 创建保存目录
         Path(save_dir).mkdir(parents=True, exist_ok=True)
 
+        # ⭐ 检测已完成的fold（用于断点续训）
+        completed_folds = []
+        if resume_from_checkpoint:
+            for fold_num in range(1, n_splits + 1):
+                fold_checkpoint = os.path.join(save_dir, f"fold_{fold_num}_best.pth")
+                if os.path.exists(fold_checkpoint):
+                    try:
+                        checkpoint = torch.load(fold_checkpoint, weights_only=False, map_location='cpu')
+                        # 检查checkpoint是否完整（包含必要的键）
+                        if 'model_state_dict' in checkpoint and 'val_metrics' in checkpoint:
+                            completed_folds.append(fold_num)
+                            print(f"✓ Found completed fold {fold_num} checkpoint")
+                    except Exception as e:
+                        print(f"⚠ Warning: Could not load fold {fold_num} checkpoint: {e}")
+            
+            if completed_folds:
+                print(f"\n📋 Resuming training: Found {len(completed_folds)} completed fold(s): {completed_folds}")
+                # 计算需要训练的fold
+                all_folds = set(range(1, n_splits + 1))
+                folds_to_train = sorted(all_folds - set(completed_folds))
+                folds_to_skip = sorted(completed_folds)
+                
+                if folds_to_skip:
+                    print(f"   ✓ Will SKIP fold(s): {folds_to_skip} (using checkpoint results)")
+                if folds_to_train:
+                    print(f"   → Will TRAIN fold(s): {folds_to_train}")
+                else:
+                    print(f"   ✓ All folds completed! Will only load results.")
+            else:
+                print(f"\n📋 No completed folds found, starting from scratch")
+                print(f"   → Will TRAIN all folds: {list(range(1, n_splits + 1))}")
+
         # K折验证
         for fold, (train_idx, val_idx) in enumerate(tscv.split(indices), 1):
+            # ⭐ 跳过已完成的fold
+            if resume_from_checkpoint and fold in completed_folds:
+                print(f"\n{'-'*60}")
+                print(f"Fold {fold}/{n_splits} - SKIPPED (already completed)")
+                print(f"{'-'*60}\n")
+                
+                # 加载已完成的fold结果
+                fold_checkpoint = os.path.join(save_dir, f"fold_{fold}_best.pth")
+                checkpoint = torch.load(fold_checkpoint, weights_only=False, map_location='cpu')
+                
+                # 创建数据加载器用于评估
+                train_subset = Subset(dataset, train_idx)
+                val_subset = Subset(dataset, val_idx)
+                train_loader = DataLoader(train_subset, batch_size=batch_size, shuffle=False, num_workers=0)
+                val_loader = DataLoader(val_subset, batch_size=batch_size, shuffle=False, num_workers=0)
+                
+                # 加载模型状态
+                self.model.load_state_dict(checkpoint['model_state_dict'])
+                
+                # 评估（如果需要重新计算指标）
+                final_val_metrics = self.validate(val_loader, adj_matrix)
+                final_train_metrics = self.validate(train_loader, adj_matrix, compute_metrics=False)
+                
+                # 使用checkpoint中的指标，或重新计算的指标
+                if 'val_metrics' in checkpoint:
+                    final_val_metrics = checkpoint['val_metrics']
+                
+                # 记录结果
+                fold_results['train_loss'].append(final_train_metrics['loss'])
+                fold_results['train_acc'].append(final_train_metrics['accuracy'])
+                fold_results['val_loss'].append(final_val_metrics['loss'])
+                fold_results['val_acc'].append(final_val_metrics['accuracy'])
+                
+                if self.compute_financial_metrics:
+                    fold_results['val_IC'].append(final_val_metrics.get('IC', 0))
+                    fold_results['val_RankIC'].append(final_val_metrics.get('RankIC', 0))
+                    fold_results['val_long_short'].append(final_val_metrics.get('long_short_return', 0))
+                
+                print(f"Fold {fold} Results (from checkpoint):")
+                print(f"  Val Loss: {final_val_metrics['loss']:.4f}")
+                print(f"  Val Acc: {final_val_metrics['accuracy']:.2f}%")
+                if self.compute_financial_metrics:
+                    print(f"  Val IC: {final_val_metrics.get('IC', 0):.4f}")
+                    print(f"  Val RankIC: {final_val_metrics.get('RankIC', 0):.4f}")
+                
+                continue
             print(f"\n{'-'*60}")
             print(f"Fold {fold}/{n_splits}")
             print(f"Train samples: {len(train_idx)}, Val samples: {len(val_idx)}")
@@ -535,19 +617,47 @@ class Trainer:
                 num_workers=0
             )
 
-            # 重新初始化模型(每折重新训练)
-            # 注意:这里需要从外部传入模型构造函数
-            # 为简化,我们重置模型参数
-            for layer in self.model.children():
-                if hasattr(layer, 'reset_parameters'):
-                    layer.reset_parameters()
+            # ⭐ 模型初始化策略
+            if load_previous_fold and fold > 1:
+                # 从上一个fold的checkpoint加载模型
+                prev_fold_checkpoint = os.path.join(save_dir, f"fold_{fold-1}_best.pth")
+                if os.path.exists(prev_fold_checkpoint):
+                    try:
+                        prev_checkpoint = torch.load(prev_fold_checkpoint, weights_only=False, map_location=self.device)
+                        self.model.load_state_dict(prev_checkpoint['model_state_dict'])
+                        print(f"  ✓ Loaded model from fold {fold-1} checkpoint")
+                        
+                        # 可选：也加载优化器状态（如果checkpoint中有）
+                        if 'optimizer_state_dict' in prev_checkpoint:
+                            self.optimizer.load_state_dict(prev_checkpoint['optimizer_state_dict'])
+                            print(f"  ✓ Loaded optimizer from fold {fold-1} checkpoint")
+                    except Exception as e:
+                        print(f"  ⚠ Warning: Could not load fold {fold-1} checkpoint: {e}")
+                        print(f"  → Reinitializing model parameters")
+                        # 如果加载失败，重新初始化
+                        for layer in self.model.children():
+                            if hasattr(layer, 'reset_parameters'):
+                                layer.reset_parameters()
+                else:
+                    # 上一个fold的checkpoint不存在，重新初始化
+                    for layer in self.model.children():
+                        if hasattr(layer, 'reset_parameters'):
+                            layer.reset_parameters()
+            else:
+                # 重新初始化模型(每折重新训练)
+                # 注意:这里需要从外部传入模型构造函数
+                # 为简化,我们重置模型参数
+                for layer in self.model.children():
+                    if hasattr(layer, 'reset_parameters'):
+                        layer.reset_parameters()
 
-            # 重新初始化优化器
-            self.optimizer = optim.Adam(
-                self.model.parameters(),
-                lr=self.optimizer.param_groups[0]['lr'],
-                weight_decay=self.optimizer.defaults['weight_decay']
-            )
+            # 重新初始化优化器（除非从checkpoint加载了）
+            if not (load_previous_fold and fold > 1 and os.path.exists(os.path.join(save_dir, f"fold_{fold-1}_best.pth"))):
+                self.optimizer = optim.Adam(
+                    self.model.parameters(),
+                    lr=self.optimizer.param_groups[0]['lr'],
+                    weight_decay=self.optimizer.defaults['weight_decay']
+                )
 
             # 训练当前折
             best_val_acc = 0.0
@@ -575,7 +685,9 @@ class Trainer:
                         'fold': fold,
                         'epoch': epoch,
                         'model_state_dict': self.model.state_dict(),
+                        'optimizer_state_dict': self.optimizer.state_dict(),  # ⭐ 保存优化器状态
                         'val_metrics': val_metrics,
+                        'best_val_acc': best_val_acc,
                     }, fold_save_path)
 
             # 加载最佳模型进行最终评估

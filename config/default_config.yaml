@@ -98,6 +98,10 @@ training:
   # checkpoint
   save_dir: "./checkpoints"
   save_best_only: true
+  
+  # 断点续训配置
+  resume_from_checkpoint: true  # 是否从checkpoint恢复（跳过已完成的fold）
+  load_previous_fold: false     # 是否从上一个fold的模型继续训练（false则每折重新初始化）
 
   # 设备
   device: "auto"  # "auto", "cuda", "cpu", "mps"

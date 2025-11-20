@@ -324,6 +324,10 @@ class IndustryDataLoader:
             邻接矩阵，形状为 [行业数, 行业数]
             仅使用 industry_relation_cleaned.csv 中的边信息构图
         """
+        # ⭐ 确保数据已加载
+        if self.industry_list is None:
+            self.load_data()
+        
         n_industries = len(self.industry_list)
         adj_matrix = np.eye(n_industries, dtype=np.float32)
         
@@ -505,6 +509,134 @@ class IndustryDataLoader:
         if not hasattr(self, '_data_dict') or self._data_dict is None:
             self.prepare_data()
         return self._data_dict
+    
+    def prepare_cross_sectional_data(self, window_sizes: List[int] = [20, 40, 80],
+                                     future_days: int = 30) -> List[Dict[str, np.ndarray]]:
+        """
+        准备横截面数据：每个时间步包含所有86个行业的数据
+        
+        用于回测：每个时间步生成一个batch，包含所有行业在该时间步的数据
+        
+        Args:
+            window_sizes: 时间窗口大小列表 [20, 40, 80]
+            future_days: 预测未来天数
+        
+        Returns:
+            时间步列表，每个元素是一个字典，包含：
+            - 'sequences': [86, 最大窗口, 特征数] 的数组（86个行业）
+            - 'targets': [86] 的目标值
+            - 'masks': [86, 最大窗口] 的掩码
+            - 'industry_indices': [86] 的行业索引（0-85）
+            - 'time_index': 时间步索引（用于计算未来收益率）
+        """
+        # 如果标准化器还未拟合，先拟合
+        if not self.scalers_fitted:
+            self.fit_scalers()
+        
+        max_window = max(window_sizes)
+        
+        # 先收集所有行业的数据，找到最小公共时间范围
+        industry_data_dict = {}
+        min_length = float('inf')
+        
+        for industry_idx, industry_name in enumerate(self.industry_list):
+            data = self.parse_kline_data(industry_name)
+            if data is None or len(data) < max_window + future_days:
+                continue
+            industry_data_dict[industry_idx] = data
+            min_length = min(min_length, len(data))
+        
+        if min_length == float('inf'):
+            print("Warning: No valid industry data found!")
+            return []
+        
+        # 计算全局分位数阈值（用于标签分配）
+        all_future_returns = []
+        for industry_idx, data in industry_data_dict.items():
+            current_prices = data[:, 1]  # 收盘价
+            for i in range(len(data) - max_window - future_days + 1):
+                start_price = current_prices[i+max_window-1]
+                end_price = current_prices[i+max_window+future_days-1]
+                future_return = (end_price - start_price) / start_price if start_price > 0 else 0.0
+                all_future_returns.append(future_return)
+        
+        if len(all_future_returns) == 0:
+            print("Warning: No valid sequences found!")
+            return []
+        
+        all_future_returns_array = np.array(all_future_returns)
+        quantiles = np.percentile(all_future_returns_array, [20, 40, 60, 80])
+        
+        # 生成横截面数据：每个时间步一个batch
+        cross_sectional_batches = []
+        num_industries = len(self.industry_list)
+        
+        # 计算可用的时间步数
+        max_time_steps = min_length - max_window - future_days + 1
+        
+        for time_idx in range(max_time_steps):
+            batch_sequences = []
+            batch_targets = []
+            batch_masks = []
+            batch_industry_indices = []
+            
+            # 为每个行业提取该时间步的数据
+            for industry_idx in range(num_industries):
+                if industry_idx not in industry_data_dict:
+                    # 如果该行业没有数据，跳过
+                    continue
+                
+                data = industry_data_dict[industry_idx]
+                if time_idx + max_window + future_days > len(data):
+                    # 如果该行业在该时间步没有足够的数据，跳过
+                    continue
+                
+                # 提取序列
+                seq = data[time_idx:time_idx+max_window]
+                
+                # 应用特征归一化
+                seq_normalized = self.normalize_features(seq)
+                
+                # 计算未来收益率
+                current_prices = data[:, 1]  # 收盘价
+                start_price = current_prices[time_idx+max_window-1]
+                end_price = current_prices[time_idx+max_window+future_days-1]
+                future_return = (end_price - start_price) / start_price if start_price > 0 else 0.0
+                
+                # 分配分位数标签
+                if future_return <= quantiles[0]:
+                    target = 0  # 最低20%
+                elif future_return <= quantiles[1]:
+                    target = 1  # 20-40%
+                elif future_return <= quantiles[2]:
+                    target = 2  # 40-60%
+                elif future_return <= quantiles[3]:
+                    target = 3  # 60-80%
+                else:
+                    target = 4  # 最高20%
+                
+                batch_sequences.append(seq_normalized)
+                batch_targets.append(target)
+                batch_industry_indices.append(industry_idx)
+                
+                # 创建掩码（全部有效）
+                mask = np.ones(max_window, dtype=np.float32)
+                batch_masks.append(mask)
+            
+            # 如果该时间步有数据，添加到列表
+            if len(batch_sequences) > 0:
+                cross_sectional_batches.append({
+                    'sequences': np.array(batch_sequences),  # [num_valid_industries, max_window, features]
+                    'targets': np.array(batch_targets),  # [num_valid_industries]
+                    'masks': np.array(batch_masks),  # [num_valid_industries, max_window]
+                    'industry_indices': np.array(batch_industry_indices),  # [num_valid_industries]
+                    'time_index': time_idx  # 时间步索引
+                })
+        
+        print(f"生成了 {len(cross_sectional_batches)} 个横截面时间步")
+        print(f"每个时间步平均包含 {np.mean([len(b['sequences']) for b in cross_sectional_batches]):.1f} 个行业")
+        
+        return cross_sectional_batches
 
     def save_scalers(self, save_path: str = "checkpoints/scalers.pkl"):
         """
